@@ -78,7 +78,7 @@ def page(i):
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
 <div class="wrap{single}">{toc}<main>{body}{pager}</main></div>
-<footer>Everything AI · a study guide built from the Simplilearn Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>
 </body></html>"""
 
