@@ -16,11 +16,11 @@ header.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--b
 .bar{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 .logo{font-weight:800;font-size:1.25rem;letter-spacing:-.02em;text-decoration:none;color:var(--ink)}
 .logo b{color:var(--brand)}
-nav.main{display:flex;gap:2px;flex-wrap:nowrap;order:3;flex:1 0 100%;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px}
-nav.main a{white-space:nowrap;padding:5px 10px;border-radius:999px;text-decoration:none;color:var(--muted);font-size:.93rem;font-weight:600}
+nav.main{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+nav.main a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--muted);font-size:.93rem;font-weight:600}
 nav.main a:hover{background:var(--line);color:var(--ink)}
 nav.main a.active{background:var(--brand);color:var(--brand-ink)}
-.search{position:relative;margin-left:auto}
+.search{position:relative}
 .search input{width:220px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:.92rem}
 .search input:focus{outline:2px solid var(--brand);border-color:transparent}
 #results{position:absolute;right:0;top:44px;width:360px;max-height:60vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);display:none}
