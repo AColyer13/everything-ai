@@ -1,0 +1,106 @@
+<h1>Tools</h1>
+<p class="lede">Seven AI tools you will run into: Claude, Grok, Cursor, Antigravity, ChatGPT, OpenClaw and OpenCode. What each one is, where you can use it, and when to pick it.</p>
+<div class="callout note"><strong class="t">Not from the class</strong><p>This page is a reference added on top of the course content. These products change every few months (names, plans, models, even who owns them), so treat the details as a snapshot from November 2026 and check each maker's own site before relying on them. Prices are deliberately left out.</p></div>
+
+<h2>At a glance</h2>
+<p>Two words matter here. A <strong>web app</strong> is a chat you open in a browser. A <strong>CLI</strong> (command-line interface) is a program you run in a terminal, where it can read your files, run commands and edit code on your computer. Many tools now offer both.</p>
+<table>
+<tr><th>Tool</th><th>Made by</th><th>Web app</th><th>CLI</th><th>Best known for</th></tr>
+<tr><td><a href="#claude">Claude</a></td><td>Anthropic</td><td>Yes</td><td>Yes (Claude Code)</td><td>Writing, reasoning and coding agents</td></tr>
+<tr><td><a href="#grok">Grok</a></td><td>xAI</td><td>Yes</td><td>Yes (Grok Build)</td><td>Chat tied to X, plus a coding agent</td></tr>
+<tr><td><a href="#cursor">Cursor</a></td><td>Anysphere</td><td>No (desktop editor)</td><td>Not the focus</td><td>An AI-first code editor</td></tr>
+<tr><td><a href="#antigravity">Antigravity</a></td><td>Google</td><td>Desktop app</td><td>Yes (<code>agy</code>)</td><td>Running several coding agents in parallel</td></tr>
+<tr><td><a href="#chatgpt">ChatGPT</a></td><td>OpenAI</td><td>Yes</td><td>Separate tool (Codex)</td><td>The general-purpose chat assistant</td></tr>
+<tr><td><a href="#openclaw">OpenClaw</a></td><td>Open source community</td><td>No (chat apps)</td><td>Runs locally</td><td>A self-hosted personal agent you message</td></tr>
+<tr><td><a href="#opencode">OpenCode</a></td><td>Anomaly (open source)</td><td>No</td><td>Yes (terminal app)</td><td>An open, model-agnostic coding agent</td></tr>
+</table>
+
+<h2 id="tool-claude">Claude</h2>
+<p id="claude"><strong>Made by:</strong> Anthropic. <strong>Type:</strong> assistant and coding agent, available as both a <strong>web app</strong> and a <strong>CLI</strong>.</p>
+<ul>
+<li><strong>Web app:</strong> claude.ai in the browser, plus desktop and mobile apps. Chat, upload documents and images, and work on longer pieces such as code, documents and small web pages.</li>
+<li><strong>CLI:</strong> <em>Claude Code</em> runs in your terminal (command <code>claude</code>). It reads your project, edits files, runs tests and commands, and can open commits and pull requests, asking permission for risky steps. The workflow Anthropic recommends (Explore, Plan, Code, Commit) is on the <a href="loops.html">Loops</a> page.</li>
+<li><strong>API:</strong> developers call the models from their own code, as in the <a href="generative-ai.html">Generative AI</a> page.</li>
+<li><strong>Good for:</strong> careful writing, long documents, code changes across a whole repository, and tool-using agents.</li>
+<li><strong>Watch out:</strong> like every LLM it can state wrong things confidently. Review what it writes, especially code it ran or changed.</li>
+</ul>
+
+<h2 id="tool-grok">Grok</h2>
+<p id="grok"><strong>Made by:</strong> xAI. <strong>Type:</strong> assistant and coding agent, available as both a <strong>web app</strong> and a <strong>CLI</strong>.</p>
+<ul>
+<li><strong>Web app:</strong> grok.com and inside X (formerly Twitter), where it can use live posts as context.</li>
+<li><strong>CLI:</strong> <em>Grok Build</em> is xAI's official terminal coding agent (command <code>grok</code>). It launched as an early beta in May 2026. It plans multi-step work, edits files and runs commands, and can run headless in scripts. Reports on which subscription tier gets access disagree, so check xAI's site.</li>
+<li><strong>Not the same thing:</strong> a community project also called <code>grok-cli</code> exists. Its own README says it is not affiliated with xAI. Make sure you install the one you mean.</li>
+<li><strong>Good for:</strong> questions about current events and social media, and trying a different model family for coding.</li>
+<li><strong>Watch out:</strong> early-beta tools change quickly and may be gated or unstable.</li>
+</ul>
+
+<h2 id="tool-cursor">Cursor</h2>
+<p id="cursor"><strong>Made by:</strong> Anysphere. <strong>Type:</strong> an AI-first <strong>code editor</strong> (a fork of VS Code).</p>
+<ul>
+<li><strong>What it is:</strong> an editor that looks and feels like VS Code, so your extensions and keybindings carry over, with AI built into every part: autocomplete, chat about your code, and an agent that edits many files at once.</li>
+<li><strong>Agents:</strong> it can run several agents in parallel, and cloud agents can keep working in the background. It also offers its own models and a code-review bot (Bugbot).</li>
+<li><strong>Good for:</strong> people who prefer working inside an editor with visual diffs over a terminal.</li>
+<li><strong>Watch out:</strong> ownership and plans have been in the news, so check current information instead of relying on this page.</li>
+</ul>
+
+<h2 id="tool-antigravity">Antigravity</h2>
+<p id="antigravity"><strong>Made by:</strong> Google. <strong>Type:</strong> agentic development platform, with a <strong>desktop app</strong> and a <strong>CLI</strong> (plus an SDK and the original IDE).</p>
+<ul>
+<li><strong>Desktop app and IDE:</strong> a workspace where several agents take on programming tasks in parallel and report back.</li>
+<li><strong>CLI:</strong> the terminal version is <code>agy</code>. According to coverage of the May 2026 launch, it replaces Google's earlier Gemini CLI and shares the same engine as the desktop app.</li>
+<li><strong>SDK:</strong> lets developers build their own agents on the same foundation.</li>
+<li><strong>Good for:</strong> splitting a large coding job across several agents, especially if you already use Google's Gemini models.</li>
+<li><strong>Watch out:</strong> most of what is written about it is secondary coverage. Check Google's own pages for model support and pricing.</li>
+</ul>
+
+<h2 id="tool-chatgpt">ChatGPT</h2>
+<p id="chatgpt"><strong>Made by:</strong> OpenAI. <strong>Type:</strong> general-purpose assistant, as a <strong>web app</strong> and mobile and desktop apps.</p>
+<ul>
+<li><strong>What it is:</strong> the chat assistant that brought large language models to the mainstream, launched in November 2022. It writes, summarizes, explains, analyzes files, generates images, and can browse the web and run code.</li>
+<li><strong>For coding:</strong> OpenAI has a separate agent, <em>Codex</em>, that also comes as a CLI. It is a different product from the ChatGPT chat window.</li>
+<li><strong>Good for:</strong> everyday questions, drafting, brainstorming and learning a topic.</li>
+<li><strong>Watch out:</strong> do not paste confidential or personal data into any tool you do not control. See the responsible-AI notes on the <a href="generative-ai.html">Generative AI</a> page.</li>
+</ul>
+
+<h2 id="tool-openclaw">OpenClaw</h2>
+<p id="openclaw"><strong>Made by:</strong> an open-source community project. <strong>Type:</strong> a self-hosted <strong>personal AI agent</strong> you talk to through chat apps.</p>
+<ul>
+<li><strong>What it is:</strong> a program that runs on your own computer or server and connects an AI model to your files and your messaging apps (such as Telegram, WhatsApp, Discord, Slack or Signal), so you can message it and it carries out tasks.</li>
+<li><strong>Bring your own model:</strong> it works with cloud models (Claude, GPT) or local open models. The software is free; you pay for the model usage.</li>
+<li><strong>Name history:</strong> it spread quickly under the name Clawdbot, was renamed Moltbot in January 2026, and then became OpenClaw. One source credits Peter Steinberger as its creator.</li>
+<li><strong>Good for:</strong> a "do things for me from my phone" assistant that you control.</li>
+<li><strong>Watch out:</strong> because it runs locally with broad access to your files and accounts, security is the main concern. Limit what it can reach, and read the project's own safety notes before you connect real accounts.</li>
+</ul>
+
+<h2 id="tool-opencode">OpenCode</h2>
+<p id="opencode"><strong>Made by:</strong> Anomaly (open source). <strong>Type:</strong> an open-source <strong>terminal coding agent</strong>.</p>
+<ul>
+<li><strong>What it is:</strong> a coding agent with a full-screen terminal interface (run <code>opencode</code> inside a project folder). It reads and edits code and runs commands, like Claude Code, but is open source (MIT licensed according to coverage).</li>
+<li><strong>Any model:</strong> it connects to many providers, including Claude, OpenAI, Google and local models, so you can switch models without switching tools. It is also available as a desktop app and an IDE extension.</li>
+<li><strong>Good for:</strong> people who want an open tool that is not tied to one vendor.</li>
+<li><strong>Watch out:</strong> star and user counts differ across sources, and at least one directory mislabels it as an Anthropic product. Use the official opencode.ai site.</li>
+</ul>
+
+<h2>How to choose</h2>
+<table>
+<tr><th>If you want to...</th><th>Start with</th></tr>
+<tr><td>Ask questions, draft and learn</td><td>ChatGPT or Claude (web app)</td></tr>
+<tr><td>Let an agent change code in a project, from the terminal</td><td>Claude Code, Grok Build, Antigravity CLI or OpenCode</td></tr>
+<tr><td>Work inside an editor with visual diffs</td><td>Cursor (or Antigravity's IDE)</td></tr>
+<tr><td>Run several coding agents at once</td><td>Antigravity or Cursor</td></tr>
+<tr><td>Avoid vendor lock-in</td><td>OpenCode</td></tr>
+<tr><td>Message an assistant from your phone that acts on your own machine</td><td>OpenClaw (with care)</td></tr>
+</table>
+<div class="callout tip"><strong class="t">The tool matters less than the loop</strong><p>Whichever tool you pick, results come from the same habits: a clear goal, a way to check the output (tests, a rubric), small steps, and a human review. The <a href="loops.html">Loops</a> page lists the patterns, and <a href="fine-tuning.html">Fine-Tuning</a> and <a href="llm.html">LLM</a> cover the models underneath.</p></div>
+
+<h2>Sources</h2>
+<p>Product details come from secondary coverage found in November 2026, not from the makers' own documentation, so verify before you rely on them.</p>
+<ul>
+<li><a href="https://runtimewire.com/article/xai-grok-build-agentic-cli-early-beta" target="_blank" rel="noopener">xAI releases early beta of Grok Build (RuntimeWire)</a></li>
+<li><a href="https://github.com/superagent-ai/grok-cli/wiki" target="_blank" rel="noopener">superagent-ai/grok-cli (community project)</a></li>
+<li><a href="https://thenextweb.com/news/google-antigravity-2-desktop-cli-sdk-io-2026" target="_blank" rel="noopener">Antigravity: desktop app, CLI and SDK (The Next Web)</a></li>
+<li><a href="https://www.digitalocean.com/resources/article/what-is-openclaw" target="_blank" rel="noopener">What is OpenClaw? (DigitalOcean)</a></li>
+<li><a href="https://www.tecmint.com/opencode-ai-coding-agent-linux/" target="_blank" rel="noopener">OpenCode overview (Tecmint)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Cursor_(code_editor)" target="_blank" rel="noopener">Cursor (code editor) (Wikipedia)</a></li>
+</ul>
