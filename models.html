@@ -10,7 +10,7 @@
 <nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="models.html" class=active>Models</a><a href="hardware.html">Hardware</a><a href="llm.html">LLM</a><a href="fine-tuning.html">Fine-Tuning</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
-<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#the-one-rule-memory-decides-everything">The one rule: memory decides everything</a><a href="#nvidia-in-the-enterprise-how-cloud-models-run">NVIDIA in the enterprise: how cloud models run</a><a href="#cloud-models-versus-local-models">Cloud models versus local models</a><a href="#parameter-size-what-the-number-means">Parameter size: what the number means</a><a href="#big-local-machines">Big local machines</a><a href="#combining-machines-and-how-they-compare">Combining machines, and how they compare</a><a href="#a-desktop-rtx-5080-with-16-gb">A desktop RTX 5080 with 16 GB</a><a href="#kinds-of-models-and-what-they-are-for">Kinds of models and what they are for</a><a href="#comparing-models-benchlm">Comparing models: BenchLM</a><a href="#sources">Sources</a></aside><main><h1>Models</h1>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#the-one-rule-memory-decides-everything">The one rule: memory decides everything</a><a href="#nvidia-in-the-enterprise-how-cloud-models-run">NVIDIA in the enterprise: how cloud models run</a><a href="#cloud-models-versus-local-models">Cloud models versus local models</a><a href="#parameter-size-what-the-number-means">Parameter size: what the number means</a><a href="#a-desktop-rtx-5080-with-16-gb">A desktop RTX 5080 with 16 GB</a><a href="#kinds-of-models-and-what-they-are-for">Kinds of models and what they are for</a><a href="#comparing-models-benchlm">Comparing models: BenchLM</a><a href="#sources">Sources</a></aside><main><h1>Models</h1>
 <p class="lede">Where AI models actually run. The hardware NVIDIA sells to enterprises for cloud models, the desktop machines that run big models locally (Mac Studio, DGX Spark, DGX Station), what a single 16 GB RTX 5080 can do, the main kinds of models, and how to compare them.</p>
 <div class="callout note"><strong class="t">Not from the class</strong><p>This page is a reference added on top of the course content. Hardware specs and model details are a snapshot from November 2026 taken from vendor docs and secondary coverage, and they change quickly. Speeds and memory needs are estimates; verify before you buy hardware. The software that runs these models is on the <a href="tools.html#running-models-locally">Tools</a> page.</p></div>
 
@@ -60,34 +60,8 @@
 <h3>Context length</h3>
 <p>The <strong>context window</strong> is how much text the model can consider at once (128K tokens is roughly a 300-page book). Longer context costs memory for the KV cache and slows prompt processing, so a model that "supports" 256K may not fit 256K on your hardware.</p>
 
-<h2 id="big-local-machines">Big local machines</h2>
-<p>For a side-by-side speed comparison of these machines plus the B200, RTX 5080 and Apple M5 and M6 chips, see the <a href="hardware.html">Hardware</a> page.</p>
-<p>These three systems have a lot of memory in one box. Figures are approximate and come from vendor pages and secondary coverage.</p>
-<table>
-<tr><th>Machine</th><th>Memory</th><th>Bandwidth</th><th>Strength</th><th>Weakness</th></tr>
-<tr><td>Mac Studio, 512 GB (M3 Ultra, now succeeded by the M5 Ultra at about 1.2 TB/s)</td><td>Up to 512 GB unified</td><td>About 800 GB/s (M3 Ultra)</td><td>Fits very large models (hundreds of billions of parameters at 4-bit) quietly, in one machine, with good tools (MLX, Ollama, LM Studio)</td><td>Slower at prompt processing than NVIDIA GPUs; CUDA-only software will not run</td></tr>
-<tr><td>NVIDIA DGX Spark</td><td>128 GB unified (LPDDR5x)</td><td>About 273 GB/s</td><td>Full NVIDIA/CUDA stack in a small desktop box; strong at fine-tuning and prompt processing for its size; two units can be linked</td><td>Modest bandwidth, so generation on large dense models is slow</td></tr>
-<tr><td>NVIDIA DGX Station (GB300)</td><td>Roughly 750 to 780 GB coherent, of which about 250 to 290 GB is fast HBM3e on the GPU</td><td>About 7 to 8 TB/s on the HBM, about 400 GB/s on the CPU memory</td><td>Data-center class performance at a desk: very large models, fast generation, serving a team</td><td>Priced like a workstation server, far above the others</td></tr>
-</table>
-<h3>What each can run (rules of thumb)</h3>
-<ul>
-<li><strong>DGX Spark (128 GB):</strong> models up to about 100 to 120B parameters at 4-bit, best when they are MoE so generation stays fast.</li>
-<li><strong>Mac Studio (512 GB):</strong> 4-bit models up to roughly 400B+ parameters, or a mid-size model at high precision with a very long context.</li>
-<li><strong>DGX Station:</strong> models in the several-hundred-billion to trillion-parameter range when quantized, with the speed to serve several people at once.</li>
-</ul>
-
-<h2 id="combining-machines-and-how-they-compare">Combining machines, and how they compare</h2>
-<p>You can link machines to run a model that does not fit on one. The pieces are connected over a network and the model is split across them (layers on one machine and layers on the next, or experts spread out). The link speed decides how well it works.</p>
-<table>
-<tr><th>Setup</th><th>How it is combined</th><th>Result</th></tr>
-<tr><td>Two DGX Sparks</td><td>Direct high-speed link (ConnectX-7 networking) as an officially supported pair</td><td>256 GB combined, for models around 200B parameters at 4-bit</td></tr>
-<tr><td>Several Mac Studios</td><td>Thunderbolt or Ethernet with software such as MLX distributed or exo</td><td>Combined memory for the biggest open models; speed limited by the link</td></tr>
-<tr><td>Mac plus Spark</td><td>Mix: the Spark processes the long prompt, the Mac does the token generation (an approach community projects have demonstrated)</td><td>Uses each machine's strength; experimental and fiddly</td></tr>
-<tr><td>Station plus Spark or Mac</td><td>Station as the main server, others as extra capacity or for separate jobs</td><td>Usually simpler to give each machine its own model than to split one</td></tr>
-</table>
-<div class="callout tip"><strong class="t">Compare on three axes</strong><p><strong>Capacity</strong> (which models fit), <strong>bandwidth</strong> (tokens per second), and <strong>compute</strong> (how quickly it reads a long prompt). Mac Studio wins on capacity per dollar, the Spark on software compatibility for its price, and the Station on all three at a much higher price. Combining machines adds capacity but rarely speed, so buy one machine large enough for your model before clustering.</p></div>
-
 <h2 id="a-desktop-rtx-5080-with-16-gb">A desktop RTX 5080 with 16 GB</h2>
+<p>For how this card compares with the B200, DGX Station and Spark, and Apple's M5 and M6 chips, see the <a href="hardware.html">Hardware</a> page.</p>
 <p>A single gaming card is the most common local setup. The card has 16 GB of fast video memory (VRAM); everything beyond that must spill into system RAM, which is slower. Three models stand out for it:</p>
 <table>
 <tr><th>Model</th><th>Size and type</th><th>Context</th><th>How it fits</th></tr>
