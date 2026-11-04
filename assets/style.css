@@ -74,3 +74,23 @@ th{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mu
 .pager a{padding:10px 16px;border:1px solid var(--line);border-radius:12px;text-decoration:none;background:var(--surface)}
 footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;color:var(--muted);font-size:.88rem}
 @media(max-width:900px){.wrap{grid-template-columns:1fr}aside.toc{display:none}.hero h1{font-size:2.5rem}.search input{width:150px}#results{width:min(360px,90vw)}}
+
+/* Loops page: expandable loop containers */
+.loopbar{display:flex;gap:8px;margin:6px 0 4px}
+.loopbar button{font:inherit;font-size:.85rem;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.loopbar button:hover{border-color:var(--accent,currentColor)}
+details.loop{border:1px solid var(--line);border-radius:12px;background:var(--surface);margin:10px 0;overflow:hidden}
+details.loop>summary{cursor:pointer;list-style:none;padding:12px 16px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+details.loop>summary::-webkit-details-marker{display:none}
+details.loop>summary::before{content:"\25B8";font-size:.9em;transition:transform .15s}
+details.loop[open]>summary::before{transform:rotate(90deg)}
+details.loop>summary:hover{background:rgba(127,127,127,.08)}
+.lname{font-weight:650}
+.lflow{font-size:.85rem;opacity:.75}
+details.loop.star{border-left:4px solid #e0a800}
+.lbody{padding:2px 18px 14px 18px;border-top:1px solid var(--line)}
+.lmeta{font-size:.92rem;opacity:.9;margin:10px 0 4px}
+.lsteps{margin:8px 0 8px 1.2em;padding:0}
+.lsteps li{margin:6px 0}
+.lsteps ul{margin:4px 0 4px 1.2em}
+.lexit{margin:8px 0 2px;padding:8px 12px;border-radius:8px;background:rgba(127,127,127,.1)}

@@ -28,3 +28,12 @@ if(input&&window.SEARCH_INDEX){
 // Glossary filter
 const gf=document.getElementById('gfilter');
 if(gf){gf.addEventListener('input',()=>{const t=gf.value.toLowerCase();document.querySelectorAll('.gloss dt').forEach(dt=>{const dd=dt.nextElementSibling;const m=(dt.textContent+dd.textContent).toLowerCase().includes(t);dt.classList.toggle('hide',!m);dd.classList.toggle('hide',!m)})})}
+
+// Loops page: expand / collapse all
+(function(){
+  var o=document.getElementById('loops-open'), c=document.getElementById('loops-close');
+  if(!o||!c) return;
+  function set(v){ document.querySelectorAll('details.loop').forEach(function(d){ d.open=v; }); }
+  o.addEventListener('click',function(){set(true)}); c.addEventListener('click',function(){set(false)});
+  if(location.hash){ var t=document.querySelector(location.hash); if(t&&t.tagName==='DETAILS') t.open=true; }
+})();
