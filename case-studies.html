@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Case Studies · Everything AI</title>
+<meta name="description" content="All 13 course projects and how AI solves each one">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="top"><div class="bar">
+<a class="logo" href="index.html">Everything <b>AI</b></a>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html" class=active>Case Studies</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
+<div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
+</div></header>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#python-for-ai">Python For AI</a><a href="#applied-data-science-with-python">Applied Data Science with Python</a><a href="#machine-learning-using-python">Machine Learning using Python</a><a href="#deep-learning-specialization">Deep Learning Specialization</a><a href="#microsoft-ai-engineer-capstone">Microsoft AI Engineer Capstone</a><a href="#the-pattern-across-all-13">The pattern across all 13</a></aside><main><h1>Case Studies</h1>
+<p class="lede">The 13 projects in the Microsoft AI Engineer program, and for each one, how AI actually solves it: the problem type, the data, the method, and the trap to avoid.</p>
+<div class="callout note"><strong class="t">How these were written</strong><p>The project titles come from the course's Assessments tab. The LMS briefs were not read, so each write-up is based on the title and the standard version of that problem. Where the exact task is a guess, the entry says so. Check your own brief for the real dataset and questions. All of them follow the workflow on the <a href="playbook.html">Project Playbook</a>.</p></div>
+
+<table>
+<tr><th>Course</th><th>Project</th><th>Problem type</th></tr>
+<tr><td>Python For AI</td><td><a href="#customer-orders">Analyzing Customer Orders</a></td><td>Data analysis</td></tr>
+<tr><td>Python For AI</td><td><a href="#adventure-game">Python Adventure Game with GitHub Copilot</a></td><td>AI-assisted coding</td></tr>
+<tr><td>Applied Data Science</td><td><a href="#walmart">Retail Analysis with Walmart Data</a></td><td>Regression / forecasting</td></tr>
+<tr><td>Applied Data Science</td><td><a href="#sales-analysis">Sales Analysis</a></td><td>Exploratory analysis</td></tr>
+<tr><td>Applied Data Science</td><td><a href="#marketing">Marketing Campaigns</a></td><td>Statistics and segmentation</td></tr>
+<tr><td>Machine Learning</td><td><a href="#mercedes">Mercedes-Benz Greener Manufacturing</a></td><td>Regression, many features</td></tr>
+<tr><td>Machine Learning</td><td><a href="#songs">Creating Cohorts of Songs</a></td><td>Clustering</td></tr>
+<tr><td>Machine Learning</td><td><a href="#turnover">Employee Turnover Analytics</a></td><td>Classification</td></tr>
+<tr><td>Deep Learning</td><td><a href="#lending-club">Lending Club Loan Data Analysis</a></td><td>Neural-net classification</td></tr>
+<tr><td>Deep Learning</td><td><a href="#house-loan">House Loan Data Analysis</a></td><td>Neural-net classification</td></tr>
+<tr><td>Deep Learning</td><td><a href="#port">Automating Port Operations</a></td><td>Computer vision (likely)</td></tr>
+<tr><td>Capstone</td><td><a href="#heritage">Preserving Heritage: Enhancing Tourism with AI</a></td><td>Vision, language and recommendation (likely)</td></tr>
+<tr><td>Capstone</td><td><a href="#forecasting">Sales Forecasting</a></td><td>Time-series forecasting</td></tr>
+<tr><td>Capstone</td><td><a href="#driving">Autonomous Driving</a></td><td>Computer vision</td></tr>
+</table>
+
+<h2 id="python-for-ai">Python For AI</h2>
+<h3 id="customer-orders">Analyzing Customer Orders Using Python</h3>
+<p><strong>Goal:</strong> turn a table of orders into answers: revenue by product, best customers, busy periods.</p>
+<p><strong>How AI does it:</strong> this one is mostly not machine learning. It is the foundation AI sits on: load the data with <a href="data-science.html">pandas</a>, clean it, group and aggregate, then chart it. The "AI" part is optional: a language model can draft the pandas code from a plain-English question, and a simple model can later predict repeat buying from the same cleaned table.</p>
+<p><strong>Watch out:</strong> duplicate orders, missing prices and mixed date formats quietly corrupt totals. Check <code>df.duplicated().sum()</code> and <code>df.isna().mean()</code> first.</p>
+
+<h3 id="adventure-game">Building a Python Adventure Game with GitHub Copilot</h3>
+<p><strong>Goal:</strong> build a text adventure while using an AI coding assistant.</p>
+<p><strong>How AI does it:</strong> Copilot is a large language model trained on code (see <a href="generative-ai.html">Generative AI</a>). You describe what you want in a comment or prompt ("a function that moves the player between rooms and updates inventory") and it predicts the next lines. You supply the design: rooms as a dictionary, a game loop, classes for player and items (the <a href="python.html">Python</a> OOP lesson). The assistant writes boilerplate; you decide structure and review everything.</p>
+<p><strong>Watch out:</strong> it produces plausible code, not guaranteed-correct code. Run it, test the edge cases (invalid commands, empty inventory) and read what it wrote.</p>
+
+<h2 id="applied-data-science-with-python">Applied Data Science with Python</h2>
+<h3 id="walmart">Retail Analysis with Walmart Data</h3>
+<p><strong>Goal:</strong> understand and predict store sales, and see how holidays, temperature, fuel price, CPI and unemployment affect them. (This matches the well-known Walmart weekly-sales dataset; confirm against your brief.)</p>
+<p><strong>How AI does it:</strong> frame it as <strong>regression</strong> on weekly sales. Steps: parse dates and add week, month and holiday features; explore which stores and weeks are strongest; check correlations; fit a linear regression, then a random forest or gradient boosting, and compare RMSE. Because the data is ordered in time, split by date (train on the past, test on the future), not randomly.</p>
+<p><strong>Watch out:</strong> a random split leaks the future into training. Correlation between, say, fuel price and sales is not proof of cause.</p>
+
+<h3 id="sales-analysis">Sales Analysis</h3>
+<p><strong>Goal:</strong> find what drives sales: top products, regions, months, discounts.</p>
+<p><strong>How AI does it:</strong> exploratory data analysis first (group-bys, pivot tables, plots), then optional modelling: a regression to estimate how discount or season changes revenue, or a tree model whose feature importances rank the drivers. Plots and a clear written conclusion matter as much as the model.</p>
+<p><strong>Watch out:</strong> outliers (one huge order) can dominate averages; compare medians too.</p>
+
+<h3 id="marketing">Marketing Campaigns</h3>
+<p><strong>Goal:</strong> find which customers respond to campaigns and what separates them.</p>
+<p><strong>How AI does it:</strong> two classic routes. <strong>Segmentation</strong>: scale the features and use k-means to group customers, then describe each group (age, income, spend). <strong>Response prediction</strong>: a classifier such as logistic regression or random forest that outputs the chance a customer accepts an offer. Hypothesis tests (t-test, chi-square, from <a href="data-science.html">Data Science</a>) check whether a difference between groups is real.</p>
+<p><strong>Watch out:</strong> response rates are usually low, so accuracy misleads. Use precision, recall and F1 (see <a href="machine-learning.html">Machine Learning</a>).</p>
+
+<h2 id="machine-learning-using-python">Machine Learning using Python</h2>
+<h3 id="mercedes">Mercedes-Benz Greener Manufacturing</h3>
+<p><strong>Goal:</strong> predict how long a car takes on the test bench from hundreds of anonymous features, so testing time (and emissions) can be cut. (Based on the public Kaggle competition of the same name.)</p>
+<p><strong>How AI does it:</strong> a <strong>regression</strong> problem with many binary columns and few rows. Remove zero-variance columns (no information), check for duplicates, encode the few categorical columns, reduce dimensions with <strong>PCA</strong>, then fit a regressor, usually gradient boosting such as XGBoost, and measure R² or RMSE. This is exactly the "remove columns with a single unique value" step in the Playbook.</p>
+<p><strong>Watch out:</strong> with more features than the data supports, models overfit. Cross-validate, and keep the preprocessing inside a pipeline.</p>
+
+<h3 id="songs">Creating Cohorts of Songs</h3>
+<p><strong>Goal:</strong> group songs into cohorts that sound alike, for playlists or recommendations. (Typically built on Spotify-style audio features.)</p>
+<p><strong>How AI does it:</strong> <strong>unsupervised clustering</strong>. Pick audio features (danceability, energy, tempo, valence, and so on), standardize them, optionally reduce with PCA, and run k-means. Choose k with the elbow method or silhouette score, then profile each cluster by its average features and give it a name ("calm acoustic", "high-energy dance"). Hierarchical clustering is a good cross-check.</p>
+<p><strong>Watch out:</strong> unscaled features make tempo (large numbers) swamp everything else. There is no "right answer" label, so judge clusters by whether they make sense.</p>
+
+<h3 id="turnover">Employee Turnover Analytics</h3>
+<p><strong>Goal:</strong> predict who is likely to leave and find out why, so HR can act early.</p>
+<p><strong>How AI does it:</strong> <strong>binary classification</strong> (left or stayed). Encode department and salary level, check class balance, and handle imbalance with class weights or SMOTE on the training set only. Compare logistic regression, random forest and gradient boosting. Use recall and ROC-AUC, since missing a person who is about to leave is the costly error. Feature importance then turns the model into advice (workload, satisfaction, tenure).</p>
+<p><strong>Watch out:</strong> a model that is accurate but cannot be explained is hard for HR to use. Report the drivers, not only the score.</p>
+
+<h2 id="deep-learning-specialization">Deep Learning Specialization</h2>
+<h3 id="lending-club">Lending Club Loan Data Analysis</h3>
+<p><strong>Goal:</strong> predict whether a borrower will repay a loan.</p>
+<p><strong>How AI does it:</strong> tabular <strong>classification</strong> with a neural network. Clean and encode the loan features, scale the numeric ones, handle the heavy class imbalance, then train a small feed-forward network (dense layers, ReLU, dropout, sigmoid output) with early stopping, as in the <a href="deep-learning.html">Deep Learning</a> Keras example. Compare it honestly with a random forest: on tabular data, tree models often match or beat neural nets.</p>
+<p><strong>Watch out:</strong> data leakage. Columns recorded after the loan was issued (such as payment totals) reveal the answer. Also consider fairness: credit models can encode bias.</p>
+
+<h3 id="house-loan">House Loan Data Analysis</h3>
+<p><strong>Goal:</strong> predict which home-loan applicants will have difficulty repaying. (Likely the Home Credit style dataset; check your brief.)</p>
+<p><strong>How AI does it:</strong> the same recipe as above on a wider table: many columns, many missing values, a rare "default" class. Impute, encode, scale, split, train a neural network, and judge it with recall, precision and ROC-AUC rather than accuracy. Tune the decision threshold to match the business cost of a missed default versus a rejected good customer.</p>
+<p><strong>Watch out:</strong> a 92% accurate model that predicts "repays" for everyone is useless. Check the confusion matrix.</p>
+
+<h3 id="port">Automating Port Operations</h3>
+<p><strong>Goal:</strong> use AI to automate a port task. The exact task depends on the brief; the likely version is recognizing ships, containers or vessels in images.</p>
+<p><strong>How AI does it:</strong> <strong>computer vision</strong>. If the job is "what type of vessel is this?", fine-tune a pretrained CNN with transfer learning (freeze early layers, train a new head). If it is "where are the containers or ships?", use object detection such as YOLO to draw boxes. Add augmentation (flips, crops, lighting) because port photos vary a lot, and evaluate on images the model never saw.</p>
+<p><strong>Watch out:</strong> small image sets overfit quickly. Transfer learning and augmentation are the fix, not a bigger model.</p>
+
+<h2 id="microsoft-ai-engineer-capstone">Microsoft AI Engineer Capstone</h2>
+<h3 id="heritage">Preserving Heritage: Enhancing Tourism with AI</h3>
+<p><strong>Goal:</strong> the title suggests using AI to protect cultural sites and improve the visitor experience. The exact deliverable is not known from the title, so this entry lists the usual building blocks.</p>
+<p><strong>How AI could do it:</strong></p>
+<ul>
+<li><strong>Recognize monuments</strong> from photos with a pretrained image model fine-tuned on landmark images.</li>
+<li><strong>Answer visitor questions</strong> with a language model plus RAG over a guide book or site history, so answers are grounded in real sources (see <a href="generative-ai.html">Generative AI</a>).</li>
+<li><strong>Recommend routes and sites</strong> with a recommender system from visitor ratings or interests.</li>
+<li><strong>Monitor condition</strong> by flagging cracks or damage in images with anomaly detection or classification.</li>
+</ul>
+<p><strong>Watch out:</strong> generated descriptions of historical facts can be wrong. Ground them in vetted sources and cite them.</p>
+
+<h3 id="forecasting">Sales Forecasting</h3>
+<p><strong>Goal:</strong> predict future sales, per product or store, to plan stock and staffing.</p>
+<p><strong>How AI does it:</strong> <strong>time-series forecasting</strong>. Start with a naive baseline ("same as last week"), then build features (lags, rolling averages, calendar, holidays, promotions) and fit gradient boosting, or use a dedicated model (ARIMA or Prophet) or an LSTM from the <a href="deep-learning.html">Deep Learning</a> page. Validate with a walk-forward split (train on the past, test on the next period), and report MAE or RMSE against the baseline.</p>
+<p><strong>Watch out:</strong> random train/test splits leak the future. If a fancy model cannot beat the naive baseline, say so.</p>
+
+<h3 id="driving">Autonomous Driving</h3>
+<p><strong>Goal:</strong> build a perception component of a self-driving system, such as detecting road objects or predicting steering from camera images.</p>
+<p><strong>How AI does it:</strong> <strong>computer vision with deep learning</strong>. Object detection (YOLO-style) finds cars, pedestrians and signs; a CNN can classify traffic signs or predict a steering angle directly from the image (end-to-end "behavioural cloning"); segmentation labels each pixel as road, lane or obstacle. Train with heavy augmentation, validate on unseen roads and weather, and measure with precision, recall and mAP for detection.</p>
+<p><strong>Watch out:</strong> safety. Rare situations (night, fog, unusual objects) are exactly where models fail, so test them explicitly. This is why real systems combine several sensors and human oversight.</p>
+
+<h2 id="the-pattern-across-all-13">The pattern across all 13</h2>
+<table>
+<tr><th>If the target is...</th><th>It is...</th><th>Reach for</th></tr>
+<tr><td>A number (sales, test time)</td><td>Regression / forecasting</td><td>Linear regression, gradient boosting, time-series models</td></tr>
+<tr><td>A yes/no (leaves, defaults, responds)</td><td>Classification</td><td>Logistic regression, random forest, small neural net</td></tr>
+<tr><td>Nothing (find groups)</td><td>Clustering</td><td>k-means, hierarchical, PCA first</td></tr>
+<tr><td>Images</td><td>Computer vision</td><td>Pretrained CNN, YOLO</td></tr>
+<tr><td>Text or code</td><td>Generative AI</td><td>LLM with a clear prompt, RAG for facts</td></tr>
+</table>
+<p>The same four habits show up in every project: <strong>inspect the data first, split before you transform, pick a metric that matches the cost of mistakes, and compare against a simple baseline.</strong></p>
+<div class="pager"><a href="playbook.html">← Project Playbook</a><a href="pioneers.html">AI Pioneers →</a></div></main></div>
+<footer>Everything AI · a study guide built from the Simplilearn Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<script src="assets/search-index.js"></script><script src="assets/app.js"></script>
+</body></html>
