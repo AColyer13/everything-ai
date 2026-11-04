@@ -44,7 +44,20 @@ for i, (key, title, icon, desc) in enumerate(PAGES):
         heads.append((hid, strip_tags(text)))
         return f'<h2 id="{hid}">{text}</h2>'
     body = re.sub(r"<h2>(\s*)(.*?)</h2>", add_id, body, flags=re.S)
+    seen = {h for h, _ in heads} | set(re.findall(r'id="([^"]+)"', body))
+    subs = []
+    def add_sub_id(m):
+        tag, text = m.group(1), m.group(2)
+        base = slug(text) or tag
+        hid, n = base, 2
+        while hid in seen:
+            hid, n = f"{base}-{n}", n + 1
+        seen.add(hid)
+        subs.append((hid, strip_tags(text)))
+        return f'<{tag} id="{hid}">{text}</{tag}>'
+    body = re.sub(r"<(h3|h4)>(.*?)</\1>", add_sub_id, body, flags=re.S)
     rendered[key] = (body, heads)
+    page_subs = subs
     url = "index.html" if key == "index" else f"{key}.html"
     index.append({"t": title, "u": url, "p": desc, "x": strip_tags(body)[:300]})
     for hid, ht in heads:
@@ -52,6 +65,9 @@ for i, (key, title, icon, desc) in enumerate(PAGES):
         m = re.search(rf'<h2 id="{hid}">.*?</h2>(.*?)(?=<h2 |$)', body, flags=re.S)
         ctx = strip_tags(m.group(1))[:400] if m else ""
         index.append({"t": ht, "u": f"{url}#{hid}", "p": title, "x": ctx})
+    for hid, ht in page_subs:
+        m = re.search(rf'<h[34] id="{re.escape(hid)}">.*?</h[34]>(.*?)(?=<h[234] |$)', body, flags=re.S)
+        index.append({"t": ht, "u": f"{url}#{hid}", "p": title, "x": strip_tags(m.group(1))[:300] if m else ""})
 
 (OUT / "assets" / "search-index.js").write_text("window.SEARCH_INDEX=" + json.dumps(index) + ";", encoding="utf-8")
 

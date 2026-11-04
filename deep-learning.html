@@ -36,14 +36,14 @@ output = activation(z)</code></pre>
 <tr><td>Softmax</td><td>Probabilities that sum to 1</td><td>Multi-class output</td></tr>
 </table>
 <p>Without activation functions, stacking layers would collapse into one linear function. A single perceptron can only draw a straight boundary, so it cannot solve problems like XOR; hidden layers remove that limit.</p>
-<h3>Training in four repeating steps</h3>
+<h3 id="training-in-four-repeating-steps">Training in four repeating steps</h3>
 <ol class="steps">
 <li><strong>Forward propagation:</strong> push inputs through the layers to get a prediction.</li>
 <li><strong>Loss:</strong> measure how wrong it was.</li>
 <li><strong>Backpropagation:</strong> use the chain rule to work out how much each weight contributed to the error (its gradient).</li>
 <li><strong>Update:</strong> nudge each weight against its gradient, scaled by the <strong>learning rate</strong>. Repeat over many <strong>epochs</strong>.</li>
 </ol>
-<h3>Loss functions</h3>
+<h3 id="loss-functions">Loss functions</h3>
 <table>
 <tr><th>Task</th><th>Loss</th></tr>
 <tr><td>Regression</td><td>Mean squared error, mean absolute error</td></tr>
@@ -151,13 +151,13 @@ for epoch in range(20):
 
 <h2 id="more-from-the-class-details-and-specifics">More from the class: details and specifics</h2>
 <div class="callout note"><strong class="t">From the lessons</strong><p>Parameters, rules and API points the instructors covered that the sections above summarise briefly.</p></div>
-<h3>Tensors and Keras</h3>
+<h3 id="tensors-and-keras">Tensors and Keras</h3>
 <ul>
 <li>A tensor has a rank (number of dimensions). Know broadcasting, <code>reshape</code>, element-wise vs matrix multiplication, <code>argmax</code>, and ragged and string tensors.</li>
 <li>The <strong>Functional API</strong> needs an explicit <code>Input</code> layer. The class labs used <code>sparse_categorical_crossentropy</code> (integer labels) rather than one-hot <code>categorical_crossentropy</code>.</li>
 <li>Keras runs on top of TensorFlow and supports multi-GPU data parallelism. It is not for clustering or PCA, and it has no dynamic graphs.</li>
 </ul>
-<h3>Optimizers and training</h3>
+<h3 id="optimizers-and-training">Optimizers and training</h3>
 <ul>
 <li>SGD learning rate is often 0.01; momentum typically 0.9; RMSProp <code>rho</code> about 0.9 to 0.99. Adam combines momentum and RMSProp with bias correction. Adagrad suits sparse data; Adadelta needs no initial learning rate.</li>
 <li><strong>Dropout</strong> is active only during training and is not applied to the output layer. Typical rate: 0.5 for hidden layers.</li>
@@ -166,7 +166,7 @@ for epoch in range(20):
 <li><strong>Hyperparameter search:</strong> grid search is exhaustive and costly, random search is cheaper, and Hyperopt (TPE) searches smartly.</li>
 <li><strong>Interpretability</strong> can be judged application-grounded, human-grounded or functionally-grounded.</li>
 </ul>
-<h3>CNNs</h3>
+<h3 id="cnns">CNNs</h3>
 <ul>
 <li>An image is height &times; width &times; channels (3 for colour) with pixel values 0 to 255; divide by 255 to scale to 0 to 1.</li>
 <li><strong>Stride</strong> is how many pixels the filter moves each step (1 or 2). <strong>Padding</strong> adds zeros around the image: <em>valid</em> = none (the output shrinks), <em>same</em> = enough to keep the output size.</li>
@@ -175,20 +175,20 @@ for epoch in range(20):
 <li><strong>Limits:</strong> a CNN does not encode the position or orientation of objects, and it needs a lot of data and compute.</li>
 <li><strong>Famous CNNs:</strong> AlexNet, VGG16, GoogLeNet/Inception and ResNet (ResNet-50 won ILSVRC 2015; skip connections add no extra parameters).</li>
 </ul>
-<h3>Transfer learning, detection and edge</h3>
+<h3 id="transfer-learning-detection-and-edge">Transfer learning, detection and edge</h3>
 <ul>
 <li>Transfer can be <strong>positive</strong> (helps) or <strong>negative</strong> (hurts, when the tasks differ too much). Choose a pretrained model by size, file format (<code>.h5</code> for TensorFlow, <code>.pt</code> for PyTorch), input and output format, and reported accuracy (for example AP).</li>
 <li><strong>YOLO</strong> is regression-based (one pass), unlike the region-based R-CNN family. YOLOv3 uses a Darknet-53 backbone and detects at three scales. A box is (bx, by, bw, bh) plus a class. Remove the classifier head when training on a custom dataset; accuracy is reported as mAP. The class labs used YOLOv5.</li>
 <li><strong>TensorFlow Lite</strong> targets edge devices with limited memory, storage and latency, and keeps data on the device (privacy). Convert a Keras model with <code>TFLiteConverter</code> to a <code>.tflite</code> file.</li>
 </ul>
-<h3>Sequences, Transformers, autoencoders</h3>
+<h3 id="sequences-transformers-autoencoders">Sequences, Transformers, autoencoders</h3>
 <ul>
 <li><strong>RNN shapes:</strong> one-to-one, one-to-many, many-to-one and many-to-many (encoder-decoder). Pros: any input length, shared weights. Cons: slow, exploding or vanishing gradients. Tasks: sentiment, part-of-speech tagging, named-entity recognition. A <strong>hybrid CNN + RNN</strong> uses the CNN for spatial features and the RNN for temporal context (for example video).</li>
 <li><strong>Transformer:</strong> each token gets query, key and value vectors; several attention heads run in parallel (8 in the original); the decoder uses masked self-attention and encoder-decoder attention, then a linear layer and softmax.</li>
 <li><strong>BERT</strong> is trained by masked language modelling: about 15% of tokens are masked and the loss counts only those predictions. The Hugging Face <code>transformers</code> library provides pretrained versions.</li>
 <li><strong>Autoencoders</strong> are data-specific, lossy and self-supervised. The compressed middle is the code or latent space. Hyperparameters: code size, number of layers, nodes per layer and the loss function. Variational autoencoders generate new data.</li>
 </ul>
-<h3>PyTorch</h3>
+<h3 id="pytorch-2">PyTorch</h3>
 <ul>
 <li><code>autograd</code> computes gradients, <code>torch.nn</code> holds layers and <code>torch.optim</code> holds optimizers. <code>Dataset</code> and <code>DataLoader</code> feed batches; <code>ToTensor</code> converts images and scales them to 0 to 1; a <code>Lambda</code> transform can one-hot encode labels; <code>DataParallel</code> uses several GPUs.</li>
 </ul>

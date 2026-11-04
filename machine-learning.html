@@ -49,7 +49,7 @@ print(scores.mean(), scores.std())</code></pre>
 <div class="callout live"><strong class="t">From the live classes</strong><p>To choose between algorithms, have each one predict on data whose answers you already know (for example three months of past sales), then see whose predictions land closest to the real values. The winner has learned the patterns best. Always judge on data the model did not train on.</p></div>
 
 <h2 id="regression">Regression</h2>
-<h3>Linear regression</h3>
+<h3 id="linear-regression">Linear regression</h3>
 <p>Fits a straight line (or plane) <code>y = b0 + b1·x1 + ...</code> by minimizing squared error. It works best when these assumptions roughly hold: a linear relationship, independent errors, constant error variance, errors that are roughly normal, and little multicollinearity between features.</p>
 <pre><code>from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
@@ -57,18 +57,18 @@ from sklearn.metrics import mean_squared_error, r2_score
 m = LinearRegression().fit(X_train, y_train)
 pred = m.predict(X_test)
 print("RMSE", mean_squared_error(y_test, pred) ** 0.5, "R2", r2_score(y_test, pred))</code></pre>
-<h3>Polynomial, Ridge and LASSO</h3>
+<h3 id="polynomial-ridge-and-lasso">Polynomial, Ridge and LASSO</h3>
 <ul>
 <li><strong>Polynomial regression</strong> adds powers of features to capture curves.</li>
 <li><strong>Ridge (L2)</strong> penalizes large coefficients, shrinking them smoothly. Good when many features each help a little.</li>
 <li><strong>LASSO (L1)</strong> can shrink coefficients all the way to zero, so it doubles as feature selection.</li>
 </ul>
-<h3>Logistic regression</h3>
+<h3 id="logistic-regression">Logistic regression</h3>
 <p>Despite the name, it is a classifier. It passes a linear score through the sigmoid function to produce a probability between 0 and 1, then applies a threshold. It is a strong, explainable baseline.</p>
 <div class="callout tip"><strong class="t">Imbalanced data</strong><p>If only 1% of cases are positive, a model that always says "no" is 99% accurate and useless. Use precision, recall and F1, and consider resampling with <strong>SMOTE</strong>, which creates synthetic minority-class examples. Apply it to the training set only.</p></div>
 
 <h2 id="classification">Classification</h2>
-<h3>Choosing a metric</h3>
+<h3 id="choosing-a-metric">Choosing a metric</h3>
 <table>
 <tr><th>Metric</th><th>Answers</th><th>Prefer when</th></tr>
 <tr><td>Accuracy</td><td>What share was right?</td><td>Classes are balanced</td></tr>
@@ -77,7 +77,7 @@ print("RMSE", mean_squared_error(y_test, pred) ** 0.5, "R2", r2_score(y_test, pr
 <tr><td>F1</td><td>Balance of precision and recall</td><td>Imbalanced classes</td></tr>
 <tr><td>ROC-AUC</td><td>How well does it rank positives above negatives?</td><td>Comparing models across thresholds</td></tr>
 </table>
-<h3>Algorithms</h3>
+<h3 id="algorithms">Algorithms</h3>
 <table>
 <tr><th>Algorithm</th><th>Idea</th><th>Strengths</th><th>Watch out for</th></tr>
 <tr><td>Naive Bayes</td><td>Bayes' theorem assuming features are independent</td><td>Fast, good for text</td><td>Independence is rarely true</td></tr>
@@ -96,7 +96,7 @@ print(sorted(zip(rf.feature_importances_, X.columns), reverse=True)[:10])</code>
 <p><strong>Boruta</strong> is a feature-selection method that compares each real feature against shuffled "shadow" copies and keeps only features that beat the noise.</p>
 
 <h2 id="unsupervised-learning">Unsupervised learning</h2>
-<h3>Clustering</h3>
+<h3 id="clustering">Clustering</h3>
 <p><strong>K-means</strong> groups points into k clusters: (1) pick k starting centres, (2) assign each point to its nearest centre, (3) move each centre to the mean of its points, (4) repeat until nothing changes.</p>
 <div class="callout live"><strong class="t">From the live classes</strong><p>Worked by hand in one dimension: with ages and centres 10, 30 and 60, the point 35 is closest to 30 by Euclidean distance (in one dimension that is just the absolute difference). After assigning every point, the new centre is the mean of the group, for example the mean of 10 and 15 is 12.5. Seeing the loop on tiny numbers makes the algorithm obvious.</p></div>
 <pre><code>from sklearn.cluster import KMeans
@@ -107,9 +107,9 @@ km = KMeans(n_clusters=3, random_state=42, n_init="auto").fit(X)
 df["segment"] = km.labels_</code></pre>
 <p>Choose k with the <strong>elbow method</strong> (plot inertia against k and look for the bend) or the <strong>silhouette score</strong>. In the live class, clustering customers on income and spending score turned segments into product ideas.</p>
 <p><strong>Hierarchical clustering</strong> builds a tree you can cut at any level. <strong>BIRCH</strong> clusters very large datasets in one pass.</p>
-<h3>Outlier and anomaly detection</h3>
+<h3 id="outlier-and-anomaly-detection">Outlier and anomaly detection</h3>
 <p>Find points that do not fit: far from neighbours (k-NN distance), isolated by random splits (isolation forest), or low-probability under a model. The <strong>PyOD</strong> library bundles many detectors.</p>
-<h3>Dimensionality reduction</h3>
+<h3 id="dimensionality-reduction">Dimensionality reduction</h3>
 <table>
 <tr><th>Method</th><th>Use it to</th></tr>
 <tr><td>PCA</td><td>Compress correlated features into fewer uncorrelated components that keep most of the variance</td></tr>
@@ -151,7 +151,7 @@ vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
 
 <h2 id="more-from-the-class-how-the-instructors-did-it">More from the class: how the instructors did it</h2>
 <div class="callout note"><strong class="t">From the live classes and lessons</strong><p>Rules of thumb, formulas and project habits the instructors stressed. Where a number is a rule of thumb, it came from the instructor, not from a standard.</p></div>
-<h3>Framing and data</h3>
+<h3 id="framing-and-data">Framing and data</h3>
 <ul>
 <li><strong>Churn framing:</strong> take features from an earlier date and the exit label from a later date, leaving a gap of about 3 to 6 months so the business has time to act. Same-day data is useless, and every feature must be available at prediction time.</li>
 <li><strong>Success criteria up front:</strong> projects fix an acceptance threshold in the statement of work (for example MAPE below 5%), often after a proof of concept, and retrain on a schedule or when data drifts.</li>
@@ -161,7 +161,7 @@ vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
 <li><strong>Scaling:</strong> MinMax is <code>(x - min) / (max - min)</code> (range 0 to 1); StandardScaler is <code>(x - mean) / std</code> (can be negative). The instructor recommended <strong>MinMax for clustering and KNN</strong>, though standard scaling is acceptable. The example above uses StandardScaler.</li>
 <li><strong>Size:</strong> pandas handles roughly 2 to 3 GB comfortably. Beyond that use PySpark or Databricks with Parquet, then convert to pandas for modelling.</li>
 </ul>
-<h3>Evaluating and tuning</h3>
+<h3 id="evaluating-and-tuning">Evaluating and tuning</h3>
 <ul>
 <li><strong>Overfit rule of thumb:</strong> a train-test gap of about 4 to 5 points is fine; above about 8 to 10 points is overfitting; both scores low (under 50 to 60%) is underfitting. Overfit = low bias, high variance; underfit = high bias.</li>
 <li><strong>Regression metrics:</strong> MAE = mean of |error|, MSE = mean of squared error, RMSE = its square root, MAPE = mean of |error| / |actual|. A plain mean of errors cancels out (positive and negative offset), but the sign shows direction. MAPE explodes on small actual values, so weight each point by its share of the total (weighted MAPE).</li>
@@ -172,7 +172,7 @@ vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
 <li><strong>Cross-validation and search:</strong> k is usually 3 to 10 folds. <code>GridSearchCV</code> tries every combination; <code>RandomizedSearchCV</code> samples combinations (faster, but can land on overfit settings).</li>
 <li><strong>Reproducibility:</strong> a fixed <code>random_state</code> gives you and the client identical splits and comparable scores.</li>
 </ul>
-<h3>Regression in depth</h3>
+<h3 id="regression-in-depth">Regression in depth</h3>
 <ul>
 <li><strong>Reading coefficients:</strong> the slope (coefficient, beta, weight) is the change in y for a one-unit change in x; the intercept is the constant or base value. Coefficients are not comparable across features on different scales.</li>
 <li><strong>Assumptions and how to check them:</strong> linear and additive relationship; residuals plotted against predictions should show no funnel shape (a funnel means heteroscedasticity); residuals roughly normal; no autocorrelation (mainly a time-series issue). Linear regression is sensitive to outliers.</li>
@@ -180,7 +180,7 @@ vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
 <li><strong>Regularization:</strong> loss = residual sum of squares + &lambda; &times; penalty. Ridge penalises squared weights (shrinks toward 0); LASSO penalises absolute weights (can reach exactly 0). &lambda; = 0 means no penalty. Polynomial regression is still linear in its coefficients. Other regressors: SVR, decision-tree and random-forest regression.</li>
 <li><strong>Gradient descent:</strong> step = gradient &times; learning rate; new parameter = old - step; repeat until the gradient is near 0. Too large a learning rate overshoots. SGD uses one random point per update: faster but noisier.</li>
 </ul>
-<h3>Algorithms in depth</h3>
+<h3 id="algorithms-in-depth">Algorithms in depth</h3>
 <ul>
 <li><strong>Decision trees:</strong> the root is the feature that gives the lowest weighted impurity (Gini or entropy; weighting stops a tiny branch distorting the result). Continuous features split at a threshold. Algorithms: ID3, C4.5, CART. Key controls: <code>max_depth</code> (often enough alone), <code>min_samples_leaf</code>, <code>max_leaf_nodes</code>.</li>
 <li><strong>Random forest:</strong> each tree trains on a bootstrap sample and considers a random subset of features per split (<code>max_features="sqrt"</code>); rows left out are the out-of-bag samples. Classification takes the majority vote, regression the mean. More trees help until a plateau. Use <code>n_jobs</code> for speed and feature importances to select features, then retrain on the top ones. <strong>Boruta</strong> wraps a random forest to find all relevant features.</li>
@@ -190,7 +190,7 @@ vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
 <li><strong>SVM:</strong> finds a separating hyperplane; a kernel function handles non-linear boundaries.</li>
 <li><strong>Bagging vs boosting:</strong> bagging trains strong learners in parallel with equal votes and lowers variance. Boosting trains weak learners in sequence, reweights misclassified points, lowers bias, but overfits more and is sensitive to outliers. Variants: AdaBoost, XGBoost, LogitBoost. XGBoost is installed separately (<code>pip install xgboost</code>), handles missing values and is fast on millions of rows. Stacking trains a meta-learner on other models' outputs; voting is hard (majority label) or soft (summed probability).</li>
 </ul>
-<h3>Unsupervised learning in depth</h3>
+<h3 id="unsupervised-learning-in-depth">Unsupervised learning in depth</h3>
 <ul>
 <li><strong>Clustering types:</strong> centroid (k-means), density (DBSCAN), distribution, hierarchical. K-medoids uses real data points as centres and resists outliers. Hierarchical clustering can be agglomerative (merge up) or divisive (split down); read a dendrogram by cutting the longest vertical line that crosses no merge. BIRCH uses a CF-tree (parameters <code>threshold</code>, <code>branching_factor</code>, <code>n_clusters</code>).</li>
 <li><strong>K-means:</strong> you want low <em>intra</em>-cluster distance and high <em>inter</em>-cluster distance. The elbow method plots WCSS against k. Silhouette = (b - a) / max(a, b), from -1 to 1 (near 0 means overlapping clusters); Dunn's index is better when higher. A person, not the algorithm, names the clusters.</li>
@@ -199,7 +199,7 @@ vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
 <li><strong>SVD</strong> factors a matrix as <code>A = U &Sigma; V<sup>T</sup></code> with singular values in descending order. <strong>ICA</strong> separates independent, non-Gaussian sources (the cocktail-party problem), where PCA maximises variance instead.</li>
 <li><strong>Recommenders:</strong> cosine similarity; memory-based methods do not scale and suffer cold start; matrix factorization is trained by gradient descent with a regularization term; rating matrices are very sparse (MovieLens about 94%). Evaluate with MAE, RMSE, top-N with leave-one-out and hit rate. Hybrid systems combine methods.</li>
 </ul>
-<h3>Delivering a model</h3>
+<h3 id="delivering-a-model">Delivering a model</h3>
 <ul>
 <li><strong>Save the scaler and the model together</strong> (pickle or joblib). New data goes through the same fitted scaler (<code>transform</code>, never <code>fit</code>) with the <strong>same column order</strong> as training, and predictions may need an inverse transform back to real units.</li>
 <li><strong>Test-time rules (Mercedes project):</strong> decide zero-variance columns from the training set only. Fit label encoders on train and test combined so unseen categories do not break prediction. Fit PCA on train and only transform test. Wrap the steps in a reusable, documented function: no process should be manual.</li>

@@ -29,7 +29,7 @@
 <tr><td>~350M</td><td>7B</td><td>~5 days</td><td>~10–14 GB</td><td>Better fluency; still no real reasoning</td></tr>
 <tr><td>~1B</td><td>20B</td><td>~6 weeks</td><td>Does not fit without sharding tricks</td><td>Rent GPUs instead</td></tr>
 </table>
-<h3>How the estimates were made</h3>
+<h3 id="how-the-estimates-were-made">How the estimates were made</h3>
 <ul>
 <li><strong>Compute:</strong> training compute is about 6 × parameters × tokens. The card peaks at about 88 TFLOPS BF16 dense. Real training reaches roughly 40% of peak, so about 35 TFLOPS.</li>
 <li><strong>Compute-optimal:</strong> uses the Chinchilla rule of about 20 tokens per parameter.</li>

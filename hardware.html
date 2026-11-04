@@ -23,9 +23,9 @@
 <tr><td><strong>RAM</strong> (system memory)</td><td>Fast, temporary working storage that loses its contents when the power goes off</td><td>Holds the model weights and the KV cache while the model runs. A model that does not fit in the GPU's memory spills into RAM, which is slower. On the Mac and DGX Spark, RAM is <em>unified</em>: CPU and GPU share one pool</td><td>About 60 to 100 GB/s for desktop DDR5; 273 GB/s to 1.2 TB/s for unified memory on the machines below</td></tr>
 <tr><td><strong>PCIe SSD</strong> (NVMe solid-state drive)</td><td>Permanent storage that survives power-off, connected over the PCIe bus</td><td>Stores the model files (a large model is tens to hundreds of GB), checkpoints and datasets. Loading a model reads it from the SSD once. Tools such as Strata can also stream rarely used weights from the SSD as a last resort</td><td>PCIe 4.0 drives read about 7 GB/s, PCIe 5.0 drives about 12 to 14 GB/s</td></tr>
 </table>
-<h3>PCIe: the road between the parts</h3>
+<h3 id="pcie-the-road-between-the-parts">PCIe: the road between the parts</h3>
 <p><strong>PCIe</strong> is the connection that links the GPU, SSDs and other devices to the CPU. A PCIe 5.0 x16 slot (the usual graphics-card slot) moves about 64 GB/s each way, far less than the GPU's own memory. That is why a model should live entirely in the GPU's memory: every time the GPU has to fetch weights across PCIe from system RAM, speed collapses to PCIe speed, and fetching from the SSD is slower still.</p>
-<h3>The memory hierarchy</h3>
+<h3 id="the-memory-hierarchy">The memory hierarchy</h3>
 <table>
 <tr><th>Level</th><th>Example</th><th>Approx. bandwidth</th><th>Size</th></tr>
 <tr><td>GPU memory (HBM or GDDR)</td><td>B200, RTX 5080</td><td>1 to 8 TB/s</td><td>16 to 290 GB</td></tr>
@@ -46,7 +46,7 @@
 <tr><td>Size</td><td>Cheap to expand: 32 to 256 GB</td><td>Expensive and fixed: 16 GB on a 5080, 32 GB on a 5090, up to about 192 GB on a B200</td></tr>
 </table>
 <p>On a typical <strong>x86 PC</strong> these are two separate pools. A model that fits in VRAM runs at full GPU speed. A model that does not fit has to spill its extra layers into system RAM, and every token then pays the price of reading those layers from RAM.</p>
-<h3>How much slower it gets</h3>
+<h3 id="how-much-slower-it-gets">How much slower it gets</h3>
 <p>Example: a 24 GB model on a 16 GB RTX 5080, with 16 GB of it in VRAM (about 960 GB/s) and the remaining 8 GB in DDR5 RAM (about 80 GB/s). Per token the machine reads each part once:</p>
 <table>
 <tr><th>Case</th><th>Time per token</th><th>Ceiling speed</th></tr>
@@ -56,7 +56,7 @@
 </table>
 <p>So putting just one third of the model in RAM makes generation about <strong>5 times slower</strong>, and running entirely from RAM is roughly <strong>10 to 15 times slower</strong> than VRAM, because VRAM bandwidth is that much higher. The slow part dominates: the more of the model that spills, the closer you get to RAM speed. Loading from an SSD is slower again (about 12 to 14 GB/s). These are ceilings; real slowdowns are often worse because data also crosses the PCIe link.</p>
 <p>Mixture-of-experts models soften the blow, since only a few experts are read per token, so keeping the always-used parts in VRAM and the rarely used experts in RAM costs less. This is the trick behind running a 125B model on a 16 GB card with Strata, and why it is slower than a model that fits.</p>
-<h3>Unified memory: one pool</h3>
+<h3 id="unified-memory-one-pool">Unified memory: one pool</h3>
 <p>Apple's M-series chips and the NVIDIA DGX Spark put the CPU and GPU on the same chip package sharing <strong>one pool of memory</strong>. There is no VRAM versus RAM split and no PCIe copy: the GPU can use almost all of the memory at full speed. (NVIDIA's Grace-based DGX Station is a related design: the CPU and GPU memory are joined by a fast coherent link rather than shared in one pool.) Not every ARM chip does this, but the ARM machines built for AI mostly do.</p>
 <table>
 <tr><th></th><th>x86 PC with a discrete GPU</th><th>ARM with unified memory</th></tr>
@@ -160,7 +160,7 @@
 <tr><td>Raw GPU speed</td><td>Highest with discrete NVIDIA cards, which have the best bandwidth and compute</td><td>Apple: good bandwidth, less compute. NVIDIA ARM systems: full CUDA with strong coherence</td></tr>
 <tr><td>Cost for large models</td><td>Large VRAM means expensive data-center GPUs</td><td>Cheaper per GB of model memory</td></tr>
 </table>
-<h3>Advantages in plain terms</h3>
+<h3 id="advantages-in-plain-terms">Advantages in plain terms</h3>
 <ul>
 <li><strong>x86 wins on:</strong> compatibility (everything just installs), raw GPU speed with a discrete NVIDIA card, flexibility (upgrade and mix parts), and the largest ecosystem for training and servers.</li>
 <li><strong>ARM wins on:</strong> efficiency (performance per watt), quiet and portable machines, and unified memory that lets a small box hold a very large model without a giant GPU.</li>

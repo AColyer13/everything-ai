@@ -16,13 +16,13 @@
 
 <h2 id="ian-goodfellow">Ian Goodfellow</h2>
 <p>Goodfellow is best known for inventing <strong>generative adversarial networks (GANs)</strong>. The idea: two networks compete. A <em>generator</em> makes fake samples, a <em>discriminator</em> tries to tell fake from real, and each pushes the other to improve until the fakes look real. It is the "GAN" row in the <a href="generative-ai.html">Generative AI</a> table, and it launched a decade of image-synthesis research.</p>
-<h3>What they researched and created</h3>
+<h3 id="what-they-researched-and-created">What they researched and created</h3>
 <ul>
 <li><strong>GANs (2014).</strong> Introduced in a paper with colleagues at the Université de Montréal, including their PhD advisors Yoshua Bengio and Aaron Courville.</li>
 <li><strong>Adversarial examples.</strong> Co-authored early work showing that tiny, deliberate changes to an input can fool a neural network, and proposed training on such examples as a defence. This founded much of modern AI-security research.</li>
 <li><strong><em>Deep Learning</em> (2016).</strong> First author of the standard textbook, written with Bengio and Courville and free to read online.</li>
 </ul>
-<h3>Timeline</h3>
+<h3 id="timeline">Timeline</h3>
 <table>
 <tr><th>When</th><th>Event</th></tr>
 <tr><td>Early</td><td>Studied at Stanford (BS and MS, with Andrew Ng)</td></tr>
@@ -38,7 +38,7 @@
 
 <h2 id="andrej-karpathy">Andrej Karpathy</h2>
 <p>Karpathy is a researcher, engineer and teacher known for making deep learning understandable. He helped found OpenAI, ran computer vision for Tesla Autopilot, and then built a large following by teaching how language models work from scratch.</p>
-<h3>What they researched and created</h3>
+<h3 id="what-they-researched-and-created-2">What they researched and created</h3>
 <ul>
 <li><strong>Image captioning (PhD, Stanford, advisor Fei-Fei Li).</strong> Work combining CNNs and RNNs so a model could describe images and regions in sentences. That is the "hybrid model" idea on the <a href="deep-learning.html">Deep Learning</a> page.</li>
 <li><strong>The Unreasonable Effectiveness of Recurrent Neural Networks (2015).</strong> A blog post and the <code>char-rnn</code> code that showed character-level RNNs writing plausible text, code and Shakespeare.</li>
@@ -48,7 +48,7 @@
 <li><strong>Eureka Labs (2024).</strong> An AI-native education company; its first course is LLM101n.</li>
 <li><strong>"Vibe coding" (Feb 2025).</strong> Coined the term for building software by prompting an AI and accepting its output.</li>
 </ul>
-<h3>Timeline</h3>
+<h3 id="timeline-2">Timeline</h3>
 <table>
 <tr><th>When</th><th>Event</th></tr>
 <tr><td>1986</td><td>Born in Bratislava; moves to Toronto at 15</td></tr>
@@ -71,7 +71,7 @@
 <p><strong>GitHub</strong> is a website where programmers publish their code. A <strong>repo</strong> (repository) is one project's folder on it. A <strong>gist</strong> is a single shared file or note. <strong>Stars</strong> are like bookmarks, so a high number means many people found the project useful. An <strong>LLM</strong> (large language model) is the kind of AI behind ChatGPT: it reads text and predicts what comes next.</p>
 <p>Two more that appear a lot: <strong>training</strong> is teaching a model by showing it lots of examples, and <strong>inference</strong> is using a finished model to answer something.</p></div>
 
-<h3>The common idea</h3>
+<h3 id="the-common-idea">The common idea</h3>
 <p>Most AI code is huge and hard to read. Karpathy's habit is the opposite: <strong>shrink a big idea until it fits on one screen</strong>, so a person can read every line and understand what the technology really does. Think of it as taking a car engine apart on a table and labelling each part, instead of describing the car from the outside.</p>
 
 <h3 id="project-map">Project map</h3>
@@ -96,7 +96,7 @@
 <tr><td><a href="#arxiv-sanity-lite">arxiv-sanity-lite</a></td><td>A recommender for research papers</td><td>1.7k stars</td><td>Beginner</td></tr>
 </table>
 
-<h3>Group A: learn how AI works</h3>
+<h3 id="group-a-learn-how-ai-works">Group A: learn how AI works</h3>
 
 <h4 id="micrograd">micrograd</h4>
 <p><strong>In plain English:</strong> a tiny program that shows how a neural network learns. The network makes a guess, measures how wrong it was, and works out which of its internal dials to nudge to be less wrong next time. That "work out which dial to nudge" step is called backpropagation, and micrograd does it in a few dozen lines on single numbers, so you can follow every step with a pencil.</p>
@@ -128,7 +128,7 @@
 <p><strong>Why it matters:</strong> for years this was the go-to example of how GPT training works. Its popularity (over 60k stars) reflects that. The author has since moved on to nanochat, so treat nanoGPT as the classic version.</p>
 <p><strong>Who it is for:</strong> people comfortable with Python who want to train a language model for real. <a href="https://github.com/karpathy/nanoGPT" target="_blank" rel="noopener">Open on GitHub</a></p>
 
-<h3>Group B: build and run a real model</h3>
+<h3 id="group-b-build-and-run-a-real-model">Group B: build and run a real model</h3>
 
 <h4 id="llama2-c">llama2.c</h4>
 <p><strong>In plain English:</strong> Llama 2 is an AI model released by Meta. llama2.c is a program, in one file of the C language, that can run it. You do not need the usual heavy AI toolkits. You can train a small model of the same design, save it, and then run it with this short program.</p>
@@ -145,7 +145,7 @@
 <p><strong>Why it matters:</strong> nanoGPT stopped at a model that continues text. nanochat goes on to a model you can chat with, which is the part people actually use.</p>
 <p><strong>Who it is for:</strong> people who want to see an end-to-end chatbot built without a big company's resources. <a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener">Open on GitHub</a></p>
 
-<h3>Group C: use AI as a tool</h3>
+<h3 id="group-c-use-ai-as-a-tool">Group C: use AI as a tool</h3>
 
 <h4 id="autoresearch">autoresearch</h4>
 <p><strong>In plain English:</strong> an AI assistant runs experiments on its own. It changes the code that trains a small chatbot, trains it for exactly five minutes, checks whether the result got better, keeps the change if so and throws it away if not, then repeats. That is about 12 experiments an hour, or roughly 100 overnight. The human writes the instructions in a plain-text file (<code>program.md</code>) instead of editing the code.</p>
@@ -181,7 +181,7 @@
 
 <h2 id="alec-radford">Alec Radford</h2>
 <p>Radford is a researcher who works quietly and publishes few papers, but he was first author on several that defined modern generative AI. Much of the field's move from "train a model for one task" to "pretrain a big model, then adapt it" runs through his work.</p>
-<h3>What they researched and created</h3>
+<h3 id="what-they-researched-and-created-3">What they researched and created</h3>
 <ul>
 <li><strong>DCGAN (2015).</strong> With Luke Metz and Soumith Chintala, a set of design rules that made convolutional GANs stable to train. It became the template for image GANs, and it also showed that the latent space holds meaningful directions (vector arithmetic on faces).</li>
 <li><strong>The sentiment neuron (2017).</strong> A character-level LSTM trained only to predict the next character on Amazon reviews. One unit ended up tracking sentiment, an early sign that next-token prediction learns useful structure.</li>
@@ -191,7 +191,7 @@
 <li><strong>CLIP and DALL-E (2021).</strong> CLIP learns images and text in one shared embedding space from captioned pictures and enables zero-shot image classification. DALL-E generated images from text prompts. CLIP is also used inside many diffusion image generators.</li>
 <li><strong>Whisper (2022).</strong> A robust speech-recognition and translation model trained on a large amount of weakly supervised audio.</li>
 </ul>
-<h3>Timeline</h3>
+<h3 id="timeline-3">Timeline</h3>
 <table>
 <tr><th>When</th><th>Event</th></tr>
 <tr><td>2015</td><td>DCGAN paper</td></tr>

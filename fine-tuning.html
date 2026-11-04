@@ -31,7 +31,7 @@
 <tr><td>Qwen3.5-9B</td><td><code>Qwen/Qwen3.5-9B</code></td><td>Feb 23, 2026</td><td>~18 GB</td><td>Ships with a vision encoder. Load with Unsloth's multimodal loader and the model's own chat template. No <code>-Instruct</code> suffix exists.</td></tr>
 <tr><td>Gemma 4 12B</td><td><code>google/gemma-4-12B-it</code></td><td>Jun 3, 2026</td><td>26.7 GB (Google)</td><td>Dense, 11.95B params, encoder-free multimodal. Google also publishes official QAT checkpoints.</td></tr>
 </table>
-<h3>What fits on 16 GB</h3>
+<h3 id="what-fits-on-16-gb">What fits on 16 GB</h3>
 <ul>
 <li><strong>Training (QLoRA, 4-bit base):</strong> 9B fits comfortably at 4k–8k context with batch 1. 12B fits at batch 1 with shorter context; expect to drop to 4k.</li>
 <li><strong>Merging and weight edits (16-bit):</strong> neither model fits in VRAM. Use CPU offload into the 64 GB of system RAM.</li>

@@ -53,11 +53,11 @@
 <tr><td>70B to 125B</td><td>Near-frontier open models; need 64 GB or more of memory</td><td>40 to 75 GB</td></tr>
 <tr><td>200B and up</td><td>Largest open models; need a 128 to 512 GB machine or a GPU server</td><td>120 GB and up</td></tr>
 </table>
-<h3>Dense versus mixture of experts (MoE)</h3>
+<h3 id="dense-versus-mixture-of-experts-moe">Dense versus mixture of experts (MoE)</h3>
 <p>A <strong>dense</strong> model uses all its parameters for every token. A <strong>mixture-of-experts</strong> model holds many specialist sub-networks and activates only a few per token. A "125B" MoE model that activates about 6B parameters per token needs memory for all 125B but reads only about 6B per token, so it generates much faster than a dense 125B model. That trick is what makes huge models usable on desktop machines.</p>
-<h3>Quantization</h3>
+<h3 id="quantization">Quantization</h3>
 <p><strong>Quantization</strong> stores weights with fewer bits (8, 4, or even 2). It shrinks the file and speeds up generation with some quality loss; 4-bit is the usual sweet spot. <strong>QAT</strong> (quantization-aware training) means the model was trained with the low precision in mind, so it loses less quality than compressing afterward.</p>
-<h3>Context length</h3>
+<h3 id="context-length">Context length</h3>
 <p>The <strong>context window</strong> is how much text the model can consider at once (128K tokens is roughly a 300-page book). Longer context costs memory for the KV cache and slows prompt processing, so a model that "supports" 256K may not fit 256K on your hardware.</p>
 
 <h2 id="a-desktop-rtx-5080-with-16-gb">A desktop RTX 5080 with 16 GB</h2>
@@ -69,7 +69,7 @@
 <tr><td><strong>Gemma 4 12B, QAT, instruction-tuned</strong></td><td>12B dense, quantization-aware trained</td><td>256K</td><td>The QAT build is small enough to sit in 16 GB. Very long contexts use more memory, so expect to trim the context before you hit 256K.</td></tr>
 <tr><td><strong>gpt-oss-20b</strong></td><td>20B MoE (about 3.6B active), OpenAI open-weight</td><td>128K</td><td>Designed to run in about 16 GB, so it fits the card with room for a long context. Fast.</td></tr>
 </table>
-<h3>Which software runs which model</h3>
+<h3 id="which-software-runs-which-model">Which software runs which model</h3>
 <p><strong>Gemma 4 12B QAT and gpt-oss-20b</strong> are small enough to fit in the 16 GB card, so any of the mainstream engines can run them: <a href="tools.html#ollama">Ollama</a>, <a href="tools.html#lm-studio">LM Studio</a> or <a href="tools.html#vllm">vLLM</a>. <strong>Qwen3.8-Flash-Next (125B)</strong> does not fit, and it needs a new architecture that mainline llama.cpp did not support at the time of writing, so it runs through <a href="tools.html#strata">Strata</a> (or a custom llama.cpp build).</p>
 <table>
 <tr><th></th><th>Ollama</th><th>LM Studio</th><th>vLLM</th><th>Strata</th></tr>
