@@ -81,7 +81,7 @@ print(ticket["priority"])</code></pre>
 <p>There are two ways to hand a model your own documents without retraining it. The classic one is <strong>RAG</strong>. A newer one, published by <a href="pioneers.html#llm-wiki">Andrej Karpathy</a> as the <strong>LLM Wiki</strong> pattern, has the same goal but changes where the work happens.</p>
 <h3>Classic RAG: retrieve at question time</h3>
 <p><strong>Retrieval-augmented generation</strong> keeps the base model unchanged and hands it your data when a question arrives. Split your documents into chunks, turn each into an <strong>embedding</strong> (a vector of numbers capturing meaning), store them in a vector index, and at question time find the closest chunks and put them in the prompt. This gives domain-specific, up-to-date answers without retraining, and you can show the sources.</p>
-<p><strong>Its weakness:</strong> it starts from scratch on every question. The model rediscovers the same facts each time, nothing is summarized or cross-linked ahead of time, and a question that needs several documents put together depends on retrieval finding all the right chunks. It accumulates nothing.</p>
+<p><strong>Its weakness, according to Karpathy:</strong> the model re-derives the answer from raw chunks on every question. Nothing is summarized or cross-linked ahead of time, so a question that needs several documents put together has to be assembled again each time, and nothing accumulates. He lists NotebookLM, ChatGPT file uploads and most RAG systems as examples.</p>
 <h3>The LLM Wiki: compile once, keep it current</h3>
 <p>In April 2026 Karpathy published an "idea file" (a gist, not code) describing a different pattern: instead of retrieving raw chunks, an LLM <strong>builds and maintains a wiki</strong>, a set of interlinked Markdown pages, from your sources. When a new source arrives, the LLM reads it, writes a summary, updates the related pages (one source may touch 10 to 15), flags contradictions and logs what it did. The knowledge is compiled once and kept up to date, so it <strong>compounds</strong> instead of being rebuilt for each question. You curate sources and ask questions; the LLM does the summarizing, cross-referencing and bookkeeping.</p>
 <table>
@@ -90,10 +90,20 @@ print(ticket["priority"])</code></pre>
 <tr><td><strong>The wiki</strong></td><td>LLM-written Markdown: summaries, entity and concept pages, comparisons, an overview</td><td>The LLM (you read it)</td></tr>
 <tr><td><strong>The schema</strong></td><td>A config file such as <code>CLAUDE.md</code> or <code>AGENTS.md</code> that defines the wiki's structure, conventions and workflows</td><td>You and the LLM, refined over time</td></tr>
 </table>
+<h4>How it actually works</h4>
+<ol class="steps">
+<li><strong>You add a source</strong> to the raw collection and ask the LLM to process it.</li>
+<li><strong>The LLM reads it</strong> and discusses the key takeaways with you.</li>
+<li><strong>It writes a summary page</strong> in the wiki, then <strong>updates <code>index.md</code></strong>.</li>
+<li><strong>It updates the related pages</strong> (people, concepts, comparisons), adding links and flagging where the new source contradicts older claims. One source may touch 10 to 15 pages.</li>
+<li><strong>It appends an entry to <code>log.md</code></strong> recording what it did.</li>
+<li><strong>Later, when you ask a question,</strong> the LLM reads <code>index.md</code> first to find the relevant pages, opens those pages, and writes an answer with citations. No embeddings or vector search are part of this core loop. A good answer can be filed back into the wiki as a new page.</li>
+</ol>
+<p>The key difference from RAG: the synthesis (links, summaries, contradictions) is done <strong>when a source arrives</strong> and saved in the wiki, so at question time the LLM reads finished, connected pages instead of raw fragments. You almost never write the wiki yourself. You choose the sources, steer the analysis, ask questions and review what the LLM changes (for example by browsing the files in Obsidian).</p>
 <h4>Three operations</h4>
 <ul>
 <li><strong>Ingest:</strong> read a new source, discuss the takeaways, write its summary page, update the index and related pages, and add an entry to the log. Ingesting one source at a time keeps you in the loop.</li>
-<li><strong>Query:</strong> the LLM finds relevant pages and answers with citations, and can produce tables, slide decks or charts. Good answers can be filed back into the wiki so explorations accumulate.</li>
+<li><strong>Query:</strong> the LLM reads the index, opens the relevant pages and answers with citations. The answer can be a page, table, slide deck or chart, and good answers can be filed back into the wiki so explorations accumulate.</li>
 <li><strong>Lint:</strong> periodic health checks for contradictions, stale claims, orphan pages, missing concept pages, missing cross-references and gaps that a web search could fill.</li>
 </ul>
 <h4>Two special files</h4>
@@ -108,11 +118,11 @@ print(ticket["priority"])</code></pre>
 <tr><td>When the work happens</td><td>At question time</td><td>At ingest time, then reused</td><td>At training time</td></tr>
 <tr><td>What is stored</td><td>Raw chunks and embeddings</td><td>Readable, linked Markdown pages</td><td>Changed weights</td></tr>
 <tr><td>Knowledge accumulates?</td><td>No</td><td>Yes: cross-references and syntheses already exist</td><td>Only what training taught</td></tr>
-<tr><td>Best for</td><td>Large or fast-changing document sets</td><td>A personal or team knowledge base that grows over time</td><td>Style, format and consistent behaviour</td></tr>
+<tr><td>Best for</td><td>Quick answers from a pile of documents</td><td>A personal or team knowledge base that grows over time</td><td>Style, format and consistent behaviour</td></tr>
 <tr><td>Cost to update</td><td>Re-index documents</td><td>Ingest the new source (the LLM edits pages)</td><td>Retrain</td></tr>
-<tr><td>Limits</td><td>Misses answers that need many sources combined</td><td>Index-based lookup suits moderate size; bigger wikis need real search. Errors can spread across linked pages, so review and lint</td><td>Teaches style, not facts</td></tr>
+<tr><td>Limits</td><td>Re-derives answers each time; nothing builds up</td><td>Index-based lookup suits moderate size (about 100 sources); bigger wikis need real search. Relies on the LLM keeping many linked pages consistent, so review its updates and run lint</td><td>Teaches style, not facts</td></tr>
 </table>
-<div class="callout tip"><strong class="t">Use them together</strong><p>The LLM Wiki is not a ban on search. As a wiki grows, you can add a search tool (the gist mentions hybrid keyword and vector search) on top of the Markdown, and plain RAG is still right for huge archives. The <a href="fine-tuning.html">Finetuning an LLM</a> pipeline already uses the same layout: sources in <code>raw/</code>, cleaned notes in <code>wiki/</code>, run logs in <code>traces/</code>. Details on the gist are on the <a href="pioneers.html#llm-wiki">AI Pioneers</a> page.</p></div>
+<div class="callout tip"><strong class="t">Where search fits</strong><p>At first the LLM Wiki <strong>replaces</strong> vector search: the LLM navigates with <code>index.md</code>, which the gist says is enough at about 100 sources and a few hundred pages. As the wiki grows past that, the gist suggests adding a proper search tool (for example qmd, which combines keyword and vector search with re-ranking, or a simple script the LLM writes for you). That search runs over the <strong>wiki pages</strong> the LLM wrote, not over raw document chunks. The gist does not say how the pattern behaves for very large archives, so do not assume it replaces RAG there. The <a href="fine-tuning.html">Finetuning an LLM</a> pipeline uses a similar layout: sources in <code>raw/</code>, cleaned notes in <code>wiki/</code>, run logs in <code>traces/</code>. More on the gist is on the <a href="pioneers.html#llm-wiki">AI Pioneers</a> page.</p></div>
 
 <h2>Agentic AI</h2>
 <p>A standard model answers a prompt. An <strong>agent</strong> goes further: it plans, picks tools (search, code, email, databases), carries out steps and checks the result, with limited human intervention. An onboarding agent, for example, could read a request, create accounts, send emails and log what it did. Self-driving cars are a physical-world cousin. The more freedom an agent has, the more it needs permission limits, logging and human approval for risky actions.</p>
