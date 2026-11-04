@@ -10,7 +10,7 @@
 <nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html" class=active>Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html">Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
-<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#what-makes-it-generative">What makes it "generative"</a><a href="#how-large-language-models-work">How large language models work</a><a href="#prompt-engineering">Prompt engineering</a><a href="#calling-a-model-from-python">Calling a model from Python</a><a href="#giving-a-model-your-own-knowledge-rag">Giving a model your own knowledge: RAG</a><a href="#agentic-ai">Agentic AI</a><a href="#responsible-ai-bias-privacy-and-security">Responsible AI: bias, privacy and security</a><a href="#will-ai-replace-jobs">Will AI replace jobs?</a><a href="#a-quick-checklist-before-you-ship-an-ai-feature">A quick checklist before you ship an AI feature</a></aside><main><h1>Generative AI</h1>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#what-makes-it-generative">What makes it "generative"</a><a href="#how-large-language-models-work">How large language models work</a><a href="#prompt-engineering">Prompt engineering</a><a href="#calling-a-model-from-python">Calling a model from Python</a><a href="#giving-a-model-your-own-knowledge-rag-and-the-llm-wiki">Giving a model your own knowledge: RAG and the LLM Wiki</a><a href="#agentic-ai">Agentic AI</a><a href="#responsible-ai-bias-privacy-and-security">Responsible AI: bias, privacy and security</a><a href="#will-ai-replace-jobs">Will AI replace jobs?</a><a href="#a-quick-checklist-before-you-ship-an-ai-feature">A quick checklist before you ship an AI feature</a></aside><main><h1>Generative AI</h1>
 <p class="lede">Generative AI creates new content (text, images, code, audio) rather than only labelling or predicting. This page covers how the main model families work, how to steer them with prompts, how to call them from code, and where the real limits are.</p>
 
 <h2 id="what-makes-it-generative">What makes it "generative"</h2>
@@ -89,14 +89,42 @@ ticket = json.loads(resp.choices[0].message.content)   # JSON -&gt; Python dict
 print(ticket["priority"])</code></pre>
 <div class="callout tip"><strong class="t">Why JSON matters</strong><p>Asking for JSON turns a chatty answer into data your code can use: write it to a log, create a ticket, fill a database. Always validate it with <code>json.loads</code> inside a <code>try</code> block and retry or repair when the model returns malformed output. Keep API keys in environment variables, not in notebooks you share.</p></div>
 
-<h2 id="giving-a-model-your-own-knowledge-rag">Giving a model your own knowledge: RAG</h2>
-<p><strong>Retrieval-augmented generation</strong> keeps the base model unchanged and hands it your data at question time. The flow is: split your documents into chunks, turn each into an embedding (a vector of numbers capturing meaning), store them in a vector index, and when a question arrives, find the closest chunks and put them in the prompt. This gives domain-specific, up-to-date answers without retraining, and you can show the sources.</p>
+<h2 id="giving-a-model-your-own-knowledge-rag-and-the-llm-wiki">Giving a model your own knowledge: RAG and the LLM Wiki</h2>
+<p>There are two ways to hand a model your own documents without retraining it. The classic one is <strong>RAG</strong>. A newer one, published by <a href="pioneers.html#llm-wiki">Andrej Karpathy</a> as the <strong>LLM Wiki</strong> pattern, has the same goal but changes where the work happens.</p>
+<h3>Classic RAG: retrieve at question time</h3>
+<p><strong>Retrieval-augmented generation</strong> keeps the base model unchanged and hands it your data when a question arrives. Split your documents into chunks, turn each into an <strong>embedding</strong> (a vector of numbers capturing meaning), store them in a vector index, and at question time find the closest chunks and put them in the prompt. This gives domain-specific, up-to-date answers without retraining, and you can show the sources.</p>
+<p><strong>Its weakness:</strong> it starts from scratch on every question. The model rediscovers the same facts each time, nothing is summarized or cross-linked ahead of time, and a question that needs several documents put together depends on retrieval finding all the right chunks. It accumulates nothing.</p>
+<h3>The LLM Wiki: compile once, keep it current</h3>
+<p>In April 2026 Karpathy published an "idea file" (a gist, not code) describing a different pattern: instead of retrieving raw chunks, an LLM <strong>builds and maintains a wiki</strong>, a set of interlinked Markdown pages, from your sources. When a new source arrives, the LLM reads it, writes a summary, updates the related pages (one source may touch 10 to 15), flags contradictions and logs what it did. The knowledge is compiled once and kept up to date, so it <strong>compounds</strong> instead of being rebuilt for each question. You curate sources and ask questions; the LLM does the summarizing, cross-referencing and bookkeeping.</p>
 <table>
-<tr><th></th><th>RAG</th><th>Fine-tuning</th></tr>
-<tr><td>Changes the model?</td><td>No</td><td>Yes</td></tr>
-<tr><td>Best for</td><td>Facts and documents that change</td><td>Style, format and consistent behaviour</td></tr>
-<tr><td>Cost to update</td><td>Re-index documents</td><td>Retrain</td></tr>
+<tr><th>Layer</th><th>What it is</th><th>Who owns it</th></tr>
+<tr><td><strong>Raw sources</strong></td><td>Articles, papers, images, data files. Never edited; the source of truth</td><td>You</td></tr>
+<tr><td><strong>The wiki</strong></td><td>LLM-written Markdown: summaries, entity and concept pages, comparisons, an overview</td><td>The LLM (you read it)</td></tr>
+<tr><td><strong>The schema</strong></td><td>A config file such as <code>CLAUDE.md</code> or <code>AGENTS.md</code> that defines the wiki's structure, conventions and workflows</td><td>You and the LLM, refined over time</td></tr>
 </table>
+<h4>Three operations</h4>
+<ul>
+<li><strong>Ingest:</strong> read a new source, discuss the takeaways, write its summary page, update the index and related pages, and add an entry to the log. Ingesting one source at a time keeps you in the loop.</li>
+<li><strong>Query:</strong> the LLM finds relevant pages and answers with citations, and can produce tables, slide decks or charts. Good answers can be filed back into the wiki so explorations accumulate.</li>
+<li><strong>Lint:</strong> periodic health checks for contradictions, stale claims, orphan pages, missing concept pages, missing cross-references and gaps that a web search could fill.</li>
+</ul>
+<h4>Two special files</h4>
+<ul>
+<li><code>index.md</code>: a catalog of every page with a link and a one-line summary, organized by category. The LLM reads it first when answering. The gist says this works at moderate scale (around 100 sources and a few hundred pages) without embedding infrastructure.</li>
+<li><code>log.md</code>: an append-only record of ingests, queries and lint passes, with consistent prefixes so ordinary command-line tools can parse it.</li>
+</ul>
+<h3>RAG, LLM Wiki and fine-tuning compared</h3>
+<table>
+<tr><th></th><th>Classic RAG</th><th>LLM Wiki</th><th>Fine-tuning</th></tr>
+<tr><td>Changes the model?</td><td>No</td><td>No</td><td>Yes</td></tr>
+<tr><td>When the work happens</td><td>At question time</td><td>At ingest time, then reused</td><td>At training time</td></tr>
+<tr><td>What is stored</td><td>Raw chunks and embeddings</td><td>Readable, linked Markdown pages</td><td>Changed weights</td></tr>
+<tr><td>Knowledge accumulates?</td><td>No</td><td>Yes: cross-references and syntheses already exist</td><td>Only what training taught</td></tr>
+<tr><td>Best for</td><td>Large or fast-changing document sets</td><td>A personal or team knowledge base that grows over time</td><td>Style, format and consistent behaviour</td></tr>
+<tr><td>Cost to update</td><td>Re-index documents</td><td>Ingest the new source (the LLM edits pages)</td><td>Retrain</td></tr>
+<tr><td>Limits</td><td>Misses answers that need many sources combined</td><td>Index-based lookup suits moderate size; bigger wikis need real search. Errors can spread across linked pages, so review and lint</td><td>Teaches style, not facts</td></tr>
+</table>
+<div class="callout tip"><strong class="t">Use them together</strong><p>The LLM Wiki is not a ban on search. As a wiki grows, you can add a search tool (the gist mentions hybrid keyword and vector search) on top of the Markdown, and plain RAG is still right for huge archives. The <a href="fine-tuning.html">Finetuning an LLM</a> pipeline already uses the same layout: sources in <code>raw/</code>, cleaned notes in <code>wiki/</code>, run logs in <code>traces/</code>. Details on the gist are on the <a href="pioneers.html#llm-wiki">AI Pioneers</a> page.</p></div>
 
 <h2 id="agentic-ai">Agentic AI</h2>
 <p>A standard model answers a prompt. An <strong>agent</strong> goes further: it plans, picks tools (search, code, email, databases), carries out steps and checks the result, with limited human intervention. An onboarding agent, for example, could read a request, create accounts, send emails and log what it did. Self-driving cars are a physical-world cousin. The more freedom an agent has, the more it needs permission limits, logging and human approval for risky actions.</p>
