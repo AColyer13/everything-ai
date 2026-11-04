@@ -7,7 +7,7 @@
 </head><body>
 <header class="top"><div class="bar">
 <a class="logo" href="index.html">Everything <b>AI</b></a>
-<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html" class=active>Tools</a><a href="llm.html">LLM</a><a href="fine-tuning.html">Fine-Tuning</a><a href="loops.html">Loops</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html" class=active>Tools</a><a href="models.html">Models</a><a href="llm.html">LLM</a><a href="fine-tuning.html">Fine-Tuning</a><a href="loops.html">Loops</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
 <div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#at-a-glance">At a glance</a><a href="#how-to-choose">How to choose</a><a href="#sources">Sources</a></aside><main><h1>Tools</h1>
@@ -94,6 +94,30 @@
 <li><strong>Watch out:</strong> star and user counts differ across sources, and at least one directory mislabels it as an Anthropic product. Use the official opencode.ai site.</li>
 </ul>
 
+<h2 id="running-models-locally">Running models locally: Ollama, LM Studio, vLLM and Strata</h2>
+<p>The tools above are assistants. These four are the <strong>engines and apps that run open models on your own hardware</strong>. Hardware and model choices are on the <a href="models.html">Models</a> page.</p>
+<table>
+<tr><th></th><th>Ollama</th><th>LM Studio</th><th>vLLM</th><th>Strata</th></tr>
+<tr><td>What it is</td><td>Command-line tool and local server</td><td>Desktop app with a visual interface</td><td>High-throughput serving engine</td><td>Specialized engine for one huge MoE model</td></tr>
+<tr><td>Best for</td><td>Developers who want a simple <code>ollama run</code></td><td>Beginners who want to browse, download and chat</td><td>Production servers handling many users</td><td>Running Qwen3.8-Flash-Next (125B) on a gaming PC</td></tr>
+<tr><td>Hardware</td><td>Mac, Windows, Linux; CPU or GPU</td><td>Mac, Windows, Linux</td><td>Mainly Linux with NVIDIA (AMD also supported)</td><td>Windows and Linux with NVIDIA or AMD GPU, 12 GB+ VRAM and 32 GB+ RAM</td></tr>
+<tr><td>Engine underneath</td><td>llama.cpp</td><td>llama.cpp and Apple MLX</td><td>Its own (PagedAttention, continuous batching)</td><td>llama.cpp / ggml, with GPU, RAM and SSD offload</td></tr>
+<tr><td>Model formats</td><td>GGUF (quantized)</td><td>GGUF and MLX</td><td>Hugging Face weights (full precision, AWQ, GPTQ, FP8)</td><td>GGUF quants of its supported model</td></tr>
+<tr><td>Setup effort</td><td>Low</td><td>Lowest (click to install)</td><td>Highest</td><td>One-click installer</td></tr>
+<tr><td>Serves an API</td><td>Yes, with an OpenAI-compatible endpoint</td><td>Yes, local server mode</td><td>Yes, OpenAI-compatible</td><td>Yes, OpenAI- and Anthropic-compatible</td></tr>
+<tr><td>Licence</td><td>Open source</td><td>Free to use, closed source app</td><td>Open source (Apache 2.0)</td><td>Open source (MIT)</td></tr>
+<tr><td>Limits</td><td>Not built for heavy multi-user load</td><td>Single user, GUI-centered</td><td>Needs real GPU memory, less friendly on laptops</td><td>One model family, new and fast-changing</td></tr>
+</table>
+<h3 id="ollama">Ollama</h3>
+<p>The easiest developer route: install it, run <code>ollama run &lt;model&gt;</code>, and it downloads and serves the model. Many coding agents (including OpenCode) can use it as their backend. Good default for a laptop or a single GPU.</p>
+<h3 id="lm-studio">LM Studio</h3>
+<p>A desktop app with a model browser, chat window and a local server. It shows whether a model will fit your memory before you download, and on Apple Silicon it can use MLX for faster generation. Best if you prefer clicking to typing commands.</p>
+<h3 id="vllm">vLLM</h3>
+<p>Built for throughput. Techniques such as continuous batching and paged KV-cache memory let one GPU server answer many requests at once. Use it when you serve a team or an application, not for casual chatting. It expects a Linux GPU box such as a DGX system.</p>
+<h3 id="strata">Strata</h3>
+<p>A free, open-source engine from an individual developer, built to run the 125B Qwen3.8-Flash-Next model on a consumer PC by spreading it across GPU memory, system RAM and SSD, with a small helper model to speed up generation. Its reported speeds depend heavily on context length, quantization and RAM, and the first launch can load tens of gigabytes. It is best understood as a specialist for one model, not a replacement for Ollama or vLLM. Details come from project-reported figures and secondary coverage.</p>
+<div class="callout tip"><strong class="t">Which one?</strong><p>Start with <strong>LM Studio</strong> or <strong>Ollama</strong>. Move to <strong>vLLM</strong> when you need to serve many users. Try <strong>Strata</strong> only if you specifically want the 125B Qwen model on a gaming PC.</p></div>
+
 <h2 id="how-to-choose">How to choose</h2>
 <table>
 <tr><th>If you want to...</th><th>Start with</th></tr>
@@ -116,7 +140,7 @@
 <li><a href="https://www.tecmint.com/opencode-ai-coding-agent-linux/" target="_blank" rel="noopener">OpenCode overview (Tecmint)</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Cursor_(code_editor)" target="_blank" rel="noopener">Cursor (code editor) (Wikipedia)</a></li>
 </ul>
-<div class="pager"><a href="case-studies.html">← Case Studies</a><a href="llm.html">LLM →</a></div></main></div>
+<div class="pager"><a href="case-studies.html">← Case Studies</a><a href="models.html">Models →</a></div></main></div>
 <footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>
 </body></html>

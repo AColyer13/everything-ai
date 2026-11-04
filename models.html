@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Models · Everything AI</title>
+<meta name="description" content="Enterprise NVIDIA, big local machines, a 16 GB GPU, model types and BenchLM">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="top"><div class="bar">
+<a class="logo" href="index.html">Everything <b>AI</b></a>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="models.html" class=active>Models</a><a href="llm.html">LLM</a><a href="fine-tuning.html">Fine-Tuning</a><a href="loops.html">Loops</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
+<div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
+</div></header>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#the-one-rule-memory-decides-everything">The one rule: memory decides everything</a><a href="#nvidia-in-the-enterprise-how-cloud-models-run">NVIDIA in the enterprise: how cloud models run</a><a href="#cloud-models-versus-local-models">Cloud models versus local models</a><a href="#parameter-size-what-the-number-means">Parameter size: what the number means</a><a href="#big-local-machines">Big local machines</a><a href="#combining-machines-and-how-they-compare">Combining machines, and how they compare</a><a href="#a-desktop-rtx-5080-with-16-gb">A desktop RTX 5080 with 16 GB</a><a href="#kinds-of-models-and-what-they-are-for">Kinds of models and what they are for</a><a href="#comparing-models-benchlm">Comparing models: BenchLM</a><a href="#sources">Sources</a></aside><main><h1>Models</h1>
+<p class="lede">Where AI models actually run. The hardware NVIDIA sells to enterprises for cloud models, the desktop machines that run big models locally (Mac Studio, DGX Spark, DGX Station), what a single 16 GB RTX 5080 can do, the main kinds of models, and how to compare them.</p>
+<div class="callout note"><strong class="t">Not from the class</strong><p>This page is a reference added on top of the course content. Hardware specs and model details are a snapshot from November 2026 taken from vendor docs and secondary coverage, and they change quickly. Speeds and memory needs are estimates; verify before you buy hardware. The software that runs these models is on the <a href="tools.html#running-models-locally">Tools</a> page.</p></div>
+
+<h2 id="the-one-rule-memory-decides-everything">The one rule: memory decides everything</h2>
+<p>A model's weights must sit in fast memory while it runs. Rough sizing: <strong>file size in GB is about parameters (in billions) × bytes per weight</strong>. At 16-bit that is 2 bytes, at 8-bit 1 byte, at 4-bit about 0.5 byte. Add room for the <em>KV cache</em> (the model's working memory of the conversation), which grows with context length.</p>
+<p>Two numbers matter on any machine: <strong>capacity</strong> (can the model fit at all) and <strong>bandwidth</strong> (how fast the chip can read it, which sets tokens per second). This is why a 512 GB machine can load a huge model yet generate slowly, while a 16 GB GPU is fast but limited to small ones.</p>
+
+<h2 id="nvidia-in-the-enterprise-how-cloud-models-run">NVIDIA in the enterprise: how cloud models run</h2>
+<p>Cloud models such as Claude, GPT and Gemini are too large for any one chip, so providers run them across racks of data-center accelerators. NVIDIA sells most of that hardware.</p>
+<table>
+<tr><th>Layer</th><th>What it is</th><th>Role</th></tr>
+<tr><td>Data-center GPUs</td><td>Hopper (H100, H200) and Blackwell (B200, B300) with HBM, very fast stacked memory</td><td>Train and serve large models. Memory per GPU is roughly 80 to 288 GB depending on generation.</td></tr>
+<tr><td>HGX / DGX servers</td><td>8 GPUs linked by NVLink in one box</td><td>The standard building block. A model can be split across the 8 GPUs.</td></tr>
+<tr><td>Rack-scale systems</td><td>GB200 / GB300 NVL72: dozens of GPUs and Grace CPUs wired as one big accelerator</td><td>Serve the largest models and huge numbers of users at once.</td></tr>
+<tr><td>Networking</td><td>NVLink inside a server or rack, InfiniBand or Ethernet between racks</td><td>Moves data between chips so the model behaves as one unit.</td></tr>
+<tr><td>Software</td><td>CUDA, TensorRT-LLM, Triton, NIM microservices</td><td>The reason most AI software targets NVIDIA first.</td></tr>
+</table>
+<p>Clouds sell this as an API (you pay per token) or as rented GPUs (you pay per hour, for example for the <a href="llm.html#scaling-up-when-to-rent-gpus">8×H100 runs</a> on the LLM page). Enterprises also buy the hardware for their own data centers when data cannot leave the building.</p>
+
+<h2 id="cloud-models-versus-local-models">Cloud models versus local models</h2>
+<table>
+<tr><th></th><th>Cloud models</th><th>Local models</th></tr>
+<tr><td>Where they run</td><td>Provider's data center</td><td>Your own computer or server</td></tr>
+<tr><td>Typical size</td><td>Frontier models, sizes usually undisclosed, believed to be hundreds of billions to trillions of parameters</td><td>Roughly 1B to 235B parameters, usually 4-bit compressed</td></tr>
+<tr><td>Quality</td><td>Best available, especially for hard reasoning and long agentic work</td><td>Good and improving fast; the gap is smaller for focused tasks</td></tr>
+<tr><td>Privacy</td><td>Data is sent to the provider</td><td>Data stays on your machine</td></tr>
+<tr><td>Cost</td><td>Pay per token or subscription, nothing to buy</td><td>Hardware up front, then electricity</td></tr>
+<tr><td>Speed and scale</td><td>Fast, scales to many users</td><td>Limited by your memory bandwidth</td></tr>
+<tr><td>Offline use</td><td>No</td><td>Yes</td></tr>
+<tr><td>Control</td><td>Provider changes or retires models on their schedule</td><td>You pin a version forever and can <a href="fine-tuning.html">fine-tune</a> it</td></tr>
+</table>
+
+<h2 id="parameter-size-what-the-number-means">Parameter size: what the number means</h2>
+<p>A <strong>parameter</strong> is one learned number in the network. More parameters usually means more knowledge and better reasoning, at the cost of memory and speed.</p>
+<table>
+<tr><th>Size</th><th>Examples of what it is good for</th><th>Memory at 4-bit (approx.)</th></tr>
+<tr><td>1B to 4B</td><td>Phones, autocomplete, classification, simple extraction</td><td>1 to 3 GB</td></tr>
+<tr><td>7B to 14B</td><td>Everyday chat, summaries, light coding on a laptop or mid-range GPU</td><td>5 to 9 GB</td></tr>
+<tr><td>20B to 35B</td><td>Solid coding and reasoning on a 16 to 24 GB GPU</td><td>12 to 20 GB</td></tr>
+<tr><td>70B to 125B</td><td>Near-frontier open models; need 64 GB or more of memory</td><td>40 to 75 GB</td></tr>
+<tr><td>200B and up</td><td>Largest open models; need a 128 to 512 GB machine or a GPU server</td><td>120 GB and up</td></tr>
+</table>
+<h3>Dense versus mixture of experts (MoE)</h3>
+<p>A <strong>dense</strong> model uses all its parameters for every token. A <strong>mixture-of-experts</strong> model holds many specialist sub-networks and activates only a few per token. A "125B" MoE model that activates about 6B parameters per token needs memory for all 125B but reads only about 6B per token, so it generates much faster than a dense 125B model. That trick is what makes huge models usable on desktop machines.</p>
+<h3>Quantization</h3>
+<p><strong>Quantization</strong> stores weights with fewer bits (8, 4, or even 2). It shrinks the file and speeds up generation with some quality loss; 4-bit is the usual sweet spot. <strong>QAT</strong> (quantization-aware training) means the model was trained with the low precision in mind, so it loses less quality than compressing afterward.</p>
+<h3>Context length</h3>
+<p>The <strong>context window</strong> is how much text the model can consider at once (128K tokens is roughly a 300-page book). Longer context costs memory for the KV cache and slows prompt processing, so a model that "supports" 256K may not fit 256K on your hardware.</p>
+
+<h2 id="big-local-machines">Big local machines</h2>
+<p>These three systems have a lot of memory in one box. Figures are approximate and come from vendor pages and secondary coverage.</p>
+<table>
+<tr><th>Machine</th><th>Memory</th><th>Bandwidth</th><th>Strength</th><th>Weakness</th></tr>
+<tr><td>Mac Studio, 512 GB (M3 Ultra)</td><td>Up to 512 GB unified</td><td>About 800 GB/s</td><td>Fits very large models (hundreds of billions of parameters at 4-bit) quietly, in one machine, with good tools (MLX, Ollama, LM Studio)</td><td>Slower at prompt processing than NVIDIA GPUs; CUDA-only software will not run</td></tr>
+<tr><td>NVIDIA DGX Spark</td><td>128 GB unified (LPDDR5x)</td><td>About 273 GB/s</td><td>Full NVIDIA/CUDA stack in a small desktop box; strong at fine-tuning and prompt processing for its size; two units can be linked</td><td>Modest bandwidth, so generation on large dense models is slow</td></tr>
+<tr><td>NVIDIA DGX Station (GB300)</td><td>Roughly 750 to 780 GB coherent, of which about 250 to 290 GB is fast HBM3e on the GPU</td><td>About 7 to 8 TB/s on the HBM, about 400 GB/s on the CPU memory</td><td>Data-center class performance at a desk: very large models, fast generation, serving a team</td><td>Priced like a workstation server, far above the others</td></tr>
+</table>
+<h3>What each can run (rules of thumb)</h3>
+<ul>
+<li><strong>DGX Spark (128 GB):</strong> models up to about 100 to 120B parameters at 4-bit, best when they are MoE so generation stays fast.</li>
+<li><strong>Mac Studio (512 GB):</strong> 4-bit models up to roughly 400B+ parameters, or a mid-size model at high precision with a very long context.</li>
+<li><strong>DGX Station:</strong> models in the several-hundred-billion to trillion-parameter range when quantized, with the speed to serve several people at once.</li>
+</ul>
+
+<h2 id="combining-machines-and-how-they-compare">Combining machines, and how they compare</h2>
+<p>You can link machines to run a model that does not fit on one. The pieces are connected over a network and the model is split across them (layers on one machine and layers on the next, or experts spread out). The link speed decides how well it works.</p>
+<table>
+<tr><th>Setup</th><th>How it is combined</th><th>Result</th></tr>
+<tr><td>Two DGX Sparks</td><td>Direct high-speed link (ConnectX-7 networking) as an officially supported pair</td><td>256 GB combined, for models around 200B parameters at 4-bit</td></tr>
+<tr><td>Several Mac Studios</td><td>Thunderbolt or Ethernet with software such as MLX distributed or exo</td><td>Combined memory for the biggest open models; speed limited by the link</td></tr>
+<tr><td>Mac plus Spark</td><td>Mix: the Spark processes the long prompt, the Mac does the token generation (an approach community projects have demonstrated)</td><td>Uses each machine's strength; experimental and fiddly</td></tr>
+<tr><td>Station plus Spark or Mac</td><td>Station as the main server, others as extra capacity or for separate jobs</td><td>Usually simpler to give each machine its own model than to split one</td></tr>
+</table>
+<div class="callout tip"><strong class="t">Compare on three axes</strong><p><strong>Capacity</strong> (which models fit), <strong>bandwidth</strong> (tokens per second), and <strong>compute</strong> (how quickly it reads a long prompt). Mac Studio wins on capacity per dollar, the Spark on software compatibility for its price, and the Station on all three at a much higher price. Combining machines adds capacity but rarely speed, so buy one machine large enough for your model before clustering.</p></div>
+
+<h2 id="a-desktop-rtx-5080-with-16-gb">A desktop RTX 5080 with 16 GB</h2>
+<p>A single gaming card is the most common local setup. The card has 16 GB of fast video memory (VRAM); everything beyond that must spill into system RAM, which is slower. Three models stand out for it:</p>
+<table>
+<tr><th>Model</th><th>Size and type</th><th>Context</th><th>How it fits</th></tr>
+<tr><td><strong>Qwen3.8-Flash-Next</strong> (run with <a href="tools.html#strata">Strata</a>)</td><td>125B MoE, about 6B active per token</td><td>Up to 128K in Strata's reports</td><td>Too big for 16 GB, so Strata spreads it across VRAM, system RAM and SSD. Needs roughly 32 GB or more of system RAM and a 66 to 76 GB download, and is slower than a model that fits fully in VRAM.</td></tr>
+<tr><td><strong>Gemma 4 12B, QAT, instruction-tuned</strong></td><td>12B dense, quantization-aware trained</td><td>256K</td><td>The QAT build is small enough to sit in 16 GB. Very long contexts use more memory, so expect to trim the context before you hit 256K.</td></tr>
+<tr><td><strong>gpt-oss-20b</strong></td><td>20B MoE (about 3.6B active), OpenAI open-weight</td><td>128K</td><td>Designed to run in about 16 GB, so it fits the card with room for a long context. Fast.</td></tr>
+</table>
+<p>Treat the context figures as maximums. Real speed and the usable context depend on your system RAM, the quantization, and the software. Test with your own prompts.</p>
+
+<h2 id="kinds-of-models-and-what-they-are-for">Kinds of models and what they are for</h2>
+<p>There is no single best model. Pick by the job. This list starts with the large MoE "next flash" style of model and works toward the specialized ones.</p>
+<table>
+<tr><th>Type</th><th>Examples of the kind</th><th>Use it for</th></tr>
+<tr><td><strong>Large MoE generalists</strong></td><td>Qwen3.8-Flash-Next (125B, about 6B active)</td><td>Near-frontier chat, coding and agent work on a big-memory desktop, with fast generation for the quality.</td></tr>
+<tr><td><strong>Frontier cloud models</strong></td><td>Claude, GPT, Gemini, Grok</td><td>Hardest reasoning, long autonomous coding, highest accuracy. See <a href="tools.html">Tools</a>.</td></tr>
+<tr><td><strong>Reasoning models</strong></td><td>Models that "think" before answering (gpt-oss, Qwen thinking modes)</td><td>Math, logic, multi-step planning. Slower and use more tokens.</td></tr>
+<tr><td><strong>Mid-size open generalists</strong></td><td>Gemma 4 12B, gpt-oss-20b, Qwen 9B to 32B</td><td>Everyday assistant on a single GPU, summaries, drafting, private document Q&amp;A.</td></tr>
+<tr><td><strong>Coding models</strong></td><td>Code-tuned variants</td><td>Agentic coding in a terminal tool, review, refactors.</td></tr>
+<tr><td><strong>Small models (1B to 4B)</strong></td><td>On-device models</td><td>Phones, laptops, autocomplete, tagging, routing. Cheap and fast.</td></tr>
+<tr><td><strong>Vision-language models</strong></td><td>Multimodal Gemma and Qwen</td><td>Reading images, screenshots, charts and PDFs.</td></tr>
+<tr><td><strong>Embedding models</strong></td><td>Text embedding models</td><td>Search and retrieval (RAG): turn text into vectors. See <a href="generative-ai.html">Generative AI</a>.</td></tr>
+<tr><td><strong>Rerankers</strong></td><td>Cross-encoder rerankers</td><td>Re-order retrieved passages so the best ones come first.</td></tr>
+<tr><td><strong>Speech models</strong></td><td>Whisper-style transcription, text-to-speech</td><td>Meeting notes, voice assistants.</td></tr>
+<tr><td><strong>Image and video generators</strong></td><td>Diffusion models</td><td>Creating pictures and clips. See the generative section of <a href="deep-learning.html">Deep Learning</a>.</td></tr>
+<tr><td><strong>Safety and guard models</strong></td><td>Content classifiers</td><td>Filtering prompts and outputs in a product.</td></tr>
+<tr><td><strong>Fine-tuned specialists</strong></td><td>Your own adapter on an open base</td><td>A fixed format or domain task. See <a href="fine-tuning.html">Fine-Tuning</a>.</td></tr>
+</table>
+
+<h2 id="comparing-models-benchlm">Comparing models: BenchLM</h2>
+<p><a href="https://benchlm.ai/" target="_blank" rel="noopener">BenchLM</a> is a leaderboard site that compares language models on quality, cost and context window. It tracks more than a thousand models and offers quick picks such as best open-weight model, best value, fastest, and largest useful context, plus comparison tools and a downloadable dataset.</p>
+<ul>
+<li><strong>Use it to:</strong> shortlist models, find the best open-weight option for your memory budget, and check cost against quality.</li>
+<li><strong>Remember:</strong> benchmark scores are not your task. Build your own small test set (see the <a href="fine-tuning.html">Fine-Tuning</a> pipeline) and run the shortlist through it.</li>
+</ul>
+
+<h2 id="sources">Sources</h2>
+<p>Hardware and model facts come from vendor docs and secondary coverage found in November 2026.</p>
+<ul>
+<li><a href="https://benchlm.ai/" target="_blank" rel="noopener">BenchLM</a></li>
+<li><a href="https://unsloth.ai/docs/models/qwen3.8-flash-next" target="_blank" rel="noopener">Qwen3.8-Flash-Next (Unsloth docs)</a></li>
+<li><a href="https://aiidelist.com/blog/what-is-strata-qwen" target="_blank" rel="noopener">What is Strata? (AIIDE list)</a></li>
+<li><a href="https://wccftech.com/nvidia-enters-ai-pc-realm-dgx-spark-dgx-station-desktops-72-core-grace-cpu-blackwell-gpus-up-to-784-gb-memory/" target="_blank" rel="noopener">DGX Spark and DGX Station (Wccftech)</a></li>
+<li><a href="https://pi3g.com/?p=32200" target="_blank" rel="noopener">DGX Spark vs DGX Station GB300 (pi3g)</a></li>
+</ul>
+<div class="pager"><a href="tools.html">← Tools</a><a href="llm.html">LLM →</a></div></main></div>
+<footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<script src="assets/search-index.js"></script><script src="assets/app.js"></script>
+</body></html>
