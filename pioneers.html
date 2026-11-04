@@ -10,7 +10,7 @@
 <nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="pioneers.html" class=active>AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
-<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#ian-goodfellow">Ian Goodfellow</a><a href="#andrej-karpathy">Andrej Karpathy</a><a href="#alec-radford">Alec Radford</a><a href="#the-common-thread">The common thread</a></aside><main><h1>AI Pioneers</h1>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#ian-goodfellow">Ian Goodfellow</a><a href="#andrej-karpathy">Andrej Karpathy</a><a href="#karpathy-s-github-projects-explained">Karpathy's GitHub projects, explained</a><a href="#alec-radford">Alec Radford</a><a href="#the-common-thread">The common thread</a></aside><main><h1>AI Pioneers</h1>
 <p class="lede">Three researchers whose work shaped modern generative AI: Ian Goodfellow, Andrej Karpathy and Alec Radford. Each section covers what they researched and built, with a timeline. Karpathy also gets a full tour of his GitHub projects.</p>
 <div class="callout note"><strong class="t">Not from the class</strong><p>This page was added on top of the Simplilearn course content. Also, "fathers of AI" is usually a title for the field's earliest founders (Turing, McCarthy, Minsky, Hinton, Bengio, LeCun and others). These three are better described as influential figures of the deep-learning and LLM era, and that is how they are presented here. Timelines come from public sources (Wikipedia, GitHub and the authors' own pages) and may lag behind recent career moves.</p></div>
 
@@ -64,72 +64,120 @@
 <tr><td>May 2026</td><td>Reported (Wikipedia) to join Anthropic to lead a pretraining research team</td></tr>
 </table>
 
-<h3>Karpathy on GitHub</h3>
-<p class="lede">Profile: <a href="https://github.com/karpathy" target="_blank" rel="noopener">github.com/karpathy</a>. Star counts and dates below are from the GitHub API at the time of writing and will keep changing.</p>
-<p>Most of these repos share one habit: shrink an idea until the whole thing fits in your head. They are best read in roughly the order of the table, which also follows the order of the "how does a language model work" story.</p>
+<h2 id="karpathy-s-github-projects-explained">Karpathy's GitHub projects, explained</h2>
+<p>Profile: <a href="https://github.com/karpathy" target="_blank" rel="noopener">github.com/karpathy</a>. This section assumes you have never opened GitHub. If you have, skip to the <a href="#project-map">project map</a>.</p>
+
+<div class="callout tip"><strong class="t">Five words you need first</strong>
+<p><strong>GitHub</strong> is a website where programmers publish their code. A <strong>repo</strong> (repository) is one project's folder on it. A <strong>gist</strong> is a single shared file or note. <strong>Stars</strong> are like bookmarks, so a high number means many people found the project useful. An <strong>LLM</strong> (large language model) is the kind of AI behind ChatGPT: it reads text and predicts what comes next.</p>
+<p>Two more that appear a lot: <strong>training</strong> is teaching a model by showing it lots of examples, and <strong>inference</strong> is using a finished model to answer something.</p></div>
+
+<h3>The common idea</h3>
+<p>Most AI code is huge and hard to read. Karpathy's habit is the opposite: <strong>shrink a big idea until it fits on one screen</strong>, so a person can read every line and understand what the technology really does. Think of it as taking a car engine apart on a table and labelling each part, instead of describing the car from the outside.</p>
+
+<h3 id="project-map">Project map</h3>
+<p>The 15 projects fall into three groups. Within each group they are listed in a sensible order to learn them. Star counts are rounded and from GitHub when this page was written, so they will drift. Difficulty is a suggestion based on reading the descriptions, not an official rating.</p>
+
 <table>
-<tr><th>Project</th><th>Created</th><th>Language</th><th>One-line idea</th></tr>
-<tr><td><a href="#micrograd">micrograd</a></td><td>2020</td><td>Python</td><td>Backpropagation in a tiny scalar engine</td></tr>
-<tr><td><a href="#char-rnn">char-rnn</a></td><td>2015</td><td>Lua (Torch)</td><td>Character-level RNN, LSTM and GRU text models</td></tr>
-<tr><td><a href="#makemore">makemore</a></td><td>2022</td><td>Python</td><td>Character-level language models, simple to Transformer</td></tr>
-<tr><td><a href="#nanogpt">nanoGPT</a></td><td>2022</td><td>Python</td><td>Simplest, fastest GPT training and fine-tuning</td></tr>
-<tr><td><a href="#minbpe">minbpe</a></td><td>2024</td><td>Python</td><td>Byte Pair Encoding tokenizer</td></tr>
-<tr><td><a href="#llama2-c">llama2.c</a></td><td>2023</td><td>C</td><td>Llama 2 inference in one C file</td></tr>
-<tr><td><a href="#llm-c">llm.c</a></td><td>2024</td><td>C / CUDA</td><td>LLM training in raw C and CUDA</td></tr>
-<tr><td><a href="#nanochat">nanochat</a></td><td>2025</td><td>Python</td><td>A full ChatGPT-style pipeline on a small budget</td></tr>
-<tr><td><a href="#microgpt">microgpt</a></td><td>2026</td><td>Python</td><td>A whole GPT in about 200 dependency-free lines</td></tr>
-<tr><td><a href="#autoresearch">autoresearch</a></td><td>2026</td><td>Python</td><td>An AI agent that runs training experiments overnight</td></tr>
-<tr><td><a href="#llm-council">llm-council</a></td><td>2025</td><td>Python</td><td>Several LLMs answer, review and merge</td></tr>
-<tr><td><a href="#llm-wiki">llm-wiki.md</a></td><td>2026</td><td>Markdown (gist)</td><td>An LLM-maintained personal knowledge base</td></tr>
-<tr><td><a href="#reader3">reader3</a></td><td>2025</td><td>Python</td><td>Read books alongside an LLM</td></tr>
-<tr><td><a href="#rendergit">rendergit</a></td><td>2025</td><td>Python</td><td>Turn a git repo into one HTML page</td></tr>
-<tr><td><a href="#arxiv-sanity-lite">arxiv-sanity-lite</a></td><td>2021</td><td>Python</td><td>Tag arXiv papers, get similar ones</td></tr>
+<tr><th>Group</th><th>Project</th><th>In one line</th><th>Popularity</th><th>Suggested level</th></tr>
+<tr><td rowspan="6"><strong>A. Learn how AI works</strong><br>small, readable teaching code</td><td><a href="#micrograd">micrograd</a></td><td>How a network learns from its mistakes</td><td>19k stars</td><td>Beginner</td></tr>
+<tr><td><a href="#char-rnn">char-rnn</a></td><td>An early AI that writes text one letter at a time</td><td>12k stars</td><td>Historic</td></tr>
+<tr><td><a href="#makemore">makemore</a></td><td>Invents new names, in steadily smarter ways</td><td>4.5k stars</td><td>Beginner</td></tr>
+<tr><td><a href="#minbpe">minbpe</a></td><td>How text is cut into pieces an AI can read</td><td>11k stars</td><td>Beginner</td></tr>
+<tr><td><a href="#microgpt">microgpt</a></td><td>A whole ChatGPT-style model in about 200 lines</td><td>gist</td><td>Intermediate</td></tr>
+<tr><td><a href="#nanogpt">nanoGPT</a></td><td>A compact, real GPT you can train yourself</td><td>64k stars</td><td>Intermediate</td></tr>
+<tr><td rowspan="3"><strong>B. Build and run a real model</strong><br>closer to how production systems work</td><td><a href="#llama2-c">llama2.c</a></td><td>Run a modern AI model with one small C file</td><td>20k stars</td><td>Advanced</td></tr>
+<tr><td><a href="#llm-c">llm.c</a></td><td>Train a GPT with no AI libraries at all</td><td>31k stars</td><td>Advanced</td></tr>
+<tr><td><a href="#nanochat">nanochat</a></td><td>Build your own small ChatGPT from scratch</td><td>60k stars</td><td>Intermediate</td></tr>
+<tr><td rowspan="6"><strong>C. Use AI as a tool</strong><br>practical helpers and experiments</td><td><a href="#autoresearch">autoresearch</a></td><td>An AI agent that runs experiments while you sleep</td><td>99k stars</td><td>Intermediate</td></tr>
+<tr><td><a href="#llm-council">llm-council</a></td><td>Ask several AIs, have them grade each other</td><td>26k stars</td><td>Beginner</td></tr>
+<tr><td><a href="#llm-wiki">llm-wiki.md</a></td><td>A method for an AI to keep your notes organised</td><td>gist</td><td>Beginner</td></tr>
+<tr><td><a href="#reader3">reader3</a></td><td>Read a book with an AI next to you</td><td>3.9k stars</td><td>Beginner</td></tr>
+<tr><td><a href="#rendergit">rendergit</a></td><td>Turn a whole code project into one web page</td><td>2.5k stars</td><td>Beginner</td></tr>
+<tr><td><a href="#arxiv-sanity-lite">arxiv-sanity-lite</a></td><td>A recommender for research papers</td><td>1.7k stars</td><td>Beginner</td></tr>
 </table>
 
+<h3>Group A: learn how AI works</h3>
+
 <h4 id="micrograd">micrograd</h4>
-<p>A tiny automatic-differentiation engine that works on single numbers, plus a small neural-network library on top with a PyTorch-like feel. Every operation records how to compute its own gradient, and calling <code>backward()</code> walks the graph applying the chain rule. It is the clearest demonstration of the <em>backpropagation</em> step described on the <a href="deep-learning.html">Deep Learning</a> page, and it pairs with Karpathy's first Zero to Hero lecture. <a href="https://github.com/karpathy/micrograd" target="_blank" rel="noopener">Repo</a></p>
+<p><strong>In plain English:</strong> a tiny program that shows how a neural network learns. The network makes a guess, measures how wrong it was, and works out which of its internal dials to nudge to be less wrong next time. That "work out which dial to nudge" step is called backpropagation, and micrograd does it in a few dozen lines on single numbers, so you can follow every step with a pencil.</p>
+<p><strong>Why it matters:</strong> every modern AI model, including ChatGPT, learns this way. Seeing it at toy size removes the mystery.</p>
+<p><strong>Who it is for:</strong> anyone who has seen a neural-network diagram and wondered what really happens. Pairs with the <a href="deep-learning.html">Deep Learning</a> page. <a href="https://github.com/karpathy/micrograd" target="_blank" rel="noopener">Open on GitHub</a></p>
 
 <h4 id="char-rnn">char-rnn</h4>
-<p>Multi-layer recurrent networks (plain RNN, LSTM and GRU) for character-level language models, written in Lua for the Torch framework. You feed it any text file, it learns to predict the next character, and then it generates new text in the same style. Together with the 2015 blog post it popularised the idea that sequence models learn spelling, syntax and structure from raw characters alone. It is historical now (Torch is retired) but it set up everything that followed. <a href="https://github.com/karpathy/char-rnn" target="_blank" rel="noopener">Repo</a></p>
+<p><strong>In plain English:</strong> one of the first widely shared AI text generators. You give it any text file (Shakespeare, a code base, song lyrics). It learns to guess the next letter, over and over, and then writes new text in the same style, one character at a time. It used an older design called a recurrent neural network, which reads text in order and carries a short-term memory along.</p>
+<p><strong>Why it matters:</strong> it showed that a simple letter-guessing machine can pick up spelling, grammar and structure by itself, which was a big surprise in 2015 and a stepping stone to today's chatbots.</p>
+<p><strong>Who it is for:</strong> history and curiosity. It is written in Lua for a framework (Torch) that is no longer used, so read it rather than run it. <a href="https://github.com/karpathy/char-rnn" target="_blank" rel="noopener">Open on GitHub</a></p>
 
 <h4 id="makemore">makemore</h4>
-<p>A character-level autoregressive model that "makes more" of whatever you give it; the running example is a file of names that it learns to invent. The same task is solved with progressively better models: bigram counts, an MLP, an RNN and finally a Transformer, which makes it a good way to see why each step helped. It is the code behind the Zero to Hero lectures. <a href="https://github.com/karpathy/makemore" target="_blank" rel="noopener">Repo</a></p>
-
-<h4 id="nanogpt">nanoGPT</h4>
-<p>Described as the simplest, fastest repository for training and fine-tuning medium-sized GPTs. The model and the training loop are each a few hundred lines in PyTorch, close enough to GPT-2 that it can reproduce the small GPT-2 model on OpenWebText, yet short enough to read in one sitting. For years it was the default teaching codebase for how GPT training works. The repo has been largely superseded by nanochat. <a href="https://github.com/karpathy/nanoGPT" target="_blank" rel="noopener">Repo</a></p>
+<p><strong>In plain English:</strong> it learns from a list of names and then "makes more" names that sound real. The clever part is that the same task is solved in stages, each smarter than the last, so you can see exactly what each improvement buys you. The last stage uses a Transformer, the design behind ChatGPT.</p>
+<p><strong>Why it matters:</strong> it is a guided tour from "count which letters follow which" to a modern AI design, using a problem small enough to run on a laptop.</p>
+<p><strong>Who it is for:</strong> beginners who want to follow along with Karpathy's video lessons. <a href="https://github.com/karpathy/makemore" target="_blank" rel="noopener">Open on GitHub</a></p>
 
 <h4 id="minbpe">minbpe</h4>
-<p>Minimal, clean code for <strong>Byte Pair Encoding</strong>, the tokenizing method behind GPT-style models. BPE starts from raw bytes and repeatedly merges the most frequent adjacent pair into a new token until the vocabulary reaches a target size. The repo includes a basic tokenizer, a regex-split version in the GPT-4 style, and training and encode/decode paths. It makes the <em>token</em> entry in the <a href="glossary.html">glossary</a> concrete. <a href="https://github.com/karpathy/minbpe" target="_blank" rel="noopener">Repo</a></p>
-
-<h4 id="llama2-c">llama2.c</h4>
-<p>Llama 2 inference in a single file of pure C. You can train small Llama-2-architecture models in PyTorch, export the weights, and then run them with a program of a few hundred lines and no dependencies. It showed that running a modern LLM does not require a heavy framework, and it inspired a wave of tiny "run it anywhere" ports. <a href="https://github.com/karpathy/llama2.c" target="_blank" rel="noopener">Repo</a></p>
-
-<h4 id="llm-c">llm.c</h4>
-<p>LLM training in simple, raw C and CUDA. It reimplements GPT-2 training without PyTorch or Python: every forward and backward pass is hand-written. It starts with a plain C reference and grows into optimised CUDA kernels, so you can read exactly what a framework does for you and see where the speed comes from. <a href="https://github.com/karpathy/llm.c" target="_blank" rel="noopener">Repo</a></p>
-
-<h4 id="nanochat">nanochat</h4>
-<p>Tagline: "the best ChatGPT that $100 can buy." It is a complete, minimal pipeline from raw text to a chat model: tokenizer training, pretraining, fine-tuning, evaluation, inference and a web chat interface, in one small codebase run from a handful of scripts. Where nanoGPT covered only pretraining, nanochat covers the whole path to a conversational assistant, and it is meant to be read and modified. <a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener">Repo</a></p>
+<p><strong>In plain English:</strong> AI models cannot read raw text. First the text is chopped into pieces called <strong>tokens</strong> (whole words, parts of words, or single characters). minbpe shows the standard way to decide those pieces, called Byte Pair Encoding: start with single characters and keep gluing together the pair that appears most often, until you have a vocabulary of the size you want.</p>
+<p><strong>Why it matters:</strong> tokens explain odd AI behaviour, such as why a model can struggle to count the letters in a word, and why you are billed "per token". See <em>Token</em> in the <a href="glossary.html">glossary</a>.</p>
+<p><strong>Who it is for:</strong> anyone curious how an AI turns words into numbers. <a href="https://github.com/karpathy/minbpe" target="_blank" rel="noopener">Open on GitHub</a></p>
 
 <h4 id="microgpt">microgpt</h4>
-<p>Published as a gist rather than a repo. A single dependency-free Python file of about 200 lines (standard library only) that contains the dataset handling, a tokenizer, an autograd engine, a GPT-2-style Transformer, the Adam optimizer, a training loop and sampling. It trains on a list of names and then invents new ones. The model is deliberately tiny (one layer, 16-dimensional embeddings, four attention heads). It is the "everything at once" counterpart to micrograd. <a href="https://gist.github.com/karpathy/8627fe009c40f57531cb18360106ce95" target="_blank" rel="noopener">Gist</a></p>
+<p><strong>In plain English:</strong> an entire ChatGPT-style system in a single file of about 200 lines of plain Python, with nothing to install. It contains every ingredient: the data, the token handling, the learning engine, the model, the training loop and the text generator. It learns from a list of names and invents new ones. The model is deliberately tiny, so it is a demonstration of the recipe and not a useful chatbot.</p>
+<p><strong>Why it matters:</strong> it makes the point that the core of a GPT is small. Everything bigger is the same recipe with more data, more computing power and engineering.</p>
+<p><strong>Who it is for:</strong> anyone with basic Python who wants to see the whole thing at once. This one is a gist (a single shared file), not a full repo. <a href="https://gist.github.com/karpathy/8627fe009c40f57531cb18360106ce95" target="_blank" rel="noopener">Open the gist</a></p>
+
+<h4 id="nanogpt">nanoGPT</h4>
+<p><strong>In plain English:</strong> a compact but real GPT. It is small enough to read in an afternoon, and close enough to GPT-2 (an earlier OpenAI model) that it can reproduce a small version of it when given enough data and a powerful graphics card. You can also take an existing model and teach it your own text, which is called fine-tuning.</p>
+<p><strong>Why it matters:</strong> for years this was the go-to example of how GPT training works. Its popularity (over 60k stars) reflects that. The author has since moved on to nanochat, so treat nanoGPT as the classic version.</p>
+<p><strong>Who it is for:</strong> people comfortable with Python who want to train a language model for real. <a href="https://github.com/karpathy/nanoGPT" target="_blank" rel="noopener">Open on GitHub</a></p>
+
+<h3>Group B: build and run a real model</h3>
+
+<h4 id="llama2-c">llama2.c</h4>
+<p><strong>In plain English:</strong> Llama 2 is an AI model released by Meta. llama2.c is a program, in one file of the C language, that can run it. You do not need the usual heavy AI toolkits. You can train a small model of the same design, save it, and then run it with this short program.</p>
+<p><strong>Why it matters:</strong> it showed that running a modern language model does not need a giant software stack. Many people later copied the idea to make AI run on small or unusual devices.</p>
+<p><strong>Who it is for:</strong> programmers curious how fast, lean AI software is built. <a href="https://github.com/karpathy/llama2.c" target="_blank" rel="noopener">Open on GitHub</a></p>
+
+<h4 id="llm-c">llm.c</h4>
+<p><strong>In plain English:</strong> normally you train an AI model using a popular toolkit (PyTorch) that hides the details. llm.c trains a GPT-2 model with <strong>no toolkit at all</strong>, in C and CUDA (the language used to program NVIDIA graphics cards), writing out every calculation by hand. It starts with a simple version and grows into an optimised one.</p>
+<p><strong>Why it matters:</strong> it reveals what the toolkits do for you, and where the speed comes from. It is the "engine rebuilt from raw metal" version of nanoGPT.</p>
+<p><strong>Who it is for:</strong> experienced programmers interested in performance. <a href="https://github.com/karpathy/llm.c" target="_blank" rel="noopener">Open on GitHub</a></p>
+
+<h4 id="nanochat">nanochat</h4>
+<p><strong>In plain English:</strong> its tagline is "the best ChatGPT that $100 can buy". It covers the whole journey in one small codebase: prepare the text, teach the model language, teach it to hold a conversation, test it, and talk to it in a web page. The $100 refers to renting powerful computers for a short time.</p>
+<p><strong>Why it matters:</strong> nanoGPT stopped at a model that continues text. nanochat goes on to a model you can chat with, which is the part people actually use.</p>
+<p><strong>Who it is for:</strong> people who want to see an end-to-end chatbot built without a big company's resources. <a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener">Open on GitHub</a></p>
+
+<h3>Group C: use AI as a tool</h3>
 
 <h4 id="autoresearch">autoresearch</h4>
-<p>AI agents running research on small single-GPU nanochat training. An agent edits one file (<code>train.py</code>: model, optimizer, training loop), trains for a fixed five minutes, checks whether validation bits-per-byte improved, keeps or discards the change and repeats. That is about a dozen experiments an hour, or roughly a hundred overnight. The human edits the instruction file <code>program.md</code> instead of the Python. It is a small-scale look at automated AI research and at what "agentic AI" (see <a href="generative-ai.html">Generative AI</a>) can do with a clear metric. <a href="https://github.com/karpathy/autoresearch" target="_blank" rel="noopener">Repo</a></p>
+<p><strong>In plain English:</strong> an AI assistant runs experiments on its own. It changes the code that trains a small chatbot, trains it for exactly five minutes, checks whether the result got better, keeps the change if so and throws it away if not, then repeats. That is about 12 experiments an hour, or roughly 100 overnight. The human writes the instructions in a plain-text file (<code>program.md</code>) instead of editing the code.</p>
+<p><strong>Why it matters:</strong> it is a small, concrete example of an "AI agent": software that plans and acts toward a goal with little supervision. The fixed five-minute budget and single score keep the experiments fair.</p>
+<p><strong>Who it is for:</strong> anyone curious about AI doing research work. Running it needs an NVIDIA graphics card. It is the most-starred repo of the 15. <a href="https://github.com/karpathy/autoresearch" target="_blank" rel="noopener">Open on GitHub</a></p>
 
 <h4 id="llm-council">llm-council</h4>
-<p>A local web app that asks several LLMs the same question. In stage one each model answers on its own. In stage two each model reads the others' answers (with the authors hidden) and ranks them. In stage three a designated "chairman" model writes the final answer. It uses a FastAPI backend, a React front end and OpenRouter to reach many providers through one API key. It is a hands-on example of the ensemble idea from <a href="machine-learning.html">Machine Learning</a>, applied to language models. <a href="https://github.com/karpathy/llm-council" target="_blank" rel="noopener">Repo</a></p>
+<p><strong>In plain English:</strong> instead of asking one AI a hard question, ask several and let them check each other. Step 1: each model answers separately. Step 2: each model reads the others' answers, with names hidden so none can play favourites, and ranks them. Step 3: one "chairman" model writes the final answer from everything. It runs on your own computer as a web page and reaches many AI providers through a single service called OpenRouter, which needs an account and key.</p>
+<p><strong>Why it matters:</strong> it applies the "ask a panel, not one expert" idea to AI. It is also a good example of the ensemble idea in <a href="machine-learning.html">Machine Learning</a>.</p>
+<p><strong>Who it is for:</strong> anyone who wants better answers to hard questions and does not mind some setup. <a href="https://github.com/karpathy/llm-council" target="_blank" rel="noopener">Open on GitHub</a></p>
 
 <h4 id="llm-wiki">llm-wiki.md</h4>
-<p>An "idea file" published as a gist: a pattern, not an app. Instead of retrieving raw documents on every question (RAG), an LLM builds and maintains a persistent set of interlinked markdown pages. There are three layers: raw sources the LLM never edits, the wiki it writes, and a schema file (such as <code>CLAUDE.md</code>) that sets the rules. The main operations are ingest, query and lint, with an <code>index.md</code> and a <code>log.md</code> for navigation. You give the file to your own agent and let it implement the details. <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">Gist</a></p>
+<p><strong>In plain English:</strong> this one is an idea, not a program. Most AI note tools search your documents from scratch every time you ask a question. This proposes something different: an AI keeps a personal wiki (a set of linked notes) for you. When you add a new article, the AI reads it, writes a summary, and updates the related pages. Over time the wiki gets richer, like a well-kept notebook that someone else tidies for you. Your original sources are never changed, and a rules file tells the AI how to organise things.</p>
+<p><strong>Why it matters:</strong> it is a way to build knowledge that accumulates, instead of a chat that forgets. You hand the file to your own AI assistant and it builds the details.</p>
+<p><strong>Who it is for:</strong> anyone who collects articles and notes. A gist, not a repo. <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">Open the gist</a></p>
 
 <h4 id="reader3">reader3</h4>
-<p>Described by its author as a quick illustration of how easily you can read books together with an LLM, and one he highly recommends. It is a small demo of an everyday workflow (reading with a model beside you) rather than a framework. Check the README for the exact mechanics. <a href="https://github.com/karpathy/reader3" target="_blank" rel="noopener">Repo</a></p>
+<p><strong>In plain English:</strong> a small demo of reading a book with an AI beside you, so you can ask questions as you go. Karpathy describes it as a quick illustration and says he highly recommends the habit. The README has the exact steps.</p>
+<p><strong>Why it matters:</strong> it shows an everyday use of AI that needs no technical skill: a patient reading partner.</p>
+<p><strong>Who it is for:</strong> readers and students. <a href="https://github.com/karpathy/reader3" target="_blank" rel="noopener">Open on GitHub</a></p>
 
 <h4 id="rendergit">rendergit</h4>
-<p>Renders any git repository into a single static HTML page, meant to be read by humans or handed to an LLM. Useful when you want a model (or a person) to skim a whole codebase in one place. <a href="https://github.com/karpathy/rendergit" target="_blank" rel="noopener">Repo</a></p>
+<p><strong>In plain English:</strong> a code project is normally spread across many files and folders. rendergit turns a whole project into <strong>one web page</strong> that you can scroll through, or paste into an AI so it can read the entire project at once.</p>
+<p><strong>Why it matters:</strong> it makes it easy to ask an AI "explain this project" or "find the bug", without feeding it files one by one.</p>
+<p><strong>Who it is for:</strong> anyone who reviews code, human or AI. <a href="https://github.com/karpathy/rendergit" target="_blank" rel="noopener">Open on GitHub</a></p>
 
 <h4 id="arxiv-sanity-lite">arxiv-sanity-lite</h4>
-<p>A lighter rewrite of the earlier arxiv-sanity tool. You tag papers you care about, and it recommends similar new arXiv papers in a simple UI. The recommender is classical ML from this course: TF-IDF features of the abstracts fed to a support vector machine. A good example of a useful product built from <a href="machine-learning.html">"old" techniques</a> rather than a giant model. <a href="https://github.com/karpathy/arxiv-sanity-lite" target="_blank" rel="noopener">Repo</a></p>
+<p><strong>In plain English:</strong> arXiv is a free website where researchers post new papers, hundreds a day. This tool lets you tag the ones you like and then suggests similar new ones. It works by measuring how similar the words in two papers' abstracts are, and uses a classic machine-learning method (a support vector machine) to learn your taste. The same idea powers "you might also like" suggestions on shopping and video sites.</p>
+<p><strong>Why it matters:</strong> a useful product built from older, simple techniques, covered on the <a href="machine-learning.html">Machine Learning</a> page, with no giant model needed.</p>
+<p><strong>Who it is for:</strong> researchers and students trying to keep up with new papers. <a href="https://github.com/karpathy/arxiv-sanity-lite" target="_blank" rel="noopener">Open on GitHub</a></p>
+
+<div class="callout note"><strong class="t">Where to start</strong><p>If you are new, read in this order: micrograd, then makemore, then minbpe, then microgpt. That sequence takes you from "how does a network learn?" to "how is a whole GPT put together?". Then try nanochat to see it become a chatbot. Karpathy also has free video lessons (Zero to Hero) that go with the first few.</p></div>
 
 <h2 id="alec-radford">Alec Radford</h2>
 <p>Radford is a researcher who works quietly and publishes few papers, but he was first author on several that defined modern generative AI. Much of the field's move from "train a model for one task" to "pretrain a big model, then adapt it" runs through his work.</p>
