@@ -1,0 +1,138 @@
+<h1>Machine Learning</h1>
+<p class="lede">Machine learning is software that improves at a task by learning patterns from examples instead of following hand-written rules. This page walks from the core ideas to the algorithms you will reach for most.</p>
+
+<h2>The big picture</h2>
+<table>
+<tr><th>Type</th><th>You give it</th><th>It learns to</th><th>Examples</th></tr>
+<tr><td>Supervised</td><td>Inputs with known answers (labels)</td><td>Predict the label for new inputs</td><td>Price prediction, spam detection</td></tr>
+<tr><td>Unsupervised</td><td>Inputs only</td><td>Find structure</td><td>Customer segments, anomaly detection</td></tr>
+<tr><td>Reinforcement</td><td>An environment and rewards</td><td>Choose actions that earn more reward</td><td>Game playing, robotics</td></tr>
+</table>
+<p>Supervised problems split in two. If the target is a <strong>number</strong> (sales next month), it is <strong>regression</strong>. If the target is a <strong>category</strong> (fraud or not), it is <strong>classification</strong>.</p>
+<div class="callout live"><strong class="t">From the live classes</strong><p>A quick test: count the distinct values the target can take. A handful of unrelated labels such as colours means classification. A quantity that can take many values means regression. If you have many classes, check whether splitting the problem into several simpler models works better, because accuracy often falls as the number of classes grows.</p></div>
+
+<h2>The ML pipeline</h2>
+<ol class="steps">
+<li><strong>Define the problem</strong> and the metric that counts as success.</li>
+<li><strong>Prepare data:</strong> clean, encode categories, scale, split.</li>
+<li><strong>Train</strong> one or more models on the training set.</li>
+<li><strong>Evaluate</strong> on data the model has not seen.</li>
+<li><strong>Tune and compare</strong> models and settings.</li>
+<li><strong>Deploy and monitor</strong> (MLOps): track performance, retrain when data drifts.</li>
+</ol>
+
+<h2>Generalization: overfitting and underfitting</h2>
+<p>A model should do well on <em>new</em> data, not just the data it studied.</p>
+<table>
+<tr><th></th><th>Underfitting</th><th>Overfitting</th></tr>
+<tr><td>Symptom</td><td>Poor on training <em>and</em> test data</td><td>Great on training, poor on test</td></tr>
+<tr><td>Cause</td><td>Model too simple or too few features</td><td>Model memorized noise</td></tr>
+<tr><td>Fixes</td><td>More capacity, better features</td><td>More data, simpler model, regularization, cross-validation, early stopping</td></tr>
+</table>
+<pre><code>from sklearn.model_selection import train_test_split, cross_val_score
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+scores = cross_val_score(model, X_train, y_train, cv=5)   # honest estimate of performance
+print(scores.mean(), scores.std())</code></pre>
+<div class="callout live"><strong class="t">From the live classes</strong><p>To choose between algorithms, have each one predict on data whose answers you already know (for example three months of past sales), then see whose predictions land closest to the real values. The winner has learned the patterns best. Always judge on data the model did not train on.</p></div>
+
+<h2>Regression</h2>
+<h3>Linear regression</h3>
+<p>Fits a straight line (or plane) <code>y = b0 + b1·x1 + ...</code> by minimizing squared error. It works best when these assumptions roughly hold: a linear relationship, independent errors, constant error variance, errors that are roughly normal, and little multicollinearity between features.</p>
+<pre><code>from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+m = LinearRegression().fit(X_train, y_train)
+pred = m.predict(X_test)
+print("RMSE", mean_squared_error(y_test, pred) ** 0.5, "R2", r2_score(y_test, pred))</code></pre>
+<h3>Polynomial, Ridge and LASSO</h3>
+<ul>
+<li><strong>Polynomial regression</strong> adds powers of features to capture curves.</li>
+<li><strong>Ridge (L2)</strong> penalizes large coefficients, shrinking them smoothly. Good when many features each help a little.</li>
+<li><strong>LASSO (L1)</strong> can shrink coefficients all the way to zero, so it doubles as feature selection.</li>
+</ul>
+<h3>Logistic regression</h3>
+<p>Despite the name, it is a classifier. It passes a linear score through the sigmoid function to produce a probability between 0 and 1, then applies a threshold. It is a strong, explainable baseline.</p>
+<div class="callout tip"><strong class="t">Imbalanced data</strong><p>If only 1% of cases are positive, a model that always says "no" is 99% accurate and useless. Use precision, recall and F1, and consider resampling with <strong>SMOTE</strong>, which creates synthetic minority-class examples. Apply it to the training set only.</p></div>
+
+<h2>Classification</h2>
+<h3>Choosing a metric</h3>
+<table>
+<tr><th>Metric</th><th>Answers</th><th>Prefer when</th></tr>
+<tr><td>Accuracy</td><td>What share was right?</td><td>Classes are balanced</td></tr>
+<tr><td>Precision</td><td>Of those flagged positive, how many truly were?</td><td>False alarms are costly (spam filter)</td></tr>
+<tr><td>Recall</td><td>Of all true positives, how many did we catch?</td><td>Misses are costly (disease screening)</td></tr>
+<tr><td>F1</td><td>Balance of precision and recall</td><td>Imbalanced classes</td></tr>
+<tr><td>ROC-AUC</td><td>How well does it rank positives above negatives?</td><td>Comparing models across thresholds</td></tr>
+</table>
+<h3>Algorithms</h3>
+<table>
+<tr><th>Algorithm</th><th>Idea</th><th>Strengths</th><th>Watch out for</th></tr>
+<tr><td>Naive Bayes</td><td>Bayes' theorem assuming features are independent</td><td>Fast, good for text</td><td>Independence is rarely true</td></tr>
+<tr><td>k-Nearest Neighbors</td><td>Vote among the k closest training points</td><td>Simple, no training</td><td>Slow on big data; needs scaling</td></tr>
+<tr><td>Decision tree</td><td>A flowchart of yes/no splits</td><td>Easy to explain</td><td>Overfits if left deep</td></tr>
+<tr><td>Random forest</td><td>Many trees on random subsets, averaged</td><td>Robust, strong default</td><td>Less interpretable</td></tr>
+<tr><td>SVM</td><td>Widest-margin boundary between classes</td><td>Good in high dimensions</td><td>Scale first; slow on huge data</td></tr>
+<tr><td>Stochastic gradient descent</td><td>Update the model a little per example</td><td>Scales to large data</td><td>Sensitive to learning rate</td></tr>
+</table>
+<pre><code>from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+
+rf = RandomForestClassifier(n_estimators=300, random_state=42).fit(X_train, y_train)
+print(classification_report(y_test, rf.predict(X_test)))
+print(sorted(zip(rf.feature_importances_, X.columns), reverse=True)[:10])</code></pre>
+<p><strong>Boruta</strong> is a feature-selection method that compares each real feature against shuffled "shadow" copies and keeps only features that beat the noise.</p>
+
+<h2>Unsupervised learning</h2>
+<h3>Clustering</h3>
+<p><strong>K-means</strong> groups points into k clusters: (1) pick k starting centres, (2) assign each point to its nearest centre, (3) move each centre to the mean of its points, (4) repeat until nothing changes.</p>
+<div class="callout live"><strong class="t">From the live classes</strong><p>Worked by hand in one dimension: with ages and centres 10, 30 and 60, the point 35 is closest to 30 by Euclidean distance (in one dimension that is just the absolute difference). After assigning every point, the new centre is the mean of the group, for example the mean of 10 and 15 is 12.5. Seeing the loop on tiny numbers makes the algorithm obvious.</p></div>
+<pre><code>from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+
+X = StandardScaler().fit_transform(df[["annual_income", "spending_score"]])
+km = KMeans(n_clusters=3, random_state=42, n_init="auto").fit(X)
+df["segment"] = km.labels_</code></pre>
+<p>Choose k with the <strong>elbow method</strong> (plot inertia against k and look for the bend) or the <strong>silhouette score</strong>. In the live class, clustering customers on income and spending score turned segments into product ideas.</p>
+<p><strong>Hierarchical clustering</strong> builds a tree you can cut at any level. <strong>BIRCH</strong> clusters very large datasets in one pass.</p>
+<h3>Outlier and anomaly detection</h3>
+<p>Find points that do not fit: far from neighbours (k-NN distance), isolated by random splits (isolation forest), or low-probability under a model. The <strong>PyOD</strong> library bundles many detectors.</p>
+<h3>Dimensionality reduction</h3>
+<table>
+<tr><th>Method</th><th>Use it to</th></tr>
+<tr><td>PCA</td><td>Compress correlated features into fewer uncorrelated components that keep most of the variance</td></tr>
+<tr><td>SVD</td><td>The matrix factorization underneath PCA and recommenders</td></tr>
+<tr><td>ICA</td><td>Separate mixed signals into independent sources</td></tr>
+<tr><td>MCA</td><td>PCA's counterpart for categorical data</td></tr>
+</table>
+<pre><code>from sklearn.decomposition import PCA
+pca = PCA(n_components=0.95).fit(X_scaled)      # keep 95% of variance
+print(pca.n_components_, pca.explained_variance_ratio_.cumsum())</code></pre>
+
+<h2>Ensemble learning</h2>
+<p>Several models together usually beat one. Errors that differ between models cancel out.</p>
+<table>
+<tr><th>Method</th><th>How it combines</th><th>Main benefit</th><th>Example</th></tr>
+<tr><td>Bagging</td><td>Train in parallel on random resamples; average or vote</td><td>Reduces variance</td><td>Random forest</td></tr>
+<tr><td>Boosting</td><td>Train in sequence, each fixing the last one's mistakes</td><td>Reduces bias</td><td>AdaBoost, Gradient Boosting, XGBoost</td></tr>
+<tr><td>Stacking</td><td>A final model learns how to weight the others</td><td>Squeezes out extra accuracy</td><td>StackingClassifier</td></tr>
+</table>
+<pre><code>from sklearn.ensemble import GradientBoostingClassifier, VotingClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+
+vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
+                         ("dt", DecisionTreeClassifier(max_depth=5)),
+                         ("gb", GradientBoostingClassifier())], voting="soft").fit(X_train, y_train)</code></pre>
+
+<h2>Recommender systems</h2>
+<p>Recommenders suggest items a person is likely to want.</p>
+<ul>
+<li><strong>Content-based:</strong> recommend items similar to ones the user liked, using item attributes.</li>
+<li><strong>Collaborative filtering:</strong> use the behaviour of many users. <em>User-based</em> finds similar people and borrows their picks. <em>Item-based</em> finds items often liked together.</li>
+<li><strong>Model-based:</strong> learn hidden factors with matrix factorization (SVD) that explain the rating matrix, then predict the missing entries.</li>
+</ul>
+<p>Evaluate with RMSE or MAE for predicted ratings, and with precision@k or recall@k for ranked lists. Watch for the <strong>cold start</strong> problem: new users and items have no history.</p>
+
+<h2>Where TensorFlow and PyTorch fit in</h2>
+<p>The same ideas extend to neural networks, covered on the <a href="deep-learning.html">Deep Learning</a> page. TensorFlow with Keras and PyTorch both let you build models layer by layer and train them on a GPU.</p>

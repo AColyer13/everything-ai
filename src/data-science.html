@@ -1,0 +1,145 @@
+<h1>Data Science</h1>
+<p class="lede">Data science is the craft of turning raw data into decisions. It rests on four skills: fast numerical computing, a little linear algebra, statistical thinking, and clean tabular data you can chart.</p>
+
+<h2>The data science process</h2>
+<ol class="steps">
+<li><strong>Frame the question.</strong> What decision will this inform, and how will you know it worked?</li>
+<li><strong>Collect data.</strong> Files, databases, APIs, logs.</li>
+<li><strong>Clean and prepare.</strong> Missing values, duplicates, wrong types, outliers. This usually takes the most time.</li>
+<li><strong>Explore.</strong> Summaries and charts to understand distributions and relationships.</li>
+<li><strong>Model.</strong> Statistics or machine learning to answer the question.</li>
+<li><strong>Communicate and monitor.</strong> Share results clearly and watch for drift after deployment.</li>
+</ol>
+
+<h2>NumPy</h2>
+<p>NumPy gives you the <code>ndarray</code>, a fixed-type n-dimensional array that runs operations in compiled code. It is far faster than Python lists and is the base of pandas, scikit-learn and the deep learning libraries.</p>
+<pre><code>import numpy as np
+
+a = np.array([[1, 2, 3], [4, 5, 6]])
+a.shape            # (2, 3): axis 0 = rows, axis 1 = columns
+a.sum(axis=0)      # column sums -&gt; [5, 7, 9]
+a.mean(axis=1)     # row means   -&gt; [2., 5.]
+a[a &gt; 2]           # boolean mask -&gt; [3, 4, 5, 6]
+a[:, 1]            # every row, column 1
+a * 10             # vectorized: no loop
+a.reshape(3, 2)</code></pre>
+<div class="callout note"><strong class="t">Axes in one sentence</strong><p><code>axis=0</code> collapses down the rows (you get one value per column); <code>axis=1</code> collapses across the columns (you get one value per row).</p></div>
+<p><strong>Broadcasting</strong> lets arrays of different shapes combine when their trailing dimensions match or equal 1, for example subtracting a column-mean vector from every row of a matrix.</p>
+
+<h2>Linear algebra you actually use</h2>
+<table>
+<tr><th>Idea</th><th>What it is</th><th>Why it matters</th></tr>
+<tr><td>Vector</td><td>An ordered list of numbers</td><td>One data point with many features</td></tr>
+<tr><td>Dot product</td><td>Sum of element-wise products</td><td>Similarity, and the core of every neuron</td></tr>
+<tr><td>Norm</td><td>The length of a vector</td><td>Distances, regularization</td></tr>
+<tr><td>Matrix</td><td>A grid of numbers</td><td>A whole dataset, or a transformation</td></tr>
+<tr><td>Transpose</td><td>Swap rows and columns</td><td>Aligning shapes for multiplication</td></tr>
+<tr><td>Rank</td><td>Number of linearly independent rows or columns</td><td>Detects redundant features</td></tr>
+<tr><td>Determinant, inverse</td><td>Whether and how a matrix can be undone</td><td>Solving linear systems, linear regression</td></tr>
+<tr><td>Eigenvectors, eigenvalues</td><td>Directions a matrix only stretches, and by how much</td><td>PCA and dimensionality reduction</td></tr>
+</table>
+<pre><code>x = np.array([1, 2, 3]); y = np.array([4, 5, 6])
+x @ y                          # dot product = 32
+np.linalg.norm(x)              # length
+A = np.array([[2, 0], [0, 3]])
+np.linalg.inv(A); np.linalg.det(A)
+vals, vecs = np.linalg.eig(A)</code></pre>
+<p>Calculus shows up through the <strong>gradient</strong>, the direction of steepest increase. Training a model means following the negative gradient of an error function downhill.</p>
+
+<h2>Descriptive statistics</h2>
+<h3>Types of data</h3>
+<p>Categorical data is nominal (no order, such as colour) or ordinal (ordered, such as small, medium, large). Numerical data is discrete (counts) or continuous (measurements). The type decides which summaries and charts make sense.</p>
+<h3>Centre and spread</h3>
+<table>
+<tr><th>Measure</th><th>Use when</th></tr>
+<tr><td>Mean</td><td>Data is roughly symmetric with no big outliers</td></tr>
+<tr><td>Median</td><td>Data is skewed or has outliers (income, house prices)</td></tr>
+<tr><td>Mode</td><td>Categorical data, or finding the most common value</td></tr>
+<tr><td>Variance, standard deviation</td><td>How far values typically sit from the mean</td></tr>
+<tr><td>IQR</td><td>A spread measure that ignores extreme values</td></tr>
+</table>
+<p><strong>Skewness</strong> measures lopsidedness (a long right tail is positive skew). <strong>Kurtosis</strong> measures how heavy the tails are. <strong>Covariance</strong> shows whether two variables move together, and <strong>correlation</strong> rescales that to between -1 and 1. Correlation does not prove causation.</p>
+
+<h2>Probability and distributions</h2>
+<table>
+<tr><th>Distribution</th><th>Models</th><th>Example</th></tr>
+<tr><td>Bernoulli</td><td>One yes/no trial</td><td>One coin flip</td></tr>
+<tr><td>Binomial</td><td>Number of successes in n trials</td><td>Heads in 10 flips</td></tr>
+<tr><td>Poisson</td><td>Count of events in a fixed interval</td><td>Support tickets per hour</td></tr>
+<tr><td>Uniform</td><td>All outcomes equally likely</td><td>A fair die</td></tr>
+<tr><td>Normal</td><td>Many natural measurements, bell-shaped</td><td>Heights, measurement error</td></tr>
+</table>
+<p>The <strong>probability mass function</strong> (discrete) or <strong>density function</strong> (continuous) says how likely values are; the <strong>cumulative distribution function</strong> gives the probability of being at or below a value.</p>
+<p>The <strong>Central Limit Theorem</strong> says the averages of many samples form a roughly normal distribution, whatever the shape of the original data. It is why so much of inference works.</p>
+<p><strong>Bayes' theorem</strong> updates a belief when new evidence arrives: <code>P(A|B) = P(B|A) · P(A) / P(B)</code>. It is the idea behind Naive Bayes classifiers.</p>
+
+<h2>Hypothesis testing</h2>
+<p>You start by assuming nothing interesting is happening (the <strong>null hypothesis</strong>, H0), then ask whether the data is surprising enough to reject that assumption in favour of the <strong>alternative</strong> (H1).</p>
+<ul>
+<li><strong>p-value:</strong> the probability of seeing data at least this extreme if H0 were true. A small value (commonly below 0.05) is evidence against H0. It is not the probability that H0 is true.</li>
+<li><strong>Type I error:</strong> rejecting a true null (a false alarm). <strong>Type II error:</strong> failing to reject a false null (a miss).</li>
+<li><strong>Confidence interval:</strong> a range that would contain the true value in a stated share (say 95%) of repeated samples.</li>
+</ul>
+<table>
+<tr><th>Test</th><th>Question it answers</th></tr>
+<tr><td>z-test</td><td>Compare a mean to a value when the sample is large or the variance is known</td></tr>
+<tr><td>t-test</td><td>Compare means when the sample is small and the variance is unknown</td></tr>
+<tr><td>Chi-square</td><td>Are two categorical variables related? Does data fit an expected distribution?</td></tr>
+<tr><td>ANOVA / F-test</td><td>Do three or more group means differ? Compare variances</td></tr>
+</table>
+<pre><code>from scipy import stats
+
+a = [12.1, 11.8, 12.5, 12.9, 11.5]
+b = [13.2, 13.0, 12.8, 13.9, 13.4]
+t, p = stats.ttest_ind(a, b)
+print(f"t={t:.2f}, p={p:.4f}")</code></pre>
+
+<h2>pandas</h2>
+<p>pandas gives you the <code>Series</code> (one labelled column) and the <code>DataFrame</code> (a table). It is the main tool for loading, cleaning and reshaping data.</p>
+<pre><code>import pandas as pd
+
+df = pd.read_csv("sales.csv", parse_dates=["date"])
+df.head(); df.info(); df.describe()
+
+df["revenue"] = df["price"] * df["qty"]
+df[df["region"] == "West"].sort_values("revenue", ascending=False)
+df.groupby("region")["revenue"].agg(["sum", "mean"])
+pd.pivot_table(df, values="revenue", index="region", columns=df["date"].dt.month, aggfunc="sum")</code></pre>
+<h3>Cleaning checklist</h3>
+<ul>
+<li><strong>Nulls:</strong> <code>df.isna().sum()</code> to find them; <code>dropna()</code> or <code>fillna()</code> to handle them. Choose by understanding why they are missing.</li>
+<li><strong>Duplicates:</strong> <code>df.drop_duplicates()</code>.</li>
+<li><strong>Types:</strong> <code>astype()</code>, <code>pd.to_datetime()</code>, <code>pd.to_numeric(errors="coerce")</code>.</li>
+<li><strong>Binning:</strong> <code>pd.cut</code> and <code>pd.qcut</code> turn numbers into ranges.</li>
+<li><strong>Scaling:</strong> normalize to 0-1 or standardize to mean 0 and standard deviation 1 before distance-based models.</li>
+<li><strong>Joins:</strong> <code>pd.merge(left, right, on="id", how="left")</code>.</li>
+<li><strong>Memory:</strong> use <code>category</code> dtype for repeated strings and downcast numbers for big files.</li>
+</ul>
+<div class="callout live"><strong class="t">From the live classes</strong><p>Write cleaning code as functions that find columns automatically instead of listing them by hand. For example, flag columns with a single unique value (zero variance, which carry no information), treat columns with few unique values as categorical, and columns with exactly two as binary. Scripts like that keep working when new data arrives.</p></div>
+<pre><code>zero_var = [c for c in df.columns if df[c].nunique() == 1]
+binary   = [c for c in df.columns if df[c].nunique() == 2]
+categ    = [c for c in df.columns if 2 &lt; df[c].nunique() &lt;= 100]</code></pre>
+
+<h2>Regular expressions and databases</h2>
+<p>Regular expressions find patterns in text: <code>re.findall(r"\d{3}-\d{4}", text)</code>. For structured storage, Python's <code>sqlite3</code> module or <code>pandas.read_sql</code> lets you query a database and get a DataFrame back.</p>
+
+<h2>Visualization</h2>
+<p>Pick the chart for the question, not for the look.</p>
+<table>
+<tr><th>Question</th><th>Chart</th></tr>
+<tr><td>How is one variable distributed?</td><td>Histogram, box plot</td></tr>
+<tr><td>How do two numbers relate?</td><td>Scatter plot</td></tr>
+<tr><td>How does something change over time?</td><td>Line chart</td></tr>
+<tr><td>How do categories compare?</td><td>Bar chart</td></tr>
+<tr><td>How do many variables correlate?</td><td>Heatmap of the correlation matrix</td></tr>
+</table>
+<pre><code>import matplotlib.pyplot as plt
+import seaborn as sns
+
+fig, ax = plt.subplots(figsize=(7, 4))
+sns.histplot(df["revenue"], bins=30, ax=ax)
+ax.set_title("Revenue distribution"); ax.set_xlabel("Revenue")
+plt.show()
+
+sns.heatmap(df.corr(numeric_only=True), annot=True, cmap="vlag", center=0)</code></pre>
+<p><strong>Matplotlib</strong> is the low-level base, <strong>Seaborn</strong> adds statistical charts with good defaults, <strong>Plotly</strong> and <strong>Bokeh</strong> make interactive charts for the web. Label axes, start bar charts at zero, and avoid decoration that does not carry information.</p>

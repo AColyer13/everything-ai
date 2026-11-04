@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project Playbook · Everything AI</title>
+<meta name="description" content="A practical checklist from the live classes">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="top"><div class="bar">
+<a class="logo" href="index.html">Everything <b>AI</b></a>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html" class=active>Project Playbook</a><a href="glossary.html">Glossary</a></nav>
+<div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
+</div></header>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#1-frame-the-problem">1. Frame the problem</a><a href="#2-inspect-the-data">2. Inspect the data</a><a href="#3-clean-and-prepare">3. Clean and prepare</a><a href="#4-build-a-baseline-then-compare">4. Build a baseline, then compare</a><a href="#5-diagnose">5. Diagnose</a><a href="#6-tune-and-evaluate-once">6. Tune and evaluate once</a><a href="#7-explain-it">7. Explain it</a><a href="#8-ship-and-monitor">8. Ship and monitor</a><a href="#study-plan">Study plan</a></aside><main><h1>Project Playbook</h1>
+<p class="lede">A practical, end-to-end checklist for taking a dataset to a model you can trust. It pulls together the habits from the lessons and the live classes into one workflow.</p>
+
+<h2 id="1-frame-the-problem">1. Frame the problem</h2>
+<ul>
+<li>Write the question in one sentence and say what decision it supports.</li>
+<li>Classify it: regression, classification, clustering, recommendation, or generation.</li>
+<li>Pick the metric that matches the cost of mistakes (see the <a href="machine-learning.html#classification">metrics table</a>).</li>
+<li>Decide the baseline to beat: a simple rule, the average, or the current process.</li>
+</ul>
+
+<h2 id="2-inspect-the-data">2. Inspect the data</h2>
+<pre><code>df.shape; df.dtypes; df.head()
+df.isna().mean().sort_values(ascending=False).head(10)   # worst missing columns
+df.describe(include="all").T
+df.duplicated().sum()</code></pre>
+<p>Look at the target's distribution first. Check class balance before anything else.</p>
+
+<h2 id="3-clean-and-prepare">3. Clean and prepare</h2>
+<ol class="steps">
+<li><strong>Remove columns with no information.</strong> Zero-variance columns (a single unique value) cannot help any model.</li>
+<li><strong>Classify columns automatically</strong> by unique-value count: binary, low-cardinality categorical, high-cardinality, numeric.</li>
+<li><strong>Handle missing values</strong> deliberately: drop, fill with median or mode, or add an "is missing" flag.</li>
+<li><strong>Encode categories</strong> (one-hot for few levels, target or ordinal encoding for many).</li>
+<li><strong>Split first, then fit transformers on the training set only.</strong> Fitting a scaler on all the data leaks information from the test set.</li>
+</ol>
+<pre><code>from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.impute import SimpleImputer
+from sklearn.ensemble import RandomForestClassifier
+
+pre = ColumnTransformer([
+    ("num", Pipeline([("imp", SimpleImputer(strategy="median")), ("sc", StandardScaler())]), num_cols),
+    ("cat", Pipeline([("imp", SimpleImputer(strategy="most_frequent")),
+                      ("oh", OneHotEncoder(handle_unknown="ignore"))]), cat_cols),
+])
+pipe = Pipeline([("pre", pre), ("model", RandomForestClassifier(random_state=42))])</code></pre>
+<div class="callout live"><strong class="t">From the live classes</strong><p>Write the preparation as a script that works on any new data, not a one-off notebook edit. If the column rules are computed from the data (unique-value counts, data types), the same code keeps working when next month's file arrives with different columns.</p></div>
+
+<h2 id="4-build-a-baseline-then-compare">4. Build a baseline, then compare</h2>
+<ul>
+<li>Start with something simple: logistic or linear regression. It is fast and sets the bar.</li>
+<li>Try a tree-based ensemble (random forest, gradient boosting). They are strong defaults on tabular data.</li>
+<li>Compare models on the <em>same</em> split or cross-validation folds, using the metric from step 1.</li>
+</ul>
+<pre><code>from sklearn.model_selection import cross_validate
+models = {"logreg": LogisticRegression(max_iter=1000), "rf": RandomForestClassifier(random_state=42)}
+for name, m in models.items():
+    r = cross_validate(Pipeline([("pre", pre), ("m", m)]), X_train, y_train, cv=5, scoring=["f1", "roc_auc"])
+    print(name, r["test_f1"].mean().round(3), r["test_roc_auc"].mean().round(3))</code></pre>
+
+<h2 id="5-diagnose">5. Diagnose</h2>
+<table>
+<tr><th>You see</th><th>Likely cause</th><th>Try</th></tr>
+<tr><td>Train and validation both poor</td><td>Underfitting</td><td>Richer features, more flexible model</td></tr>
+<tr><td>Train great, validation poor</td><td>Overfitting</td><td>More data, regularization, simpler model, early stopping</td></tr>
+<tr><td>Great accuracy, bad recall on the rare class</td><td>Imbalance</td><td>Better metric, class weights, SMOTE on train only</td></tr>
+<tr><td>Test score far above anything realistic</td><td>Data leakage</td><td>Check that no feature reveals the answer or comes from the future</td></tr>
+<tr><td>Code error you cannot explain</td><td>Bad assumption about the data</td><td>Print the shapes, dtypes and unique values. Debug the data, then the code</td></tr>
+</table>
+
+<h2 id="6-tune-and-evaluate-once">6. Tune and evaluate once</h2>
+<p>Tune hyperparameters with cross-validation on the training data. Touch the test set once, at the very end, to get an honest final number. Report the metric together with a confusion matrix and a sentence on where the model fails.</p>
+
+<h2 id="7-explain-it">7. Explain it</h2>
+<ul>
+<li>Show feature importance or SHAP values.</li>
+<li>Give one or two concrete example predictions, right and wrong.</li>
+<li>State the limits: what data it was trained on, and where it should not be trusted.</li>
+</ul>
+
+<h2 id="8-ship-and-monitor">8. Ship and monitor</h2>
+<ul>
+<li>Save the whole pipeline (<code>joblib.dump(pipe, "model.joblib")</code>), not just the model, so preprocessing travels with it.</li>
+<li>Log inputs and predictions. Watch for <strong>data drift</strong> (inputs change) and <strong>concept drift</strong> (the relationship changes).</li>
+<li>Set a retraining trigger and keep the previous version for rollback.</li>
+</ul>
+
+<h2 id="study-plan">Study plan</h2>
+<table>
+<tr><th>Week</th><th>Focus</th><th>Proof you got it</th></tr>
+<tr><td>1</td><td><a href="python.html">Python</a>: functions, classes, files</td><td>Write a script that cleans a CSV</td></tr>
+<tr><td>2</td><td><a href="data-science.html">Data science</a>: NumPy, pandas, statistics</td><td>Explore a dataset and run a t-test</td></tr>
+<tr><td>3-4</td><td><a href="machine-learning.html">Machine learning</a>: supervised models and metrics</td><td>Beat a baseline with cross-validation</td></tr>
+<tr><td>5</td><td>Clustering and dimensionality reduction</td><td>Segment customers and explain the groups</td></tr>
+<tr><td>6-7</td><td><a href="deep-learning.html">Deep learning</a>: networks, CNNs, transfer learning</td><td>Fine-tune a pretrained image model</td></tr>
+<tr><td>8</td><td><a href="generative-ai.html">Generative AI</a>: prompts and APIs</td><td>Build a JSON-returning triage tool</td></tr>
+</table>
+<div class="pager"><a href="generative-ai.html">← Generative AI</a><a href="glossary.html">Glossary →</a></div></main></div>
+<footer>Everything AI · a study guide built from the Simplilearn Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<script src="assets/search-index.js"></script><script src="assets/app.js"></script>
+</body></html>

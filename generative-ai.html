@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Generative AI · Everything AI</title>
+<meta name="description" content="LLMs, prompt engineering, APIs, limits and cost">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="top"><div class="bar">
+<a class="logo" href="index.html">Everything <b>AI</b></a>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html" class=active>Generative AI</a><a href="playbook.html">Project Playbook</a><a href="glossary.html">Glossary</a></nav>
+<div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
+</div></header>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#what-makes-it-generative">What makes it "generative"</a><a href="#how-large-language-models-work">How large language models work</a><a href="#prompt-engineering">Prompt engineering</a><a href="#calling-a-model-from-python">Calling a model from Python</a><a href="#giving-a-model-your-own-knowledge-rag">Giving a model your own knowledge: RAG</a><a href="#agentic-ai">Agentic AI</a><a href="#responsible-ai-bias-privacy-and-security">Responsible AI: bias, privacy and security</a><a href="#will-ai-replace-jobs">Will AI replace jobs?</a><a href="#a-quick-checklist-before-you-ship-an-ai-feature">A quick checklist before you ship an AI feature</a></aside><main><h1>Generative AI</h1>
+<p class="lede">Generative AI creates new content (text, images, code, audio) rather than only labelling or predicting. This page covers how the main model families work, how to steer them with prompts, how to call them from code, and where the real limits are.</p>
+
+<h2 id="what-makes-it-generative">What makes it "generative"</h2>
+<p>A discriminative model answers "which category is this?". A generative model learns the shape of the data itself well enough to produce new samples that look like it. The ideas build directly on <a href="deep-learning.html">deep learning</a>.</p>
+<table>
+<tr><th>Model family</th><th>How it generates</th><th>Typical output</th></tr>
+<tr><td>Transformer-based (LLMs)</td><td>Predicts the next token repeatedly, using attention over the whole context</td><td>Text, code, summaries, translation</td></tr>
+<tr><td>Diffusion models</td><td>Starts from random noise and removes it step by step, guided by a text prompt</td><td>Images (Stable Diffusion, DALL-E)</td></tr>
+<tr><td>Variational autoencoders (VAEs)</td><td>Learn a compressed latent space and sample new points from it</td><td>Images, interpolation between samples</td></tr>
+<tr><td>GANs</td><td>A generator and a discriminator compete, each improving the other</td><td>Realistic images and video</td></tr>
+</table>
+
+<h2 id="how-large-language-models-work">How large language models work</h2>
+<ul>
+<li><strong>Tokens:</strong> text is split into small pieces (words or parts of words). Models read and write tokens, and usage is usually billed per token.</li>
+<li><strong>Pretraining:</strong> the model reads huge amounts of text and learns to predict the next token. This is where its broad knowledge and fluency come from.</li>
+<li><strong>Fine-tuning and instruction tuning:</strong> further training on examples of good behaviour, so the model follows instructions, keeps a consistent format and handles a specific domain.</li>
+<li><strong>Context window:</strong> the amount of text the model can consider at once. Anything outside it is invisible to the model.</li>
+<li><strong>Temperature:</strong> controls randomness. Low values give steadier, more repeatable answers; higher values give more varied ones.</li>
+</ul>
+<div class="callout note"><strong class="t">Fluent is not the same as correct</strong><p>An LLM produces the most plausible continuation, not a verified fact. It can state wrong things confidently (called <em>hallucination</em>), so important outputs need checking.</p></div>
+
+<h2 id="prompt-engineering">Prompt engineering</h2>
+<p>The prompt is your main control over the output. Good prompting is clear writing, not magic words.</p>
+<h3>Zero-shot, few-shot and beyond</h3>
+<table>
+<tr><th>Technique</th><th>What you do</th><th>Use it when</th></tr>
+<tr><td>Zero-shot</td><td>Give an instruction with no examples</td><td>The task is simple and common</td></tr>
+<tr><td>Few-shot</td><td>Include a few worked examples inside the prompt so the model copies the pattern and style</td><td>You need a specific format, tone or label set</td></tr>
+<tr><td>Role / persona</td><td>Say who the model should act as and for whom</td><td>Tone and depth matter</td></tr>
+<tr><td>Step-by-step reasoning</td><td>Ask it to work through the problem before answering</td><td>Maths, logic, multi-part problems</td></tr>
+</table>
+<pre><code># Zero-shot
+Summarize the following report in under 50 words.
+
+# Few-shot: show the style you want
+Report A summary: "Q1 sales rose 8% on strong retail demand; costs flat."
+Report B summary: "Churn fell to 3% after the onboarding redesign."
+Now summarize Report C in the same style.</code></pre>
+<h3>Best practices</h3>
+<ol class="steps">
+<li><strong>Be specific.</strong> State the task, audience, length and what to leave out.</li>
+<li><strong>Give context.</strong> Paste the relevant text or facts instead of assuming the model knows them.</li>
+<li><strong>Specify the format.</strong> Bullet list, table, JSON with named keys, word limit.</li>
+<li><strong>Set the tone</strong> and the role.</li>
+<li><strong>Show examples</strong> when wording alone is ambiguous.</li>
+<li><strong>Iterate.</strong> Read the output, tighten the prompt, run again.</li>
+</ol>
+<div class="callout live"><strong class="t">From the live classes</strong><p>Prompt engineering is also a cost lever. A precise prompt ("under 100 words, as a table") returns something you can use directly, so you do not spend more tokens on follow-up corrections. Vague prompts waste tokens, time and money.</p></div>
+<h3>Weak versus strong</h3>
+<table>
+<tr><th>Weak</th><th>Strong</th></tr>
+<tr><td>"Tell me about this customer issue."</td><td>"Extract issue summary, likely cause, priority and recommended action from the text below. Return valid JSON with exactly those four keys, plus a two-column markdown table of the same fields. Use a neutral, professional tone."</td></tr>
+</table>
+<p>The strong version states the fields, the output format, the strictness and the tone, and it produces something a program can parse.</p>
+
+<h2 id="calling-a-model-from-python">Calling a model from Python</h2>
+<p>Hosted models are reached through an <strong>API</strong>. You authenticate with an <strong>API key</strong>, send a list of messages as JSON, and read the reply. The same pattern works across providers (OpenAI, Groq, Anthropic, and others); only the client and model name change.</p>
+<pre><code>import os, json
+from groq import Groq                       # pip install groq
+
+client = Groq(api_key=os.environ["GROQ_API_KEY"])   # never hard-code keys
+
+prompt = """Extract these fields from the text: issue_summary, possible_cause,
+priority, recommended_action. Return only valid JSON with those four keys.
+
+Text: Customers report checkout fails after the 3pm deploy; error 500 on payment."""
+
+resp = client.chat.completions.create(
+    model="openai/gpt-oss-20b",
+    messages=[{"role": "system", "content": "You are a precise support-triage assistant."},
+              {"role": "user", "content": prompt}],
+    temperature=0,
+)
+ticket = json.loads(resp.choices[0].message.content)   # JSON -&gt; Python dict
+print(ticket["priority"])</code></pre>
+<div class="callout tip"><strong class="t">Why JSON matters</strong><p>Asking for JSON turns a chatty answer into data your code can use: write it to a log, create a ticket, fill a database. Always validate it with <code>json.loads</code> inside a <code>try</code> block and retry or repair when the model returns malformed output. Keep API keys in environment variables, not in notebooks you share.</p></div>
+
+<h2 id="giving-a-model-your-own-knowledge-rag">Giving a model your own knowledge: RAG</h2>
+<p><strong>Retrieval-augmented generation</strong> keeps the base model unchanged and hands it your data at question time. The flow is: split your documents into chunks, turn each into an embedding (a vector of numbers capturing meaning), store them in a vector index, and when a question arrives, find the closest chunks and put them in the prompt. This gives domain-specific, up-to-date answers without retraining, and you can show the sources.</p>
+<table>
+<tr><th></th><th>RAG</th><th>Fine-tuning</th></tr>
+<tr><td>Changes the model?</td><td>No</td><td>Yes</td></tr>
+<tr><td>Best for</td><td>Facts and documents that change</td><td>Style, format and consistent behaviour</td></tr>
+<tr><td>Cost to update</td><td>Re-index documents</td><td>Retrain</td></tr>
+</table>
+
+<h2 id="agentic-ai">Agentic AI</h2>
+<p>A standard model answers a prompt. An <strong>agent</strong> goes further: it plans, picks tools (search, code, email, databases), carries out steps and checks the result, with limited human intervention. An onboarding agent, for example, could read a request, create accounts, send emails and log what it did. Self-driving cars are a physical-world cousin. The more freedom an agent has, the more it needs permission limits, logging and human approval for risky actions.</p>
+
+<h2 id="responsible-ai-bias-privacy-and-security">Responsible AI: bias, privacy and security</h2>
+<ul>
+<li><strong>Bias.</strong> Models reflect their training data. If the data under-represents or stereotypes a group, outputs will too. Mitigate with diverse, representative data, testing across groups, human review, and reporting problems to the model provider. RAG over vetted data can also help steer outputs.</li>
+<li><strong>Privacy.</strong> Do not paste confidential or personal data into tools you do not control. Privacy-preserving approaches include <strong>federated learning</strong>, where training happens on local devices and only model updates are shared, not raw data. Consent over training data is an open legal and ethical question.</li>
+<li><strong>Security.</strong> Models and agents can be tricked by hostile text (prompt injection), and data can leak through careless use. Treat model output and any outside text as untrusted input.</li>
+<li><strong>Governance.</strong> Know who owns the data, how it is stored, what is logged and who is accountable for decisions.</li>
+</ul>
+
+<h2 id="will-ai-replace-jobs">Will AI replace jobs?</h2>
+<p>The realistic view from the class discussion: generative AI changes how work is done more than it removes whole roles. It speeds up drafting, coding and analysis, so a person can act as a <em>reviewer</em> who validates the output rather than writing everything from scratch. Reasons it does not simply replace people:</p>
+<ul>
+<li><strong>Cost.</strong> Running large models at scale is expensive, so automating everything is often uneconomical.</li>
+<li><strong>Errors.</strong> Even strong models make mistakes, including in code, so humans must check results.</li>
+<li><strong>Accountability.</strong> Someone has to own the decision, handle edge cases and understand the business context.</li>
+</ul>
+<p>The practical takeaway is to learn to work <em>with</em> these tools: write good prompts, verify outputs and know their limits.</p>
+
+<h2 id="a-quick-checklist-before-you-ship-an-ai-feature">A quick checklist before you ship an AI feature</h2>
+<ol class="steps">
+<li>Is the prompt specific, with a defined output format?</li>
+<li>Are outputs validated before anything acts on them?</li>
+<li>Is a person in the loop for high-stakes decisions?</li>
+<li>Are keys, personal data and secrets kept out of prompts and code?</li>
+<li>Have you tested for bias and for failure cases?</li>
+<li>Do you know the cost per request at your expected volume?</li>
+</ol>
+<div class="pager"><a href="deep-learning.html">← Deep Learning</a><a href="playbook.html">Project Playbook →</a></div></main></div>
+<footer>Everything AI · a study guide built from the Simplilearn Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<script src="assets/search-index.js"></script><script src="assets/app.js"></script>
+</body></html>

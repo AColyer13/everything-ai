@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Glossary · Everything AI</title>
+<meta name="description" content="Searchable definitions">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="top"><div class="bar">
+<a class="logo" href="index.html">Everything <b>AI</b></a>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="glossary.html" class=active>Glossary</a></nav>
+<div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
+</div></header>
+<div class="wrap single"><main><h1>Glossary</h1>
+<p class="lede">Plain-English definitions. Type in the box to filter.</p>
+<input id="gfilter" type="search" placeholder="Filter terms…" style="width:100%;max-width:420px;padding:10px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;margin:8px 0 12px">
+<dl class="gloss">
+<dt>Activation function</dt><dd>A function applied to a neuron's weighted sum that lets a network model non-linear patterns. Common ones: ReLU, sigmoid, tanh, softmax.</dd>
+<dt>Agentic AI</dt><dd>An AI system that plans and carries out multi-step tasks using tools, with limited human intervention.</dd>
+<dt>API key</dt><dd>A secret string that identifies you to a service. Keep it in an environment variable, never in shared code.</dd>
+<dt>Attention</dt><dd>A mechanism that lets a model weigh how relevant each part of the input is to every other part. The core of transformers.</dd>
+<dt>Autoencoder</dt><dd>A network that compresses data into a small code and rebuilds it. Used for denoising, compression and anomaly detection.</dd>
+<dt>Backpropagation</dt><dd>The method that computes each weight's gradient by applying the chain rule backwards through the network.</dd>
+<dt>Bagging</dt><dd>Training many models on random resamples of the data and averaging them to reduce variance. Random forest is the best-known example.</dd>
+<dt>Batch normalization</dt><dd>Rescaling a layer's inputs during training so learning is faster and more stable.</dd>
+<dt>Bayes' theorem</dt><dd>A rule for updating a probability when new evidence arrives: P(A|B) = P(B|A)·P(A) / P(B).</dd>
+<dt>BERT</dt><dd>A transformer encoder that reads text in both directions. Pretrained, then fine-tuned for tasks like classification and question answering.</dd>
+<dt>Bias (data)</dt><dd>Systematic skew in training data that leads a model to treat groups unfairly or make skewed predictions.</dd>
+<dt>Bias (model)</dt><dd>Error from a model being too simple to capture the real pattern (underfitting).</dd>
+<dt>Boosting</dt><dd>Training models in sequence, each correcting the previous one's errors. Examples: AdaBoost, gradient boosting, XGBoost.</dd>
+<dt>Broadcasting</dt><dd>NumPy's rule for combining arrays of different shapes without copying data.</dd>
+<dt>Central Limit Theorem</dt><dd>The averages of many samples tend toward a normal distribution regardless of the original distribution.</dd>
+<dt>Chi-square test</dt><dd>A test for relationships between categorical variables, or whether data fits an expected distribution.</dd>
+<dt>Classification</dt><dd>Predicting a category, such as spam or not spam.</dd>
+<dt>Clustering</dt><dd>Grouping similar points without labels. K-means and hierarchical clustering are common methods.</dd>
+<dt>CNN (convolutional neural network)</dt><dd>A network that slides small filters over images to detect patterns from edges up to objects.</dd>
+<dt>Cold start</dt><dd>A recommender's difficulty with new users or items that have no history.</dd>
+<dt>Collaborative filtering</dt><dd>Recommending by using the behaviour of many users, such as people with similar tastes.</dd>
+<dt>Confidence interval</dt><dd>A range built so that it contains the true value in a stated share of repeated samples.</dd>
+<dt>Confusion matrix</dt><dd>A table of true and false positives and negatives for a classifier.</dd>
+<dt>Context window</dt><dd>How much text a language model can consider at one time.</dd>
+<dt>Correlation</dt><dd>A measure from -1 to 1 of how strongly two variables move together. It does not prove causation.</dd>
+<dt>Cross-validation</dt><dd>Splitting training data into folds and rotating which fold is held out, to estimate performance reliably.</dd>
+<dt>Data drift</dt><dd>A change in the inputs a deployed model sees compared with training data.</dd>
+<dt>Data leakage</dt><dd>When information from the test set or the future sneaks into training, making results look better than they are.</dd>
+<dt>Decision tree</dt><dd>A model that predicts by following a series of yes/no questions.</dd>
+<dt>Diffusion model</dt><dd>A generator that starts from noise and removes it step by step to produce an image. Stable Diffusion is one.</dd>
+<dt>Dimensionality reduction</dt><dd>Representing data with fewer features while keeping most of the information. PCA is the classic method.</dd>
+<dt>Dropout</dt><dd>Randomly switching off neurons during training to reduce overfitting.</dd>
+<dt>Early stopping</dt><dd>Ending training when validation performance stops improving.</dd>
+<dt>Embedding</dt><dd>A vector of numbers that captures the meaning of a word, sentence, image or item.</dd>
+<dt>Ensemble</dt><dd>A combination of several models whose joint prediction beats any single one.</dd>
+<dt>Epoch</dt><dd>One full pass through the training data.</dd>
+<dt>Euclidean distance</dt><dd>The straight-line distance between two points.</dd>
+<dt>Eigenvector / eigenvalue</dt><dd>A direction that a matrix only stretches (the vector) and the stretch factor (the value). The basis of PCA.</dd>
+<dt>Federated learning</dt><dd>Training across many devices where raw data stays local and only model updates are shared.</dd>
+<dt>Few-shot prompting</dt><dd>Including a few worked examples in a prompt so the model imitates the pattern.</dd>
+<dt>Fine-tuning</dt><dd>Continuing to train a pretrained model on your own data for a specific task or style.</dd>
+<dt>Gradient</dt><dd>The direction and rate of steepest increase of a function. Training follows its negative.</dd>
+<dt>Gradient descent</dt><dd>Repeatedly stepping against the gradient to reduce error.</dd>
+<dt>Hallucination</dt><dd>A fluent but false statement produced by a language model.</dd>
+<dt>Hyperparameter</dt><dd>A setting you choose before training, such as learning rate, tree depth or number of clusters.</dd>
+<dt>Hypothesis testing</dt><dd>A procedure for deciding whether data provides enough evidence against a default assumption (the null hypothesis).</dd>
+<dt>JSON</dt><dd>A text format of key-value pairs and lists used by most web APIs. Maps closely to Python dictionaries.</dd>
+<dt>K-means</dt><dd>A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points.</dd>
+<dt>k-nearest neighbors</dt><dd>A model that predicts from the labels of the k closest training points.</dd>
+<dt>L1 / LASSO</dt><dd>Regularization that can shrink some coefficients to exactly zero, performing feature selection.</dd>
+<dt>L2 / Ridge</dt><dd>Regularization that shrinks all coefficients smoothly toward zero.</dd>
+<dt>Learning rate</dt><dd>How big a step the optimizer takes each update.</dd>
+<dt>LLM (large language model)</dt><dd>A very large transformer trained on text to predict the next token. It can write, summarize, translate and code.</dd>
+<dt>Loss function</dt><dd>A number measuring how wrong the model's predictions are. Training tries to minimize it.</dd>
+<dt>LSTM</dt><dd>A recurrent cell with gates that lets networks remember information over long sequences.</dd>
+<dt>MLOps</dt><dd>The practice of deploying, monitoring and retraining machine learning models reliably.</dd>
+<dt>Normal distribution</dt><dd>The symmetric bell-shaped distribution that describes many natural measurements.</dd>
+<dt>Null hypothesis</dt><dd>The default assumption that nothing interesting is happening, which a test tries to reject.</dd>
+<dt>Object detection</dt><dd>Finding and labelling objects in an image with bounding boxes. YOLO is a fast approach.</dd>
+<dt>Outlier</dt><dd>A point far from the rest of the data.</dd>
+<dt>Overfitting</dt><dd>When a model memorizes training noise and performs poorly on new data.</dd>
+<dt>p-value</dt><dd>The probability of data at least this extreme if the null hypothesis were true. Small values are evidence against it.</dd>
+<dt>PCA (principal component analysis)</dt><dd>A method that finds the directions of greatest variance and projects data onto the top few.</dd>
+<dt>Perceptron</dt><dd>A single artificial neuron: weighted sum plus bias, passed through an activation.</dd>
+<dt>Precision</dt><dd>Of the items predicted positive, the share that really are.</dd>
+<dt>Prompt engineering</dt><dd>Writing instructions for a model so the output is accurate, well formatted and cheap to produce.</dd>
+<dt>Prompt injection</dt><dd>Hostile text that tries to override a model's instructions. Treat outside text as untrusted.</dd>
+<dt>RAG (retrieval-augmented generation)</dt><dd>Supplying a model with relevant passages from your own data at question time, so answers are grounded and current.</dd>
+<dt>Random forest</dt><dd>An ensemble of decision trees trained on random subsets, averaged for a robust prediction.</dd>
+<dt>Recall</dt><dd>Of all truly positive items, the share the model found.</dd>
+<dt>Regression</dt><dd>Predicting a number, such as a price.</dd>
+<dt>Regularization</dt><dd>A penalty or constraint that discourages overly complex models to reduce overfitting.</dd>
+<dt>ReLU</dt><dd>The activation max(0, x). The default choice for hidden layers.</dd>
+<dt>Reinforcement learning</dt><dd>Learning to act by trial and error, guided by rewards.</dd>
+<dt>ResNet</dt><dd>A deep CNN using skip connections so very deep networks can train.</dd>
+<dt>RNN</dt><dd>A network that processes sequences one step at a time, carrying a hidden state as memory.</dd>
+<dt>Self-attention</dt><dd>Attention where every token in a sequence weighs every other token in the same sequence.</dd>
+<dt>SGD</dt><dd>Stochastic gradient descent: update weights using one example or a small batch at a time.</dd>
+<dt>Sigmoid</dt><dd>An S-shaped function mapping any number to between 0 and 1.</dd>
+<dt>SMOTE</dt><dd>A technique that creates synthetic examples of the minority class to balance a dataset.</dd>
+<dt>Softmax</dt><dd>Turns a list of scores into probabilities that sum to 1.</dd>
+<dt>Stacking</dt><dd>An ensemble where a final model learns how to combine other models' predictions.</dd>
+<dt>Supervised learning</dt><dd>Learning from examples that include the correct answer.</dd>
+<dt>SVD</dt><dd>Singular value decomposition: factoring a matrix into simpler pieces. Used in PCA and recommenders.</dd>
+<dt>SVM</dt><dd>Support vector machine: a classifier that finds the widest-margin boundary between classes.</dd>
+<dt>Temperature</dt><dd>A setting controlling how random a language model's output is.</dd>
+<dt>Tensor</dt><dd>An n-dimensional array of numbers, the basic data structure in TensorFlow and PyTorch.</dd>
+<dt>Token</dt><dd>A small piece of text (a word or part of one) that a language model reads and writes.</dd>
+<dt>Transfer learning</dt><dd>Reusing a model pretrained on a large dataset as the starting point for a new task.</dd>
+<dt>Transformer</dt><dd>A neural architecture built on self-attention that underlies BERT and modern LLMs.</dd>
+<dt>Type I error</dt><dd>Rejecting a null hypothesis that is actually true (a false alarm).</dd>
+<dt>Type II error</dt><dd>Failing to reject a null hypothesis that is actually false (a miss).</dd>
+<dt>Underfitting</dt><dd>When a model is too simple to capture the pattern and performs poorly even on training data.</dd>
+<dt>Unsupervised learning</dt><dd>Finding structure in data without labels.</dd>
+<dt>Vanishing gradient</dt><dd>When gradients shrink toward zero in deep networks, so early layers barely learn.</dd>
+<dt>Variance</dt><dd>How spread out values are. In modelling, error from being too sensitive to the training data (overfitting).</dd>
+<dt>YOLO</dt><dd>"You only look once": a fast object detector that predicts boxes and classes in one pass.</dd>
+<dt>Zero-shot prompting</dt><dd>Asking a model to do a task with an instruction only and no examples.</dd>
+</dl>
+<div class="pager"><a href="playbook.html">← Project Playbook</a><span></span></div></main></div>
+<footer>Everything AI · a study guide built from the Simplilearn Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<script src="assets/search-index.js"></script><script src="assets/app.js"></script>
+</body></html>

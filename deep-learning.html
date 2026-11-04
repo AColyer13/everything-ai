@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deep Learning · Everything AI</title>
+<meta name="description" content="Neural nets, optimizers, CNNs, RNNs, transformers, PyTorch">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="top"><div class="bar">
+<a class="logo" href="index.html">Everything <b>AI</b></a>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html" class=active>Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="glossary.html">Glossary</a></nav>
+<div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
+</div></header>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#why-deep-learning-and-when">Why deep learning, and when</a><a href="#the-perceptron-and-how-networks-learn">The perceptron and how networks learn</a><a href="#tensorflow-and-keras">TensorFlow and Keras</a><a href="#optimizers">Optimizers</a><a href="#making-training-work">Making training work</a><a href="#convolutional-neural-networks-cnns">Convolutional neural networks (CNNs)</a><a href="#transfer-learning">Transfer learning</a><a href="#object-detection-and-edge-deployment">Object detection and edge deployment</a><a href="#sequence-models-rnns">Sequence models: RNNs</a><a href="#transformers-and-bert">Transformers and BERT</a><a href="#autoencoders">Autoencoders</a><a href="#pytorch">PyTorch</a></aside><main><h1>Deep Learning</h1>
+<p class="lede">Deep learning uses neural networks with many layers to learn features directly from raw data such as pixels, audio and text. It powers modern vision, speech and language systems.</p>
+
+<h2 id="why-deep-learning-and-when">Why deep learning, and when</h2>
+<p>Classical ML needs you to design features by hand. Deep networks learn their own features, which is why they dominate images, audio and language. The price is that they need lots of data, lots of compute and careful tuning.</p>
+<table>
+<tr><th></th><th>Classical ML</th><th>Deep learning</th></tr>
+<tr><td>Best for</td><td>Tabular data, small to medium datasets</td><td>Images, audio, text, very large datasets</td></tr>
+<tr><td>Features</td><td>Engineered by you</td><td>Learned by the network</td></tr>
+<tr><td>Compute</td><td>CPU is usually enough</td><td>GPU recommended</td></tr>
+<tr><td>Explainability</td><td>Often easy</td><td>Harder</td></tr>
+</table>
+<p>The field took off in the last decade through three things arriving together: big datasets, GPUs, and better training tricks. Typical applications are image recognition, translation, speech assistants, recommendations, medical imaging and self-driving perception. Challenges include data hunger, cost, overfitting, bias in data, and black-box behaviour.</p>
+
+<h2 id="the-perceptron-and-how-networks-learn">The perceptron and how networks learn</h2>
+<p>A <strong>perceptron</strong> is one artificial neuron: multiply each input by a weight, add a bias, and pass the sum through an <strong>activation function</strong>.</p>
+<pre><code>z = w1*x1 + w2*x2 + ... + b
+output = activation(z)</code></pre>
+<table>
+<tr><th>Activation</th><th>Shape</th><th>Typical use</th></tr>
+<tr><td>Sigmoid</td><td>Squashes to 0..1</td><td>Binary output probability</td></tr>
+<tr><td>Tanh</td><td>Squashes to -1..1</td><td>Older recurrent nets</td></tr>
+<tr><td>ReLU</td><td>max(0, z)</td><td>Default for hidden layers</td></tr>
+<tr><td>Softmax</td><td>Probabilities that sum to 1</td><td>Multi-class output</td></tr>
+</table>
+<p>Without activation functions, stacking layers would collapse into one linear function. A single perceptron can only draw a straight boundary, so it cannot solve problems like XOR; hidden layers remove that limit.</p>
+<h3>Training in four repeating steps</h3>
+<ol class="steps">
+<li><strong>Forward propagation:</strong> push inputs through the layers to get a prediction.</li>
+<li><strong>Loss:</strong> measure how wrong it was.</li>
+<li><strong>Backpropagation:</strong> use the chain rule to work out how much each weight contributed to the error (its gradient).</li>
+<li><strong>Update:</strong> nudge each weight against its gradient, scaled by the <strong>learning rate</strong>. Repeat over many <strong>epochs</strong>.</li>
+</ol>
+<h3>Loss functions</h3>
+<table>
+<tr><th>Task</th><th>Loss</th></tr>
+<tr><td>Regression</td><td>Mean squared error, mean absolute error</td></tr>
+<tr><td>Binary classification</td><td>Binary cross-entropy</td></tr>
+<tr><td>Multi-class classification</td><td>Categorical cross-entropy</td></tr>
+</table>
+
+<h2 id="tensorflow-and-keras">TensorFlow and Keras</h2>
+<p>TensorFlow works on <strong>tensors</strong> (n-dimensional arrays). Keras is its friendly model-building layer. Use the <strong>Sequential API</strong> for a simple stack of layers and the <strong>Functional API</strong> for branches, multiple inputs or outputs. TensorFlow Playground is a free browser tool for building intuition on tiny networks.</p>
+<pre><code>import tensorflow as tf
+from tensorflow import keras
+
+model = keras.Sequential([
+    keras.layers.Input(shape=(20,)),
+    keras.layers.Dense(64, activation="relu"),
+    keras.layers.Dropout(0.3),
+    keras.layers.Dense(32, activation="relu"),
+    keras.layers.Dense(1, activation="sigmoid"),
+])
+model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
+history = model.fit(X_train, y_train, validation_split=0.2, epochs=50, batch_size=32,
+                    callbacks=[keras.callbacks.EarlyStopping(patience=5, restore_best_weights=True)])</code></pre>
+
+<h2 id="optimizers">Optimizers</h2>
+<p>An optimizer decides how to use the gradient. They build on each other:</p>
+<table>
+<tr><th>Optimizer</th><th>Key idea</th></tr>
+<tr><td>SGD</td><td>Step downhill using a small batch of data at a time</td></tr>
+<tr><td>Momentum</td><td>Keep a running velocity so steps smooth out and roll through flat spots</td></tr>
+<tr><td>Adagrad</td><td>Give rarely-updated parameters bigger steps</td></tr>
+<tr><td>Adadelta, RMSProp</td><td>Adapt step sizes using a moving window of recent gradients, fixing Adagrad's ever-shrinking steps</td></tr>
+<tr><td>Adam</td><td>Momentum plus RMSProp. The usual first choice</td></tr>
+</table>
+
+<h2 id="making-training-work">Making training work</h2>
+<ul>
+<li><strong>Batch normalization</strong> rescales each layer's inputs, which speeds training and tolerates higher learning rates.</li>
+<li><strong>Vanishing and exploding gradients:</strong> in deep nets gradients can shrink to nothing or blow up. ReLU, careful weight initialization, normalization, residual connections and gradient clipping help.</li>
+<li><strong>Dropout</strong> randomly switches off neurons during training so the network cannot lean on any one of them. <strong>Early stopping</strong> halts training when validation loss stops improving.</li>
+<li><strong>Hyperparameter tuning:</strong> learning rate, batch size, depth, width and dropout rate. Try a random or Bayesian search before an exhaustive grid.</li>
+<li><strong>Interpretability:</strong> tools such as SHAP, LIME and saliency maps show which inputs drove a prediction.</li>
+</ul>
+
+<h2 id="convolutional-neural-networks-cnns">Convolutional neural networks (CNNs)</h2>
+<p>CNNs are built for images. Instead of connecting every pixel to every neuron, small <strong>filters</strong> slide across the image and detect local patterns such as edges, then textures, then object parts in later layers. Filters are shared across the image, which cuts parameters dramatically.</p>
+<table>
+<tr><th>Layer</th><th>Does</th></tr>
+<tr><td>Convolution</td><td>Applies filters to produce feature maps</td></tr>
+<tr><td>Pooling (max or average)</td><td>Shrinks the maps and adds tolerance to small shifts</td></tr>
+<tr><td>Flatten and dense</td><td>Turns features into a final decision</td></tr>
+</table>
+<pre><code>cnn = keras.Sequential([
+    keras.layers.Input(shape=(64, 64, 3)),
+    keras.layers.Conv2D(32, 3, activation="relu"), keras.layers.MaxPooling2D(),
+    keras.layers.Conv2D(64, 3, activation="relu"), keras.layers.MaxPooling2D(),
+    keras.layers.Flatten(), keras.layers.Dense(128, activation="relu"),
+    keras.layers.Dense(10, activation="softmax"),
+])</code></pre>
+<p><strong>ResNet-50</strong> is a famous deep CNN that uses skip connections so gradients flow through 50 layers. <strong>TensorBoard</strong> plots training curves so you can see over- and underfitting.</p>
+
+<h2 id="transfer-learning">Transfer learning</h2>
+<p>Instead of training from scratch, start from a model pretrained on a huge dataset (for example ImageNet) and adapt it. Freeze the early layers, which already know edges and shapes, and train a new final layer on your small dataset. Benefits: far less data and compute, and usually better accuracy. Pick a pretrained model that matches your task and image size, and check its licence.</p>
+<pre><code>base = keras.applications.ResNet50(weights="imagenet", include_top=False, input_shape=(224, 224, 3))
+base.trainable = False
+model = keras.Sequential([base, keras.layers.GlobalAveragePooling2D(), keras.layers.Dense(5, activation="softmax")])</code></pre>
+
+<h2 id="object-detection-and-edge-deployment">Object detection and edge deployment</h2>
+<p>Classification says what is in an image; <strong>object detection</strong> also says where, by predicting bounding boxes. <strong>YOLO</strong> ("you only look once") does this in a single pass, which makes it fast enough for video. Preparing the dataset means labelling boxes for each object. For phones and embedded devices, <strong>TensorFlow Lite</strong> converts a trained model into a smaller, faster format.</p>
+
+<h2 id="sequence-models-rnns">Sequence models: RNNs</h2>
+<p>Some data is ordered: text, speech, sensor readings. A <strong>recurrent neural network</strong> reads one step at a time and carries a hidden state forward as memory. Training uses backpropagation through time. Plain RNNs forget over long spans because of vanishing gradients, which is why <strong>LSTM</strong> and <strong>GRU</strong> cells with gates were invented. <strong>Hybrid models</strong> combine a CNN to read each frame with an RNN to read the sequence, as in video classification.</p>
+
+<h2 id="transformers-and-bert">Transformers and BERT</h2>
+<p>Transformers replaced recurrence with <strong>self-attention</strong>: every token looks at every other token and decides how much to weigh it. That captures long-range context and trains in parallel on GPUs.</p>
+<ul>
+<li><strong>Architecture:</strong> an encoder stack, a decoder stack, positional encoding (so order is known), multi-head attention and feed-forward layers.</li>
+<li><strong>BERT</strong> uses only the encoder and reads text in both directions. It is pretrained, then fine-tuned for classification, question answering and search.</li>
+<li>Decoder-style transformers are the basis of large language models. See <a href="generative-ai.html">Generative AI</a>.</li>
+</ul>
+
+<h2 id="autoencoders">Autoencoders</h2>
+<p>An autoencoder squeezes its input through a narrow <strong>bottleneck</strong> (the encoder) then rebuilds it (the decoder), trained to make the output match the input. The bottleneck is forced to hold the essence of the data. Uses: compression, denoising, anomaly detection (bad reconstruction means unusual input) and pretraining.</p>
+
+<h2 id="pytorch">PyTorch</h2>
+<p>PyTorch builds the computation graph as your code runs, which makes debugging feel like normal Python. You write the model as a class and the training loop yourself.</p>
+<pre><code>import torch, torch.nn as nn
+
+class Net(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.net = nn.Sequential(nn.Linear(20, 64), nn.ReLU(), nn.Linear(64, 1))
+    def forward(self, x):
+        return self.net(x)
+
+model, loss_fn = Net(), nn.BCEWithLogitsLoss()
+opt = torch.optim.Adam(model.parameters(), lr=1e-3)
+
+for epoch in range(20):
+    for xb, yb in loader:
+        opt.zero_grad()
+        loss = loss_fn(model(xb).squeeze(1), yb)
+        loss.backward()      # backpropagation
+        opt.step()           # weight update</code></pre>
+<div class="callout note"><strong class="t">TensorFlow or PyTorch?</strong><p>Both are fine. Keras gets you a working model in fewer lines; PyTorch gives more control and is common in research. Concepts transfer completely, so learn one well first.</p></div>
+<div class="pager"><a href="machine-learning.html">← Machine Learning</a><a href="generative-ai.html">Generative AI →</a></div></main></div>
+<footer>Everything AI · a study guide built from the Simplilearn Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<script src="assets/search-index.js"></script><script src="assets/app.js"></script>
+</body></html>

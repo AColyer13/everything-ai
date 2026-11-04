@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Python · Everything AI</title>
+<meta name="description" content="The language of AI: syntax, functions, OOP, threads">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="top"><div class="bar">
+<a class="logo" href="index.html">Everything <b>AI</b></a>
+<nav class="main"><a href="python.html" class=active>Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="glossary.html">Glossary</a></nav>
+<div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
+</div></header>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#getting-set-up">Getting set up</a><a href="#types-variables-and-operators">Types, variables and operators</a><a href="#decisions-and-loops">Decisions and loops</a><a href="#functions">Functions</a><a href="#object-oriented-programming">Object-oriented programming</a><a href="#threads">Threads</a><a href="#files-and-data-formats">Files and data formats</a></aside><main><h1>Python</h1>
+<p class="lede">Python is the default language of AI because it reads almost like English and has a library for nearly everything. This page covers the parts of the language you will use every day.</p>
+
+<h2 id="getting-set-up">Getting set up</h2>
+<p>You need three things: a Python interpreter, an editor or IDE, and a way to install packages. For data work, <strong>Jupyter Notebook</strong> is the usual choice because you can run code in small cells and see results immediately.</p>
+<pre><code>python --version
+pip install numpy pandas matplotlib scikit-learn jupyter
+jupyter notebook</code></pre>
+<div class="callout tip"><strong class="t">Habit worth building</strong><p>Use a virtual environment per project (<code>python -m venv .venv</code>) so one project's package versions never break another's.</p></div>
+
+<h2 id="types-variables-and-operators">Types, variables and operators</h2>
+<p>Python is dynamically typed: a variable takes the type of the value you assign. The core types are <code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>, and the collections <code>list</code>, <code>tuple</code>, <code>set</code> and <code>dict</code>.</p>
+<table>
+<tr><th>Type</th><th>Example</th><th>Mutable?</th><th>Use it for</th></tr>
+<tr><td>list</td><td><code>[1, 2, 3]</code></td><td>Yes</td><td>Ordered collections that change</td></tr>
+<tr><td>tuple</td><td><code>(1, 2)</code></td><td>No</td><td>Fixed records, dictionary keys</td></tr>
+<tr><td>set</td><td><code>{1, 2, 3}</code></td><td>Yes</td><td>Unique items, fast membership tests</td></tr>
+<tr><td>dict</td><td><code>{"name": "Ada"}</code></td><td>Yes</td><td>Key-value lookups</td></tr>
+</table>
+<pre><code>price = 19.99
+qty = 3
+total = price * qty          # arithmetic
+is_big = total &gt; 50          # comparison gives a bool
+name = "ai"
+print(name.upper(), name[0], f"Total: {total:.2f}")</code></pre>
+
+<h3>Strings</h3>
+<p>Strings are immutable sequences. Slice them with <code>s[start:stop:step]</code>, and use f-strings for formatting. Methods like <code>.split()</code>, <code>.strip()</code>, <code>.replace()</code> and <code>.join()</code> cover most cleaning jobs.</p>
+
+<h2 id="decisions-and-loops">Decisions and loops</h2>
+<pre><code>score = 72
+if score &gt;= 90:
+    grade = "A"
+elif score &gt;= 70:
+    grade = "B"
+else:
+    grade = "C"
+
+for i in range(5):           # 0..4
+    if i == 3:
+        continue             # skip this pass
+    if i == 4:
+        break                # leave the loop
+    print(i)
+
+n = 0
+while n &lt; 3:
+    n += 1
+else:
+    print("loop finished without break")   # runs only if no break</code></pre>
+<p><code>break</code> exits the loop, <code>continue</code> skips to the next pass, and the lesser-known <code>else</code> block on a loop runs only when the loop was not stopped by <code>break</code>.</p>
+
+<h2 id="functions">Functions</h2>
+<p>A function packages reusable logic. Give it clear inputs and a <code>return</code> value rather than printing inside it.</p>
+<pre><code>def describe(name, age=30, *tags, **extra):
+    """Positional, default, variable-length (*) and keyword (**) arguments."""
+    return f"{name} ({age}) tags={tags} extra={extra}"
+
+describe("Ada", 36, "ml", "math", city="London")</code></pre>
+<h3>Scope</h3>
+<p>Python looks for a name in this order: <strong>L</strong>ocal, <strong>E</strong>nclosing, <strong>G</strong>lobal, <strong>B</strong>uilt-in. Assigning inside a function creates a local variable unless you declare <code>global</code> or <code>nonlocal</code>. In practice, pass values in and return results out.</p>
+<h3>Generators, lambdas and comprehensions</h3>
+<pre><code>def squares(n):              # generator: yields one value at a time
+    for i in range(n):
+        yield i * i
+
+evens = [x for x in range(20) if x % 2 == 0]       # list comprehension
+lookup = {w: len(w) for w in ["ai", "data"]}       # dict comprehension
+by_len = sorted(["aaa", "b", "cc"], key=lambda s: len(s))</code></pre>
+<p>Generators matter for large data because they produce values lazily instead of building the whole list in memory.</p>
+
+<h2 id="object-oriented-programming">Object-oriented programming</h2>
+<p>A <strong>class</strong> is a blueprint and an <strong>object</strong> is one instance of it. Libraries like scikit-learn and PyTorch are built from classes, so reading them gets much easier once this clicks.</p>
+<pre><code>class Account:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self._balance = balance        # leading underscore: "treat as private"
+
+    def deposit(self, amount):
+        if amount &lt;= 0:
+            raise ValueError("amount must be positive")
+        self._balance += amount
+
+    @property
+    def balance(self):
+        return self._balance
+
+class Savings(Account):                # inheritance
+    def add_interest(self, rate):
+        self.deposit(self._balance * rate)</code></pre>
+<table>
+<tr><th>Pillar</th><th>Meaning</th></tr>
+<tr><td>Encapsulation</td><td>Keep data and the methods that change it together, and control access to it</td></tr>
+<tr><td>Inheritance</td><td>A child class reuses and extends a parent class</td></tr>
+<tr><td>Polymorphism</td><td>Different classes respond to the same method name in their own way</td></tr>
+<tr><td>Abstraction</td><td>Expose a simple interface and hide the details behind it</td></tr>
+</table>
+<p>Python has no strict private members. A single underscore signals "internal" and a double underscore triggers name mangling.</p>
+
+<h2 id="threads">Threads</h2>
+<p>Threads let a program do several things at once, which helps when work spends its time waiting, such as network calls or file reads. Because of the Global Interpreter Lock, threads do not speed up CPU-heavy Python code; use <code>multiprocessing</code> for that.</p>
+<pre><code>import threading, time
+
+def work(n):
+    time.sleep(1)
+    print("done", n)
+
+threads = [threading.Thread(target=work, args=(i,)) for i in range(3)]
+for t in threads: t.start()
+for t in threads: t.join()      # wait for all of them (synchronization)
+
+lock = threading.Lock()         # protect shared data
+counter = 0
+def bump():
+    global counter
+    with lock:
+        counter += 1</code></pre>
+
+<h2 id="files-and-data-formats">Files and data formats</h2>
+<pre><code>import csv, json
+
+with open("data.csv", newline="") as f:
+    rows = list(csv.DictReader(f))
+
+with open("out.json", "w") as f:
+    json.dump(rows, f, indent=2)</code></pre>
+<div class="callout note"><strong class="t">JSON and dictionaries</strong><p>JSON is how most web APIs send data, and a JSON object maps almost one-to-one onto a Python dictionary. If you understand dictionaries, you already understand JSON. This comes up again on the <a href="generative-ai.html">Generative AI</a> page.</p></div>
+<div class="pager"><span></span><a href="data-science.html">Data Science →</a></div></main></div>
+<footer>Everything AI · a study guide built from the Simplilearn Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<script src="assets/search-index.js"></script><script src="assets/app.js"></script>
+</body></html>
