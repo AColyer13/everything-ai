@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LLM · Everything AI</title>
+<meta name="description" content="Build a language model from scratch on one GPU">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="top"><div class="bar">
+<a class="logo" href="index.html">Everything <b>AI</b></a>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="llm.html" class=active>LLM</a><a href="fine-tuning.html">Fine-Tuning</a><a href="loops.html">Loops</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
+<div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
+</div></header>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#summary">Summary</a><a href="#what-fits-on-your-hardware">What fits on your hardware</a><a href="#the-build-at-a-glance">The build at a glance</a><a href="#step-by-step">Step-by-step</a><a href="#starter-configuration-125m-parameters">Starter configuration (~125M parameters)</a><a href="#scaling-up-when-to-rent-gpus">Scaling up: when to rent GPUs</a><a href="#learning-path-and-reference-code">Learning path and reference code</a><a href="#sources">Sources</a></aside><main><h1>LLM</h1>
+<p class="lede">Building a language model from scratch: what fits on one RTX 5070 Ti, the seven stages, a starter configuration, and when to rent GPUs. Written Nov 4, 2026 by Adam.</p>
+<div class="callout note"><strong class="t">Not from the class</strong><p>This page is a practical guide added on top of the course content. It puts the ideas from <a href="deep-learning.html">Deep Learning</a> (transformers, optimizers) and <a href="generative-ai.html">Generative AI</a> (tokens, pretraining) into a hands-on project. Times, memory and costs are estimates, good to within a factor of about 2. The companion page is <a href="fine-tuning.html">Fine-Tuning</a>.</p></div>
+
+<h2 id="summary">Summary</h2>
+<p>On one RTX 5070 Ti you can train a GPT-2-class model (about 125M parameters) from random weights in roughly a day, and it will write fluent but shallow English. That is the right first project: you learn every stage, and the same code scales to larger models on rented GPUs.</p>
+<p>"From scratch" here means you build the tokenizer, collect the training text, define the transformer, and pretrain it starting from random weights, then teach it to chat. It does <strong>not</strong> mean matching Qwen or Gemma. Those took trillions of tokens and thousands of GPUs. For a useful domain model, <a href="fine-tuning.html">fine-tuning an existing model</a> will beat a home-built one by a wide margin.</p>
+<div class="callout tip"><strong class="t">Recommended path</strong><p>Train a tiny model first to check the code works, then a 125M model locally, then, if you want a model that can actually chat, run the same code on rented GPUs for a few hundred dollars.</p></div>
+
+<h2 id="what-fits-on-your-hardware">What fits on your hardware</h2>
+<p>A 125M model is the sweet spot for an RTX 5070 Ti: about 15 hours of training for a compute-optimal run. Beyond about 350M parameters, training runs take weeks locally and memory gets tight.</p>
+<table>
+<tr><th>Model size</th><th>Training tokens</th><th>Est. time on 5070 Ti</th><th>Training memory</th><th>What you get</th></tr>
+<tr><td>~10M</td><td>~200M (TinyStories-scale)</td><td>~5–10 min</td><td>&lt; 2 GB</td><td>Coherent children's stories; proves the code works</td></tr>
+<tr><td>~125M (GPT-2 small)</td><td>2.5B (compute-optimal)</td><td>~15 hours</td><td>~4–8 GB</td><td>Fluent English, weak facts and reasoning</td></tr>
+<tr><td>~125M</td><td>10B</td><td>~2.5 days</td><td>~4–8 GB</td><td>Roughly original GPT-2 small quality</td></tr>
+<tr><td>~350M</td><td>7B</td><td>~5 days</td><td>~10–14 GB</td><td>Better fluency; still no real reasoning</td></tr>
+<tr><td>~1B</td><td>20B</td><td>~6 weeks</td><td>Does not fit without sharding tricks</td><td>Rent GPUs instead</td></tr>
+</table>
+<h3>How the estimates were made</h3>
+<ul>
+<li><strong>Compute:</strong> training compute is about 6 × parameters × tokens. The card peaks at about 88 TFLOPS BF16 dense. Real training reaches roughly 40% of peak, so about 35 TFLOPS.</li>
+<li><strong>Compute-optimal:</strong> uses the Chinchilla rule of about 20 tokens per parameter.</li>
+<li><strong>Memory rule of thumb:</strong> full training with AdamW in mixed precision needs about 16 bytes per parameter (weights, gradients, optimizer state), plus activations. That is why 1B parameters (~16 GB before activations) doesn't fit on 16 GB.</li>
+</ul>
+
+<h2 id="the-build-at-a-glance">The build at a glance</h2>
+<p>Pretraining (step 4) uses almost all of the compute; every other stage takes minutes to an hour. If evaluation disappoints, the fix is usually more tokens or a bigger model, so you go back to pretraining.</p>
+<pre><code>tokenizer -> data shards -> model -> PRETRAIN (hours to days) -> chat SFT -> evaluate -> export to GGUF
+                                         ^                                      |
+                                         +--- more tokens or a bigger model ----+</code></pre>
+
+<h2 id="step-by-step">Step-by-step</h2>
+<p>Seven stages. Get each one working on a tiny model before scaling up.</p>
+<ol class="steps">
+<li><strong>Tokenizer.</strong> Train a byte-level BPE tokenizer (32k–50k vocabulary) on a sample of your training text with Hugging Face <code>tokenizers</code>, or start by reusing the GPT-2 tokenizer through <code>tiktoken</code>. Reserve special tokens now for chat later (<code>&lt;|user|&gt;</code>, <code>&lt;|assistant|&gt;</code>, <code>&lt;|end|&gt;</code>). See minbpe on the <a href="pioneers.html#minbpe">AI Pioneers</a> page.</li>
+<li><strong>Training data.</strong> For a first run, use TinyStories. For the 125M run, use FineWeb-Edu, web text filtered for educational quality. Tokenize everything once into flat binary shards of token IDs (<code>uint16</code>) so training reads them straight from disk. Hold out about 0.5% as validation.</li>
+<li><strong>Model architecture.</strong> A decoder-only transformer: token embeddings, N blocks of (RMSNorm → causal self-attention with RoPE → RMSNorm → SwiGLU MLP), a final norm, and an output layer tied to the embeddings. Use PyTorch's <code>scaled_dot_product_attention</code> (FlashAttention under the hood). Matching the Llama layout makes the export step much easier.</li>
+<li><strong>Pretraining loop.</strong> Next-token prediction with cross-entropy loss. BF16 autocast, <code>torch.compile</code>, AdamW (lr ~6e-4, betas 0.9/0.95, weight decay 0.1), warmup then cosine decay, gradient clipping at 1.0. Use gradient accumulation to reach about 0.5M tokens per step. Log training and validation loss, save a checkpoint every hour, and print a text sample every few thousand steps.</li>
+<li><strong>Chat fine-tuning (SFT).</strong> The pretrained model only continues text. To make it answer questions, fine-tune on conversations formatted with your special tokens, for example SmolTalk, and compute the loss only on assistant turns. This takes minutes to an hour.</li>
+<li><strong>Evaluation.</strong> Track validation loss, plus a standard benchmark such as HellaSwag. Read the samples yourself: loss going down doesn't guarantee the text is getting better.</li>
+<li><strong>Export and run.</strong> Save in Hugging Face format with a <code>LlamaForCausalLM</code> config, convert with llama.cpp's <code>convert_hf_to_gguf.py</code>, and load it with <code>ollama create</code>. At 125M parameters it runs instantly on CPU.</li>
+</ol>
+
+<h2 id="starter-configuration-125m-parameters">Starter configuration (~125M parameters)</h2>
+<p>This is GPT-2 small's shape with modern components, sized for one 16 GB card. For the 10M test run, use 6 layers, 6 heads, width 384 and context 256 on TinyStories.</p>
+<table>
+<tr><th>Setting</th><th>Value</th></tr>
+<tr><td>Layers / attention heads / width</td><td>12 / 12 / 768</td></tr>
+<tr><td>Context length</td><td>1,024 tokens</td></tr>
+<tr><td>Vocabulary</td><td>50,257 (GPT-2) or 32,768 (your own BPE)</td></tr>
+<tr><td>Micro-batch × gradient accumulation</td><td>16 sequences × 32 steps ≈ 524k tokens per optimizer step</td></tr>
+<tr><td>Training tokens / steps</td><td>2.5B tokens ≈ 4,800 steps (compute-optimal)</td></tr>
+<tr><td>Learning rate</td><td>6e-4 peak, cosine to 6e-5, ~2% warmup</td></tr>
+<tr><td>Optimizer</td><td>AdamW, betas 0.9 / 0.95, weight decay 0.1, grad clip 1.0</td></tr>
+<tr><td>Precision</td><td>BF16 autocast, <code>torch.compile</code> on</td></tr>
+<tr><td>Checkpoints</td><td>Every ~1 hour (enables resuming after a crash)</td></tr>
+</table>
+<div class="callout tip"><strong class="t">Out of memory?</strong><p>Halve the micro-batch and double the accumulation. The effective batch stays the same.</p></div>
+
+<h2 id="scaling-up-when-to-rent-gpus">Scaling up: when to rent GPUs</h2>
+<p>Rent an 8×H100 node once you want a model that can hold a basic conversation. A few hundred dollars there buys more than a month of local training. Karpathy's <a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener">nanochat</a> runs the full pipeline on such a node with a single script (see the <a href="pioneers.html#nanochat">AI Pioneers</a> page).</p>
+<table>
+<tr><th>nanochat run</th><th>Parameters</th><th>Time on 8×H100</th><th>Approx. cost</th><th>Result</th></tr>
+<tr><td>d20 speedrun</td><td>~561M</td><td>~4 hours</td><td>~$100</td><td>Basic chatbot, "like talking to a kindergartener"</td></tr>
+<tr><td>GPT-2 reference</td><td>d24–d26</td><td>~1.65–3 hours</td><td>~$50–75</td><td>Matches or beats 2019 GPT-2 on the CORE benchmark</td></tr>
+<tr><td>d32</td><td>1.9B, trained on 38B tokens</td><td>~33 hours</td><td>~$800</td><td>Strongest model the repo targets</td></tr>
+</table>
+<p>Costs assume about $24/hour for the node; spot pricing can be much lower. The same code also runs on one GPU with gradient accumulation, just about 8× slower than a full node. The 5070 Ti has roughly a tenth of an H100's training throughput, so a d20 run at home would take on the order of weeks (approximate).</p>
+
+<h2 id="learning-path-and-reference-code">Learning path and reference code</h2>
+<p>Write the code yourself once, then switch to a tested codebase for real runs.</p>
+<ul class="checklist">
+<li>☐ <strong>Week 1:</strong> Karpathy's Neural Networks: Zero to Hero series, through "Let's build GPT" and "Let's build the GPT tokenizer."</li>
+<li>☐ <strong>Week 2:</strong> Write your own ~10M model and train it on TinyStories. Success = coherent stories after about 10 minutes.</li>
+<li>☐ <strong>Week 3:</strong> Follow "Let's reproduce GPT-2 (124M)" from the same series and run the 125M configuration above on FineWeb-Edu overnight.</li>
+<li>☐ <strong>Week 4:</strong> Add chat fine-tuning, export to GGUF, and run the model in Ollama.</li>
+<li>☐ <strong>Then:</strong> Read through nanochat (tokenizer through chat UI in one repo) and run its speedrun on a rented node.</li>
+</ul>
+<p>Book-length reference: Sebastian Raschka, <em>Build a Large Language Model (From Scratch)</em> (Manning, 2024), with code on <a href="https://github.com/rasbt/LLMs-from-scratch" target="_blank" rel="noopener">GitHub</a>.</p>
+
+<h2 id="sources">Sources</h2>
+<ul>
+<li>RTX 5070 Ti specifications (Flopper)</li>
+<li><a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener">karpathy/nanochat (GitHub)</a></li>
+<li>nanochat GPT-2 cost breakdown (Towards AI)</li>
+<li>nanochat d32 run details (repo fork README)</li>
+<li>FineWeb-Edu dataset · TinyStories dataset · SmolTalk dataset</li>
+<li><a href="https://arxiv.org/abs/2203.15556" target="_blank" rel="noopener">Hoffmann et al., Training Compute-Optimal Large Language Models (Chinchilla, 2022)</a></li>
+</ul>
+<div class="pager"><a href="case-studies.html">← Case Studies</a><a href="fine-tuning.html">Fine-Tuning →</a></div></main></div>
+<footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<script src="assets/search-index.js"></script><script src="assets/app.js"></script>
+</body></html>

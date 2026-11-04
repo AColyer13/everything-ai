@@ -16,6 +16,7 @@ PAGES = [
     ("generative-ai", "Generative AI", "✨", "LLMs, prompt engineering, APIs, limits and cost"),
     ("playbook", "Project Playbook", "🧭", "A practical checklist from the live classes"),
     ("case-studies", "Case Studies", "🗂️", "All 13 course projects and how AI solves each one"),
+    ("llm", "LLM", "🏗️", "Build a language model from scratch on one GPU"),
     ("fine-tuning", "Fine-Tuning", "🎛️", "A QLoRA pipeline for improving a local LLM on one 16 GB GPU"),
     ("loops", "Loops", "🔁", "Repeatable loops for agents, engineering, research and writing"),
     ("pioneers", "AI Pioneers", "🧬", "Goodfellow, Karpathy and Radford, plus a tour of Karpathy's GitHub"),
