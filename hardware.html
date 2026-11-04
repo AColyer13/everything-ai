@@ -10,9 +10,31 @@
 <nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="models.html">Models</a><a href="hardware.html" class=active>Hardware</a><a href="llm.html">LLM</a><a href="fine-tuning.html">Fine-Tuning</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
-<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#why-bandwidth-sets-the-speed">Why bandwidth sets the speed</a><a href="#the-hardware-at-a-glance">The hardware at a glance</a><a href="#speed-ceilings-how-fast-each-could-generate">Speed ceilings: how fast each could generate</a><a href="#the-best-each-can-do">The best each can do</a><a href="#which-one-for-what">Which one for what</a><a href="#sources">Sources</a></aside><main><h1>Hardware</h1>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#the-parts-of-a-computer-and-what-each-does-for-ai">The parts of a computer, and what each does for AI</a><a href="#why-bandwidth-sets-the-speed">Why bandwidth sets the speed</a><a href="#the-hardware-at-a-glance">The hardware at a glance</a><a href="#speed-ceilings-how-fast-each-could-generate">Speed ceilings: how fast each could generate</a><a href="#the-best-each-can-do">The best each can do</a><a href="#linux-x86-versus-arm">Linux x86 versus ARM</a><a href="#which-one-for-what">Which one for what</a><a href="#sources">Sources</a></aside><main><h1>Hardware</h1>
 <p class="lede">How fast each kind of AI hardware really is, measured by memory bandwidth, and the best job each one can do: NVIDIA B200, RTX 5080, DGX Station, DGX Spark, Apple M5 Ultra, M5 Max and M6.</p>
 <div class="callout note"><strong class="t">Not from the class</strong><p>This page is a reference added on top of the course content. Specs are a snapshot from November 2026 taken from vendor pages and secondary coverage, and some are rumors (marked below). Speeds shown are <strong>theoretical ceilings</strong>; real-world results are typically about half. The models these machines run, and the software, are on the <a href="models.html">Models</a> and <a href="tools.html">Tools</a> pages.</p></div>
+
+<h2 id="the-parts-of-a-computer-and-what-each-does-for-ai">The parts of a computer, and what each does for AI</h2>
+<p>Four components decide how a machine runs a model. Knowing each one explains the bandwidth numbers further down.</p>
+<table>
+<tr><th>Part</th><th>What it does</th><th>Role in AI</th><th>Typical speed</th></tr>
+<tr><td><strong>CPU</strong> (central processing unit)</td><td>A few to a few dozen powerful cores that run the operating system, programs and logic one step after another, very flexibly</td><td>Runs your code, loads data, schedules the work, tokenizes text. Can run small models on its own, but slowly</td><td>Dual-channel DDR5 memory feeds it about 60 to 100 GB/s</td></tr>
+<tr><td><strong>GPU</strong> (graphics processing unit)</td><td>Thousands of simpler cores that do the same math on huge arrays at once</td><td>The engine of AI. Neural networks are mostly matrix multiplication, which is exactly what GPUs parallelize. Used for both training and running models</td><td>Its own fast memory: about 1 TB/s on a gaming card, about 8 TB/s on a data-center GPU</td></tr>
+<tr><td><strong>RAM</strong> (system memory)</td><td>Fast, temporary working storage that loses its contents when the power goes off</td><td>Holds the model weights and the KV cache while the model runs. A model that does not fit in the GPU's memory spills into RAM, which is slower. On the Mac and DGX Spark, RAM is <em>unified</em>: CPU and GPU share one pool</td><td>About 60 to 100 GB/s for desktop DDR5; 273 GB/s to 1.2 TB/s for unified memory on the machines below</td></tr>
+<tr><td><strong>PCIe SSD</strong> (NVMe solid-state drive)</td><td>Permanent storage that survives power-off, connected over the PCIe bus</td><td>Stores the model files (a large model is tens to hundreds of GB), checkpoints and datasets. Loading a model reads it from the SSD once. Tools such as Strata can also stream rarely used weights from the SSD as a last resort</td><td>PCIe 4.0 drives read about 7 GB/s, PCIe 5.0 drives about 12 to 14 GB/s</td></tr>
+</table>
+<h3>PCIe: the road between the parts</h3>
+<p><strong>PCIe</strong> is the connection that links the GPU, SSDs and other devices to the CPU. A PCIe 5.0 x16 slot (the usual graphics-card slot) moves about 64 GB/s each way, far less than the GPU's own memory. That is why a model should live entirely in the GPU's memory: every time the GPU has to fetch weights across PCIe from system RAM, speed collapses to PCIe speed, and fetching from the SSD is slower still.</p>
+<h3>The memory hierarchy</h3>
+<table>
+<tr><th>Level</th><th>Example</th><th>Approx. bandwidth</th><th>Size</th></tr>
+<tr><td>GPU memory (HBM or GDDR)</td><td>B200, RTX 5080</td><td>1 to 8 TB/s</td><td>16 to 290 GB</td></tr>
+<tr><td>Unified memory</td><td>Apple M5, DGX Spark</td><td>273 GB/s to 1.2 TB/s</td><td>64 to 512 GB</td></tr>
+<tr><td>System RAM (DDR5)</td><td>Desktop PC</td><td>60 to 100 GB/s</td><td>32 to 256 GB</td></tr>
+<tr><td>PCIe link to the GPU</td><td>PCIe 5.0 x16</td><td>about 64 GB/s</td><td>-</td></tr>
+<tr><td>NVMe SSD</td><td>PCIe 5.0 drive</td><td>about 12 to 14 GB/s</td><td>1 to 8 TB</td></tr>
+</table>
+<p>Each step down is about 10 times slower and 10 times bigger. Good AI hardware keeps the model in the fastest level that can hold it.</p>
 
 <h2 id="why-bandwidth-sets-the-speed">Why bandwidth sets the speed</h2>
 <p>When an LLM writes text it generates one <strong>token</strong> at a time, and for every token the chip must read the model's active weights out of memory. So the generation speed is limited mainly by <strong>memory bandwidth</strong>, not raw compute:</p>
@@ -32,7 +54,7 @@
 <tr><td>Apple M5 Max</td><td>up to 128 GB unified</td><td>about 614 GB/s (40-core GPU version)</td><td>Laptop or desktop</td></tr>
 <tr><td>NVIDIA RTX 5080 (desktop)</td><td>16 GB GDDR7</td><td>about 960 GB/s</td><td>Gaming GPU</td></tr>
 <tr><td>NVIDIA DGX Spark</td><td>128 GB unified LPDDR5X</td><td>about 273 GB/s</td><td>Small desktop box</td></tr>
-<tr><td>Apple M6 (base chip, <em>reported, not confirmed</em>)</td><td>modest, laptop class</td><td>about 200 GB/s reported (one source says 170)</td><td>Laptop</td></tr>
+<tr><td>Apple M6 (base chip, <em>reported, not confirmed</em>)</td><td>up to about 64 GB (varies by configuration)</td><td>about 200 GB/s reported (one source says 170)</td><td>Laptop</td></tr>
 </table>
 
 <h2 id="speed-ceilings-how-fast-each-could-generate">Speed ceilings: how fast each could generate</h2>
@@ -45,7 +67,7 @@
 <tr><td>M5 Max</td><td>about 15 tokens/s</td><td>about 175 tokens/s</td><td>about 300 tokens/s</td></tr>
 <tr><td>RTX 5080</td><td>Does not fit in 16 GB</td><td>Does not fit; needs offloading (see Strata), far below the ceiling</td><td>about 480 tokens/s</td></tr>
 <tr><td>DGX Spark</td><td>about 7 tokens/s</td><td>about 78 tokens/s</td><td>about 135 tokens/s</td></tr>
-<tr><td>M6 (base)</td><td>Does not fit in the memory expected</td><td>Does not fit</td><td>about 100 tokens/s if it has the memory</td></tr>
+<tr><td>M6 (base)</td><td>about 5 tokens/s (fits at 64 GB, uses most of it)</td><td>Does not fit (about 70 GB needed)</td><td>about 100 tokens/s</td></tr>
 </table>
 <div class="callout tip"><strong class="t">What the table teaches</strong><p>Two things beat raw size: a <strong>mixture-of-experts model</strong> (reads far fewer weights per token) and <strong>more bandwidth</strong>. The 16 GB RTX 5080 has more bandwidth than the 128 GB DGX Spark, so it is faster on anything that fits, but the Spark can load models the 5080 cannot.</p></div>
 
@@ -89,9 +111,31 @@
 <h3 id="m6">Apple M6 (base chip)</h3>
 <ul>
 <li><strong>Status:</strong> reported by Bloomberg's Mark Gurman and other outlets for late 2026 in a MacBook Pro, built on a 2 nm process. Reports of its bandwidth disagree: about 200 GB/s in most, 170 GB/s in two. Treat everything here as unconfirmed.</li>
-<li><strong>Not a big-model chip:</strong> reports say Apple does not plan M6 Pro, Max or Ultra variants and expects bigger chips to follow with the M7 family, so the M6 is the entry-level chip.</li>
-<li><strong>Best at (if it matches reports):</strong> small models in the 1B to 14B range on a laptop. Do not plan on running big models on it.</li>
+<li><strong>Memory:</strong> configurations vary; this page uses up to 64 GB as the working assumption.</li>
+<li><strong>Entry-level chip:</strong> reports say Apple does not plan M6 Pro, Max or Ultra variants and expects bigger chips to follow with the M7 family.</li>
+<li><strong>Best at (if it matches reports):</strong> models up to about the 30B class at 4-bit, and small to mid-size models (1B to 14B) comfortably. At about 200 GB/s it is slow on dense models of that size, so prefer mixture-of-experts models that fit in 64 GB. It cannot hold the 100B-class models.</li>
 </ul>
+
+<h2 id="linux-x86-versus-arm">Linux x86 versus ARM</h2>
+<p>The machines above use two different CPU families. <strong>x86</strong> (Intel and AMD) is the long-standing standard for PCs and servers. <strong>ARM</strong> is a more power-efficient design used in phones, Apple's M-series chips, the NVIDIA Grace CPU in the DGX Station and the GB10 chip in the DGX Spark. Linux runs on both.</p>
+<table>
+<tr><th></th><th>x86 (Intel, AMD)</th><th>ARM (Apple M-series, NVIDIA Grace, Graviton)</th></tr>
+<tr><td>Typical AI machines</td><td>Gaming PCs and workstations with RTX cards, most GPU servers (HGX/DGX with B200, H100)</td><td>Mac Studio, MacBook Pro, DGX Spark, DGX Station, AWS Graviton</td></tr>
+<tr><td>Memory design</td><td>Separate: CPU uses system RAM, GPU has its own VRAM, joined by PCIe</td><td>Often unified or tightly coupled: CPU and GPU share one fast pool (Apple, Spark) or a coherent link (Grace)</td></tr>
+<tr><td>Power and heat</td><td>Higher; desktops and servers draw hundreds of watts</td><td>Lower for the same work, quieter, better on battery</td></tr>
+<tr><td>Software compatibility</td><td>Widest. Nearly all Linux software, drivers and containers ship x86 builds first</td><td>Good and improving, but some packages, prebuilt wheels or Docker images lack an ARM build and need recompiling</td></tr>
+<tr><td>Upgradeability</td><td>Swap the GPU, add RAM and SSDs</td><td>Usually fixed at purchase, especially on Apple where memory is soldered to the chip</td></tr>
+<tr><td>Max memory for models</td><td>GPU VRAM is the limit (16 to 192 GB per GPU) unless you add multiple GPUs</td><td>Large single pools (128 to 512 GB) at modest cost</td></tr>
+<tr><td>Raw GPU speed</td><td>Highest with discrete NVIDIA cards, which have the best bandwidth and compute</td><td>Apple: good bandwidth, less compute. NVIDIA ARM systems: full CUDA with strong coherence</td></tr>
+<tr><td>Cost for large models</td><td>Large VRAM means expensive data-center GPUs</td><td>Cheaper per GB of model memory</td></tr>
+</table>
+<h3>Advantages in plain terms</h3>
+<ul>
+<li><strong>x86 wins on:</strong> compatibility (everything just installs), raw GPU speed with a discrete NVIDIA card, flexibility (upgrade and mix parts), and the largest ecosystem for training and servers.</li>
+<li><strong>ARM wins on:</strong> efficiency (performance per watt), quiet and portable machines, and unified memory that lets a small box hold a very large model without a giant GPU.</li>
+<li><strong>Linux on both:</strong> x86 Linux is the default for AI servers. Linux on ARM is increasingly common (DGX Spark runs an NVIDIA Linux build, and cloud ARM instances are cheaper), but check that your Python packages and containers have ARM builds before you commit. On a Mac, macOS plus tools like MLX, Ollama and LM Studio replace the Linux stack.</li>
+</ul>
+<div class="callout tip"><strong class="t">Rule of thumb</strong><p>Choose <strong>x86 + NVIDIA GPU</strong> when you want maximum speed on models that fit in VRAM, or you need to follow tutorials and tools that assume CUDA. Choose <strong>ARM with unified memory</strong> (Apple or DGX Spark) when you want to run models too big for any single gaming GPU at a reasonable price and power draw.</p></div>
 
 <h2 id="which-one-for-what">Which one for what</h2>
 <table>
@@ -102,7 +146,7 @@
 <tr><td>Serve a team with huge models at full speed</td><td>DGX Station</td></tr>
 <tr><td>Train or serve at cloud scale</td><td>B200 servers (rented)</td></tr>
 <tr><td>Portable, mid-size models</td><td>Laptop with M5 Max 128 GB</td></tr>
-<tr><td>Small on-device models only</td><td>M6 class laptop</td></tr>
+<tr><td>Small to mid-size models on a light laptop</td><td>M6 class laptop (up to about 64 GB)</td></tr>
 </table>
 <div class="callout tip"><strong class="t">Buy for the model you want to run</strong><p>Start from the model: its size at 4-bit decides the memory you need, whether it is dense or mixture-of-experts decides the bandwidth you need, and your tolerance for slow prompt processing decides Apple versus NVIDIA.</p></div>
 
