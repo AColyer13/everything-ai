@@ -82,6 +82,16 @@
 <tr><td><strong>Gemma 4 12B, QAT, instruction-tuned</strong></td><td>12B dense, quantization-aware trained</td><td>256K</td><td>The QAT build is small enough to sit in 16 GB. Very long contexts use more memory, so expect to trim the context before you hit 256K.</td></tr>
 <tr><td><strong>gpt-oss-20b</strong></td><td>20B MoE (about 3.6B active), OpenAI open-weight</td><td>128K</td><td>Designed to run in about 16 GB, so it fits the card with room for a long context. Fast.</td></tr>
 </table>
+<h3>Which software runs which model</h3>
+<p><strong>Gemma 4 12B QAT and gpt-oss-20b</strong> are small enough to fit in the 16 GB card, so any of the mainstream engines can run them: <a href="tools.html#ollama">Ollama</a>, <a href="tools.html#lm-studio">LM Studio</a> or <a href="tools.html#vllm">vLLM</a>. <strong>Qwen3.8-Flash-Next (125B)</strong> does not fit, and it needs a new architecture that mainline llama.cpp did not support at the time of writing, so it runs through <a href="tools.html#strata">Strata</a> (or a custom llama.cpp build).</p>
+<table>
+<tr><th></th><th>Ollama</th><th>LM Studio</th><th>vLLM</th><th>Strata</th></tr>
+<tr><td>Gemma 4 12B QAT, gpt-oss-20b</td><td>Yes: <code>ollama run</code>, quantized GGUF, easiest start</td><td>Yes: pick from the model browser, choose context length with a slider</td><td>Yes: full-precision or quantized Hugging Face weights; best when serving several users</td><td>Not its job</td></tr>
+<tr><td>Qwen3.8-Flash-Next (125B MoE)</td><td>Only once support lands</td><td>Only once support lands</td><td>Needs far more GPU memory than 16 GB</td><td>Yes: the purpose it was built for</td></tr>
+<tr><td>Where the model lives</td><td colspan="3">Whole model in the GPU's VRAM (the 16 GB card), spilling to RAM only if you push the context too far</td><td>Split across VRAM, system RAM and SSD, with expert weights streamed in as needed</td></tr>
+<tr><td>What you notice</td><td colspan="3">Fast, simple, predictable speed</td><td>Slower, a 66 to 76 GB download, heavy RAM use, speed varies with context length</td></tr>
+</table>
+<p><strong>The difference in one line:</strong> Ollama, LM Studio and vLLM are general engines for models that fit in memory. Strata is a specialist that makes one 125B mixture-of-experts model usable by treating RAM and SSD as extra memory and reading only the roughly 6B active parameters for each token, with a small helper model drafting words that the big model verifies. Support for new models in the general engines tends to arrive over time, so check before you assume a model can run.</p>
 <p>Treat the context figures as maximums. Real speed and the usable context depend on your system RAM, the quantization, and the software. Test with your own prompts.</p>
 
 <h2>Kinds of models and what they are for</h2>

@@ -21,6 +21,7 @@ PAGES = [
     ("llm", "LLM", "🏗️", "Build a language model from scratch on one GPU"),
     ("fine-tuning", "Fine-Tuning", "🎛️", "A QLoRA pipeline for improving a local LLM on one 16 GB GPU"),
     ("loops", "Loops", "🔁", "Repeatable loops for agents, engineering, research and writing"),
+    ("history", "History of AI", "📜", "Eight eras from 1943 to today: symbolists vs connectionists, winters, deep learning, transformers"),
     ("pioneers", "AI Pioneers", "🧬", "Goodfellow, Karpathy and Radford, plus a tour of Karpathy's GitHub"),
     ("glossary", "Glossary", "📖", "Searchable definitions"),
 ]

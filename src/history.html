@@ -1,0 +1,100 @@
+<h1>History of AI</h1>
+<p class="lede">Eighty years of AI in eight eras. The story is a tug-of-war between two rival ideas about what intelligence is, and the way each side won, lost and came back explains why AI looks the way it does today.</p>
+<div class="callout note"><strong class="t">Not from the class</strong><p>This page is a reference added on top of the course content. Dates and attributions follow the standard historical account; recent events (2024 onward) are described in broad strokes. It connects to <a href="deep-learning.html">Deep Learning</a>, <a href="generative-ai.html">Generative AI</a> and <a href="pioneers.html">AI Pioneers</a>.</p></div>
+
+<h2>The two camps</h2>
+<table>
+<tr><th></th><th>Symbolists</th><th>Connectionists</th></tr>
+<tr><td>Core belief</td><td>Intelligence is formal logic and hand-coded rules</td><td>Intelligence emerges from statistical patterns across artificial neurons</td></tr>
+<tr><td>Approach</td><td>Write down the knowledge: rules, search, logic</td><td>Learn the knowledge from data by adjusting weights</td></tr>
+<tr><td>Also called</td><td>GOFAI (Good Old-Fashioned AI)</td><td>Neural networks, deep learning</td></tr>
+<tr><td>Led by</td><td>Minsky, McCarthy, Newell, Simon</td><td>Rosenblatt, later Hinton, LeCun and others</td></tr>
+</table>
+
+<h2>Timeline at a glance</h2>
+<table>
+<tr><th>Years</th><th>Era</th><th>Defining moment</th></tr>
+<tr><td>1943–1956</td><td>Foundations</td><td>First artificial neuron, Turing Test, Dartmouth names the field</td></tr>
+<tr><td>1957–1969</td><td>The early split</td><td>Symbolic programs vs the Perceptron</td></tr>
+<tr><td>1969–1979</td><td>First AI winter</td><td>The XOR critique and the Lighthill Report</td></tr>
+<tr><td>1980–1993</td><td>Expert systems and backpropagation</td><td>Rule-based boom, then the second winter</td></tr>
+<tr><td>1993–2011</td><td>The statistical turn</td><td>Deep Blue, SVMs, random forests, LSTM</td></tr>
+<tr><td>2012–2016</td><td>Deep learning ignition</td><td>AlexNet, GANs, ResNets, AlphaGo</td></tr>
+<tr><td>2017–2022</td><td>Transformers and scaling</td><td>"Attention Is All You Need", BERT, GPT, diffusion</td></tr>
+<tr><td>2022–present</td><td>Alignment, reasoning, agents</td><td>ChatGPT, reasoning models, autonomous agents</td></tr>
+</table>
+
+<h2>1. Cybernetic and mathematical foundations (1943–1956)</h2>
+<p>Before AI had a name, mathematicians and neuroscientists were asking whether human thought was a form of computation.</p>
+<ul>
+<li><strong>The first artificial neuron (1943).</strong> Neurophysiologist Warren McCulloch and logician Walter Pitts showed how simple on/off artificial neurons could be wired together to carry out logical propositions (AND, OR, NOT).</li>
+<li><strong>Turing's framework (1950).</strong> In <em>Computing Machinery and Intelligence</em>, Alan Turing sidestepped whether machines can "feel" and proposed the <strong>Imitation Game</strong> (the Turing Test): if a machine's text replies cannot be told from a human's, treat it as functionally intelligent. The same year Claude Shannon described how a computer could play chess by searching a tree of moves.</li>
+<li><strong>The Dartmouth Workshop (1956).</strong> John McCarthy, Marvin Minsky, Claude Shannon and Nathaniel Rochester organized a summer workshop at Dartmouth College. McCarthy coined the term <strong>"Artificial Intelligence"</strong>, and Allen Newell and Herbert Simon showed the <strong>Logic Theorist</strong>, a program that proved 38 theorems from Russell and Whitehead's <em>Principia Mathematica</em>.</li>
+</ul>
+
+<h2>2. The early split: symbols vs the Perceptron (1957–1969)</h2>
+<p>Right after Dartmouth the field divided into two camps that would battle for decades.</p>
+<ul>
+<li><strong>The symbolic camp.</strong> Led by Minsky, McCarthy (who invented the <strong>Lisp</strong> language in 1958), Newell and Simon. Their programs included the <strong>General Problem Solver (1957)</strong>, MIT's chatbot <strong>ELIZA (1966)</strong>, which imitated a psychotherapist with simple pattern-matching and string replacement, and SRI's robot <strong>Shakey (1966–1972)</strong>, which planned routes with the <strong>A* search algorithm</strong>.</li>
+<li><strong>The connectionist camp.</strong> In 1958 Cornell psychologist Frank Rosenblatt built the <strong>Mark I Perceptron</strong>, a hardware machine with a 400-pixel camera whose weights adjusted automatically to recognize shapes. <em>The New York Times</em> reported that the Navy expected such a machine to walk, talk and be conscious.</li>
+</ul>
+
+<h2>3. The XOR crisis and the first AI winter (1969–1979)</h2>
+<p>By the late 1960s the hype met a mathematical and computational wall.</p>
+<ul>
+<li><strong>Neural nets set back (1969).</strong> Minsky and Seymour Papert's book <em>Perceptrons</em> proved that a single-layer perceptron cannot solve problems that are not linearly separable, the classic example being the <strong>XOR</strong> (exclusive OR) gate. Nobody yet knew how to train multi-layer networks, and funding for neural nets dried up for the better part of two decades.</li>
+<li><strong>Combinatorial explosion and the Lighthill Report (1973).</strong> Symbolic AI stalled too. Programs that solved "toy problems" in the lab failed in the real world because the number of possible states grew exponentially. The U.S. agency DARPA and the British government (after the critical <strong>1973 Lighthill Report</strong>) cut academic AI funding, causing the <strong>first AI winter</strong>.</li>
+</ul>
+
+<h2>4. Expert systems, backpropagation and the second winter (1980–1993)</h2>
+<p>In the 1980s AI pivoted from general intelligence to narrow, commercial knowledge, while a small group quietly solved the neural-network training problem.</p>
+<ul>
+<li><strong>Expert systems (1980–1987).</strong> Instead of learning, systems such as <strong>MYCIN</strong> (medical diagnosis) and Carnegie Mellon's <strong>XCON</strong> (which reportedly saved Digital Equipment Corporation about $40M a year configuring VAX orders) used thousands of hand-written <code>IF-THEN</code> rules gathered from human experts. Japan launched its Fifth Generation Computer Systems project, and companies bought specialized <strong>Lisp Machines</strong>.</li>
+<li><strong>The quiet neural breakthrough (1986–1989).</strong> <strong>Geoffrey Hinton, David Rumelhart and Ronald Williams</strong> published the 1986 paper that popularized <strong>backpropagation</strong>: using the chain rule of calculus to send error signals backward through hidden layers, which makes multi-layer networks trainable and removes the XOR limit. In 1989 <strong>Yann LeCun</strong>, then at Bell Labs, combined backpropagation with <strong>convolutional neural networks</strong> (LeNet) to read handwritten ZIP codes and bank checks.</li>
+<li><strong>The second AI winter (1987–1993).</strong> Expert systems proved brittle: when rules conflicted or an unexpected case appeared, they failed. Ordinary desktop PCs overtook the specialized Lisp hardware, and that market and the expert-system industry collapsed.</li>
+</ul>
+
+<h2>5. The statistical turn and classical machine learning (1993–2011)</h2>
+<p>Wary of the "AI" label, researchers rebranded their work as <strong>machine learning</strong>, informatics or pattern recognition, and replaced hand-written rules with probability and statistics.</p>
+<ul>
+<li><strong>Brute-force search and classical ML.</strong> In 1997 IBM's <strong>Deep Blue</strong> beat world chess champion Garry Kasparov, evaluating around 200 million positions per second with alpha-beta pruning and custom chips. In industry, <strong>support vector machines</strong> (Cortes and Vapnik, 1995), <strong>random forests</strong> and <strong>boosting</strong> became the standard for tabular data. These are the models taught on the <a href="machine-learning.html">Machine Learning</a> page.</li>
+<li><strong>Solving vanishing gradients (1997).</strong> Recurrent neural networks forgot long sequences because gradients shrank toward zero during backpropagation. Sepp Hochreiter and Jürgen Schmidhuber invented <strong>LSTM</strong> networks, whose gates control what to remember. LSTMs later powered early voice assistants and machine translation.</li>
+</ul>
+
+<h2>6. Deep learning ignites: GPUs, ImageNet and RL (2012–2016)</h2>
+<p>Neural networks already had the right math (backpropagation and CNNs) but lacked two ingredients: <strong>large labeled datasets</strong> and <strong>fast parallel matrix computation</strong>.</p>
+<ul>
+<li><strong>The AlexNet moment (2012).</strong> Fei-Fei Li's team built <strong>ImageNet</strong> (about 14 million labeled images). In 2012 Geoffrey Hinton and his students <strong>Alex Krizhevsky and Ilya Sutskever</strong> trained a deep CNN, <strong>AlexNet</strong>, on two consumer <strong>NVIDIA GTX 580 GPUs</strong> using CUDA. It cut the top-5 error on the ImageNet challenge from about 26% to 15.3%, showing that scale, GPUs and deep nets beat hand-crafted computer vision.</li>
+<li><strong>Word2Vec (2013).</strong> Tomas Mikolov at Google showed words can be mapped to vectors where arithmetic mirrors meaning: king − man + woman ≈ queen. This is the idea behind embeddings.</li>
+<li><strong>VAEs and GANs (2013–2014).</strong> Kingma and Welling introduced variational autoencoders, and <strong>Ian Goodfellow</strong> introduced the <strong>GAN</strong>, two networks competing so one learns to synthesize realistic data.</li>
+<li><strong>ResNets (2015).</strong> Kaiming He's skip connections let networks grow from a handful of layers to well over 100 without degrading.</li>
+<li><strong>DeepMind and AlphaGo (2013–2016).</strong> DeepMind combined deep learning with reinforcement learning (Deep Q-Networks) to master Atari games from raw pixels. <strong>AlphaGo</strong> then beat Lee Sedol 4–1 in 2016 using policy and value networks with Monte Carlo tree search.</li>
+</ul>
+
+<h2>7. The Transformer and the scaling era (2017–2022)</h2>
+<p>Before 2017, language models used RNNs and LSTMs, which read text one word at a time and were hard to parallelize across thousands of GPUs.</p>
+<ul>
+<li><strong>"Attention Is All You Need" (June 2017).</strong> Eight Google researchers (Vaswani et al.) dropped recurrence and introduced the <strong>Transformer</strong>. With <strong>self-attention</strong>, the model processes all tokens in a passage in parallel and relates words however far apart they are. See the transformer section on the <a href="deep-learning.html">Deep Learning</a> page and the <a href="llm.html">LLM</a> page for building one.</li>
+<li><strong>Pre-training: BERT vs GPT (2018–2020).</strong> Researchers found they could train transformers by <strong>self-supervised learning</strong> on raw internet text, with no human labels. Google's <strong>BERT (2018)</strong> masks words and predicts them using context from both sides. OpenAI's <strong>Alec Radford</strong> pursued next-token prediction with <strong>GPT-1 (2018)</strong>, <strong>GPT-2 (2019)</strong> and <strong>GPT-3 (2020, 175B parameters)</strong>, supporting the <strong>scaling laws</strong> (Kaplan et al., then Chinchilla): as compute, data and parameters grow by orders of magnitude, capabilities such as coding and multi-step reasoning improve and new ones appear.</li>
+<li><strong>Diffusion and science (2020–2021).</strong> DeepMind's <strong>AlphaFold 2</strong> made a breakthrough on the 50-year protein-folding problem. <strong>Diffusion models</strong> (DDPM, Stable Diffusion, DALL-E 2) overtook GANs for images by learning to turn random noise into detailed pictures step by step.</li>
+</ul>
+
+<h2>8. Alignment, reasoning models and agents (2022–present)</h2>
+<p>A raw pre-trained model just continues documents. Ask it a question and it may reply with five more questions.</p>
+<ul>
+<li><strong>RLHF and the ChatGPT moment (2022).</strong> <strong>Supervised fine-tuning</strong> plus <strong>reinforcement learning from human feedback</strong> (RLHF, using methods such as PPO; the InstructGPT work by Ouyang and colleagues built on earlier work by Christiano, Ziegler and others) turned raw predictors into helpful assistants. ChatGPT's launch in November 2022 set off the generative-AI boom.</li>
+<li><strong>Reasoning and test-time compute (2024 onward).</strong> As pre-training on static internet text showed diminishing returns, leading labs (OpenAI's o-series, DeepSeek-R1, Gemini, Claude and others) put more effort into <strong>test-time compute</strong> (letting the model think longer) and <strong>reinforcement learning with verifiable rewards</strong> (RLVR). Training in sandboxes where answers can be checked automatically, such as code that passes tests or math with a known answer, taught models to write out chains of thought, back up when they make errors, and work as multi-step <strong>agents</strong> that run commands, browse and check their own work. The <a href="tools.html">Tools</a> page lists the agents you can use today, and the <a href="loops.html">Loops</a> page the patterns behind them.</li>
+</ul>
+
+<h2>Patterns worth remembering</h2>
+<ul>
+<li><strong>Hype, wall, winter.</strong> Each wave overpromised, hit a limit (XOR, combinatorial explosion, brittle rules) and lost funding, then returned with a new ingredient.</li>
+<li><strong>Three ingredients repeat.</strong> Better algorithms, more data and more compute. Deep learning needed all three at once.</li>
+<li><strong>Learning beat hand-coding.</strong> Rules written by experts lost to systems that learn from data, as the symbolists' expert systems lost to statistics and then deep nets.</li>
+<li><strong>Old ideas come back.</strong> The perceptron (1958), backpropagation (1986) and convolutions (1989) were all waiting for enough data and GPUs.</li>
+</ul>
+
+<h2>Sources</h2>
+<ul>
+<li>Standard accounts: Turing (1950), the Dartmouth proposal (1955), Minsky and Papert, <em>Perceptrons</em> (1969), Rumelhart, Hinton and Williams (1986), Krizhevsky et al. (2012), Vaswani et al., <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need (2017)</a>, and <a href="https://arxiv.org/abs/2203.15556" target="_blank" rel="noopener">Chinchilla (2022)</a>.</li>
+</ul>
