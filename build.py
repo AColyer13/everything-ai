@@ -18,6 +18,7 @@ PAGES = [
     ("case-studies", "Case Studies", "🗂️", "All 13 course projects and how AI solves each one"),
     ("tools", "Tools", "🛠️", "Claude, Grok, Cursor, Antigravity, ChatGPT, OpenClaw and OpenCode"),
     ("models", "Models", "🖥️", "Enterprise NVIDIA, big local machines, a 16 GB GPU, model types and BenchLM"),
+    ("hardware", "Hardware", "⚙️", "Memory bandwidth and the best use of B200, RTX 5080, DGX, Apple M5 and M6"),
     ("llm", "LLM", "🏗️", "Build a language model from scratch on one GPU"),
     ("fine-tuning", "Fine-Tuning", "🎛️", "A QLoRA pipeline for improving a local LLM on one 16 GB GPU"),
     ("loops", "Loops", "🔁", "Repeatable loops for agents, engineering, research and writing"),

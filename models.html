@@ -7,7 +7,7 @@
 </head><body>
 <header class="top"><div class="bar">
 <a class="logo" href="index.html">Everything <b>AI</b></a>
-<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="models.html" class=active>Models</a><a href="llm.html">LLM</a><a href="fine-tuning.html">Fine-Tuning</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="models.html" class=active>Models</a><a href="hardware.html">Hardware</a><a href="llm.html">LLM</a><a href="fine-tuning.html">Fine-Tuning</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
 <div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#the-one-rule-memory-decides-everything">The one rule: memory decides everything</a><a href="#nvidia-in-the-enterprise-how-cloud-models-run">NVIDIA in the enterprise: how cloud models run</a><a href="#cloud-models-versus-local-models">Cloud models versus local models</a><a href="#parameter-size-what-the-number-means">Parameter size: what the number means</a><a href="#big-local-machines">Big local machines</a><a href="#combining-machines-and-how-they-compare">Combining machines, and how they compare</a><a href="#a-desktop-rtx-5080-with-16-gb">A desktop RTX 5080 with 16 GB</a><a href="#kinds-of-models-and-what-they-are-for">Kinds of models and what they are for</a><a href="#comparing-models-benchlm">Comparing models: BenchLM</a><a href="#sources">Sources</a></aside><main><h1>Models</h1>
@@ -61,10 +61,11 @@
 <p>The <strong>context window</strong> is how much text the model can consider at once (128K tokens is roughly a 300-page book). Longer context costs memory for the KV cache and slows prompt processing, so a model that "supports" 256K may not fit 256K on your hardware.</p>
 
 <h2 id="big-local-machines">Big local machines</h2>
+<p>For a side-by-side speed comparison of these machines plus the B200, RTX 5080 and Apple M5 and M6 chips, see the <a href="hardware.html">Hardware</a> page.</p>
 <p>These three systems have a lot of memory in one box. Figures are approximate and come from vendor pages and secondary coverage.</p>
 <table>
 <tr><th>Machine</th><th>Memory</th><th>Bandwidth</th><th>Strength</th><th>Weakness</th></tr>
-<tr><td>Mac Studio, 512 GB (M3 Ultra)</td><td>Up to 512 GB unified</td><td>About 800 GB/s</td><td>Fits very large models (hundreds of billions of parameters at 4-bit) quietly, in one machine, with good tools (MLX, Ollama, LM Studio)</td><td>Slower at prompt processing than NVIDIA GPUs; CUDA-only software will not run</td></tr>
+<tr><td>Mac Studio, 512 GB (M3 Ultra, now succeeded by the M5 Ultra at about 1.2 TB/s)</td><td>Up to 512 GB unified</td><td>About 800 GB/s (M3 Ultra)</td><td>Fits very large models (hundreds of billions of parameters at 4-bit) quietly, in one machine, with good tools (MLX, Ollama, LM Studio)</td><td>Slower at prompt processing than NVIDIA GPUs; CUDA-only software will not run</td></tr>
 <tr><td>NVIDIA DGX Spark</td><td>128 GB unified (LPDDR5x)</td><td>About 273 GB/s</td><td>Full NVIDIA/CUDA stack in a small desktop box; strong at fine-tuning and prompt processing for its size; two units can be linked</td><td>Modest bandwidth, so generation on large dense models is slow</td></tr>
 <tr><td>NVIDIA DGX Station (GB300)</td><td>Roughly 750 to 780 GB coherent, of which about 250 to 290 GB is fast HBM3e on the GPU</td><td>About 7 to 8 TB/s on the HBM, about 400 GB/s on the CPU memory</td><td>Data-center class performance at a desk: very large models, fast generation, serving a team</td><td>Priced like a workstation server, far above the others</td></tr>
 </table>
@@ -141,7 +142,7 @@
 <li><a href="https://wccftech.com/nvidia-enters-ai-pc-realm-dgx-spark-dgx-station-desktops-72-core-grace-cpu-blackwell-gpus-up-to-784-gb-memory/" target="_blank" rel="noopener">DGX Spark and DGX Station (Wccftech)</a></li>
 <li><a href="https://pi3g.com/?p=32200" target="_blank" rel="noopener">DGX Spark vs DGX Station GB300 (pi3g)</a></li>
 </ul>
-<div class="pager"><a href="tools.html">← Tools</a><a href="llm.html">LLM →</a></div></main></div>
+<div class="pager"><a href="tools.html">← Tools</a><a href="hardware.html">Hardware →</a></div></main></div>
 <footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>
 </body></html>

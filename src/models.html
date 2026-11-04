@@ -49,10 +49,11 @@
 <p>The <strong>context window</strong> is how much text the model can consider at once (128K tokens is roughly a 300-page book). Longer context costs memory for the KV cache and slows prompt processing, so a model that "supports" 256K may not fit 256K on your hardware.</p>
 
 <h2>Big local machines</h2>
+<p>For a side-by-side speed comparison of these machines plus the B200, RTX 5080 and Apple M5 and M6 chips, see the <a href="hardware.html">Hardware</a> page.</p>
 <p>These three systems have a lot of memory in one box. Figures are approximate and come from vendor pages and secondary coverage.</p>
 <table>
 <tr><th>Machine</th><th>Memory</th><th>Bandwidth</th><th>Strength</th><th>Weakness</th></tr>
-<tr><td>Mac Studio, 512 GB (M3 Ultra)</td><td>Up to 512 GB unified</td><td>About 800 GB/s</td><td>Fits very large models (hundreds of billions of parameters at 4-bit) quietly, in one machine, with good tools (MLX, Ollama, LM Studio)</td><td>Slower at prompt processing than NVIDIA GPUs; CUDA-only software will not run</td></tr>
+<tr><td>Mac Studio, 512 GB (M3 Ultra, now succeeded by the M5 Ultra at about 1.2 TB/s)</td><td>Up to 512 GB unified</td><td>About 800 GB/s (M3 Ultra)</td><td>Fits very large models (hundreds of billions of parameters at 4-bit) quietly, in one machine, with good tools (MLX, Ollama, LM Studio)</td><td>Slower at prompt processing than NVIDIA GPUs; CUDA-only software will not run</td></tr>
 <tr><td>NVIDIA DGX Spark</td><td>128 GB unified (LPDDR5x)</td><td>About 273 GB/s</td><td>Full NVIDIA/CUDA stack in a small desktop box; strong at fine-tuning and prompt processing for its size; two units can be linked</td><td>Modest bandwidth, so generation on large dense models is slow</td></tr>
 <tr><td>NVIDIA DGX Station (GB300)</td><td>Roughly 750 to 780 GB coherent, of which about 250 to 290 GB is fast HBM3e on the GPU</td><td>About 7 to 8 TB/s on the HBM, about 400 GB/s on the CPU memory</td><td>Data-center class performance at a desk: very large models, fast generation, serving a team</td><td>Priced like a workstation server, far above the others</td></tr>
 </table>
