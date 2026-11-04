@@ -10,7 +10,7 @@
 <nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="models.html">Models</a><a href="hardware.html" class=active>Hardware</a><a href="llm.html">LLM</a><a href="fine-tuning.html">Fine-Tuning</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
-<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#the-parts-of-a-computer-and-what-each-does-for-ai">The parts of a computer, and what each does for AI</a><a href="#why-bandwidth-sets-the-speed">Why bandwidth sets the speed</a><a href="#the-hardware-at-a-glance">The hardware at a glance</a><a href="#speed-ceilings-how-fast-each-could-generate">Speed ceilings: how fast each could generate</a><a href="#the-best-each-can-do">The best each can do</a><a href="#linux-x86-versus-arm">Linux x86 versus ARM</a><a href="#which-one-for-what">Which one for what</a><a href="#sources">Sources</a></aside><main><h1>Hardware</h1>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#the-parts-of-a-computer-and-what-each-does-for-ai">The parts of a computer, and what each does for AI</a><a href="#ram-versus-vram-and-why-unified-memory-helps">RAM versus VRAM, and why unified memory helps</a><a href="#why-bandwidth-sets-the-speed">Why bandwidth sets the speed</a><a href="#the-hardware-at-a-glance">The hardware at a glance</a><a href="#speed-ceilings-how-fast-each-could-generate">Speed ceilings: how fast each could generate</a><a href="#the-best-each-can-do">The best each can do</a><a href="#linux-x86-versus-arm">Linux x86 versus ARM</a><a href="#which-one-for-what">Which one for what</a><a href="#sources">Sources</a></aside><main><h1>Hardware</h1>
 <p class="lede">How fast each kind of AI hardware really is, measured by memory bandwidth, and the best job each one can do: NVIDIA B200, RTX 5080, DGX Station, DGX Spark, Apple M5 Ultra, M5 Max and M6.</p>
 <div class="callout note"><strong class="t">Not from the class</strong><p>This page is a reference added on top of the course content. Specs are a snapshot from November 2026 taken from vendor pages and secondary coverage, and some are rumors (marked below). Speeds shown are <strong>theoretical ceilings</strong>; real-world results are typically about half. The models these machines run, and the software, are on the <a href="models.html">Models</a> and <a href="tools.html">Tools</a> pages.</p></div>
 
@@ -35,6 +35,37 @@
 <tr><td>NVMe SSD</td><td>PCIe 5.0 drive</td><td>about 12 to 14 GB/s</td><td>1 to 8 TB</td></tr>
 </table>
 <p>Each step down is about 10 times slower and 10 times bigger. Good AI hardware keeps the model in the fastest level that can hold it.</p>
+
+<h2 id="ram-versus-vram-and-why-unified-memory-helps">RAM versus VRAM, and why unified memory helps</h2>
+<table>
+<tr><th></th><th>RAM (system memory)</th><th>VRAM (video memory)</th></tr>
+<tr><td>Lives on</td><td>The motherboard, in slots next to the CPU</td><td>The graphics card, soldered beside the GPU</td></tr>
+<tr><td>Used by</td><td>The CPU (and the GPU, slowly, over PCIe)</td><td>The GPU directly</td></tr>
+<tr><td>Type</td><td>DDR5</td><td>GDDR7 on gaming cards, HBM on data-center cards</td></tr>
+<tr><td>Bandwidth</td><td>About 60 to 100 GB/s</td><td>About 1 TB/s on an RTX 5080, about 8 TB/s on a B200</td></tr>
+<tr><td>Size</td><td>Cheap to expand: 32 to 256 GB</td><td>Expensive and fixed: 16 GB on a 5080, 32 GB on a 5090, up to about 192 GB on a B200</td></tr>
+</table>
+<p>On a typical <strong>x86 PC</strong> these are two separate pools. A model that fits in VRAM runs at full GPU speed. A model that does not fit has to spill its extra layers into system RAM, and every token then pays the price of reading those layers from RAM.</p>
+<h3>How much slower it gets</h3>
+<p>Example: a 24 GB model on a 16 GB RTX 5080, with 16 GB of it in VRAM (about 960 GB/s) and the remaining 8 GB in DDR5 RAM (about 80 GB/s). Per token the machine reads each part once:</p>
+<table>
+<tr><th>Case</th><th>Time per token</th><th>Ceiling speed</th></tr>
+<tr><td>All 24 GB in VRAM (a card with enough memory)</td><td>24 ÷ 960 = 0.025 s</td><td>about 40 tokens/s</td></tr>
+<tr><td>16 GB in VRAM + 8 GB in RAM</td><td>16 ÷ 960 + 8 ÷ 80 = 0.117 s</td><td>about 8.5 tokens/s</td></tr>
+<tr><td>Everything in RAM, CPU only</td><td>24 ÷ 80 = 0.30 s</td><td>about 3 tokens/s</td></tr>
+</table>
+<p>So putting just one third of the model in RAM makes generation about <strong>5 times slower</strong>, and running entirely from RAM is roughly <strong>10 to 15 times slower</strong> than VRAM, because VRAM bandwidth is that much higher. The slow part dominates: the more of the model that spills, the closer you get to RAM speed. Loading from an SSD is slower again (about 12 to 14 GB/s). These are ceilings; real slowdowns are often worse because data also crosses the PCIe link.</p>
+<p>Mixture-of-experts models soften the blow, since only a few experts are read per token, so keeping the always-used parts in VRAM and the rarely used experts in RAM costs less. This is the trick behind running a 125B model on a 16 GB card with Strata, and why it is slower than a model that fits.</p>
+<h3>Unified memory: one pool</h3>
+<p>Apple's M-series chips and the NVIDIA DGX Spark put the CPU and GPU on the same chip package sharing <strong>one pool of memory</strong>. There is no VRAM versus RAM split and no PCIe copy: the GPU can use almost all of the memory at full speed. (NVIDIA's Grace-based DGX Station is a related design: the CPU and GPU memory are joined by a fast coherent link rather than shared in one pool.) Not every ARM chip does this, but the ARM machines built for AI mostly do.</p>
+<table>
+<tr><th></th><th>x86 PC with a discrete GPU</th><th>ARM with unified memory</th></tr>
+<tr><td>Memory pools</td><td>Two: VRAM and RAM</td><td>One</td></tr>
+<tr><td>Memory the model can use at full speed</td><td>Only the VRAM (for example 16 GB)</td><td>Nearly all of it (for example 128 or 512 GB)</td></tr>
+<tr><td>When the model is bigger than the fast memory</td><td>Spills to RAM; speed falls 5 to 15 times</td><td>Not a problem until the single pool is full</td></tr>
+<tr><td>Bandwidth</td><td>Very high, but only for the VRAM part</td><td>Moderate to high (273 GB/s to 1.2 TB/s), across the whole pool</td></tr>
+</table>
+<div class="callout tip"><strong class="t">Why this gives ARM an advantage for models</strong><p>A model needs memory more than anything else. Unified memory turns all of a machine's memory into "VRAM", so a 128 GB DGX Spark or Mac can load models that a 16 GB gaming card can only run by spilling to slow RAM. The trade-off is bandwidth: the gaming card is faster on anything that fits in its 16 GB, and the ARM machine wins on anything bigger.</p></div>
 
 <h2 id="why-bandwidth-sets-the-speed">Why bandwidth sets the speed</h2>
 <p>When an LLM writes text it generates one <strong>token</strong> at a time, and for every token the chip must read the model's active weights out of memory. So the generation speed is limited mainly by <strong>memory bandwidth</strong>, not raw compute:</p>
