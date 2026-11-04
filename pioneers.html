@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Pioneers · Everything AI</title>
+<meta name="description" content="Goodfellow, Karpathy and Radford, plus a tour of Karpathy&#x27;s GitHub">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="top"><div class="bar">
+<a class="logo" href="index.html">Everything <b>AI</b></a>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="pioneers.html" class=active>AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
+<div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
+</div></header>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#ian-goodfellow">Ian Goodfellow</a><a href="#andrej-karpathy">Andrej Karpathy</a><a href="#alec-radford">Alec Radford</a><a href="#the-common-thread">The common thread</a></aside><main><h1>AI Pioneers</h1>
+<p class="lede">Three researchers whose work shaped modern generative AI: Ian Goodfellow, Andrej Karpathy and Alec Radford. Each section covers what they researched and built, with a timeline. Karpathy also gets a full tour of his GitHub projects.</p>
+<div class="callout note"><strong class="t">Not from the class</strong><p>This page was added on top of the Simplilearn course content. Also, "fathers of AI" is usually a title for the field's earliest founders (Turing, McCarthy, Minsky, Hinton, Bengio, LeCun and others). These three are better described as influential figures of the deep-learning and LLM era, and that is how they are presented here. Timelines come from public sources (Wikipedia, GitHub and the authors' own pages) and may lag behind recent career moves.</p></div>
+
+<h2 id="ian-goodfellow">Ian Goodfellow</h2>
+<p>Goodfellow is best known for inventing <strong>generative adversarial networks (GANs)</strong>. The idea: two networks compete. A <em>generator</em> makes fake samples, a <em>discriminator</em> tries to tell fake from real, and each pushes the other to improve until the fakes look real. It is the "GAN" row in the <a href="generative-ai.html">Generative AI</a> table, and it launched a decade of image-synthesis research.</p>
+<h3>What they researched and created</h3>
+<ul>
+<li><strong>GANs (2014).</strong> Introduced in a paper with colleagues at the Université de Montréal, including their PhD advisors Yoshua Bengio and Aaron Courville.</li>
+<li><strong>Adversarial examples.</strong> Co-authored early work showing that tiny, deliberate changes to an input can fool a neural network, and proposed training on such examples as a defence. This founded much of modern AI-security research.</li>
+<li><strong><em>Deep Learning</em> (2016).</strong> First author of the standard textbook, written with Bengio and Courville and free to read online.</li>
+</ul>
+<h3>Timeline</h3>
+<table>
+<tr><th>When</th><th>Event</th></tr>
+<tr><td>Early</td><td>Studied at Stanford (BS and MS, with Andrew Ng)</td></tr>
+<tr><td>2014</td><td>Publishes the GAN paper and the adversarial-examples work</td></tr>
+<tr><td>Feb 2015</td><td>PhD in machine learning, Université de Montréal</td></tr>
+<tr><td>2015</td><td>Joins Google Brain</td></tr>
+<tr><td>Mar 2016</td><td>Moves to the newly founded OpenAI; the <em>Deep Learning</em> textbook appears the same year</td></tr>
+<tr><td>Mar 2017</td><td>Returns to Google Research</td></tr>
+<tr><td>2019</td><td>Joins Apple as director of machine learning in the Special Projects Group</td></tr>
+<tr><td>2022</td><td>Leaves Apple, then joins Google DeepMind as a research scientist</td></tr>
+<tr><td>2025</td><td>Wikipedia notes a departure from Google, flagged there as needing a citation, so treat it as unconfirmed</td></tr>
+</table>
+
+<h2 id="andrej-karpathy">Andrej Karpathy</h2>
+<p>Karpathy is a researcher, engineer and teacher known for making deep learning understandable. He helped found OpenAI, ran computer vision for Tesla Autopilot, and then built a large following by teaching how language models work from scratch.</p>
+<h3>What they researched and created</h3>
+<ul>
+<li><strong>Image captioning (PhD, Stanford, advisor Fei-Fei Li).</strong> Work combining CNNs and RNNs so a model could describe images and regions in sentences. That is the "hybrid model" idea on the <a href="deep-learning.html">Deep Learning</a> page.</li>
+<li><strong>The Unreasonable Effectiveness of Recurrent Neural Networks (2015).</strong> A blog post and the <code>char-rnn</code> code that showed character-level RNNs writing plausible text, code and Shakespeare.</li>
+<li><strong>CS231n.</strong> Co-created and taught Stanford's convolutional-networks course, which grew from about 150 students in 2015 to about 750 in 2017.</li>
+<li><strong>Tesla Autopilot Vision.</strong> Led the vision team that moved driving perception onto large neural networks trained on fleet data.</li>
+<li><strong>Zero to Hero (2022 onward).</strong> A YouTube series that builds a GPT step by step, from a single neuron up through tokenizers.</li>
+<li><strong>Eureka Labs (2024).</strong> An AI-native education company; its first course is LLM101n.</li>
+<li><strong>"Vibe coding" (Feb 2025).</strong> Coined the term for building software by prompting an AI and accepting its output.</li>
+</ul>
+<h3>Timeline</h3>
+<table>
+<tr><th>When</th><th>Event</th></tr>
+<tr><td>1986</td><td>Born in Bratislava; moves to Toronto at 15</td></tr>
+<tr><td>2009 / 2011</td><td>Bachelor's at the University of Toronto; master's at the University of British Columbia</td></tr>
+<tr><td>2015</td><td>PhD at Stanford; starts teaching CS231n; <code>char-rnn</code> and the RNN blog post; helps start OpenAI</td></tr>
+<tr><td>Jun 2017</td><td>Becomes Tesla's director of AI</td></tr>
+<tr><td>Jul 2022</td><td>Leaves Tesla</td></tr>
+<tr><td>Feb 2023</td><td>Returns to OpenAI</td></tr>
+<tr><td>Feb 2024</td><td>Leaves OpenAI; <code>minbpe</code> and <code>llm.c</code> appear</td></tr>
+<tr><td>Jul 2024</td><td>Founds Eureka Labs</td></tr>
+<tr><td>Feb 2025</td><td>Coins "vibe coding"</td></tr>
+<tr><td>Feb 2026</td><td>Publishes <code>microgpt</code></td></tr>
+<tr><td>May 2026</td><td>Reported (Wikipedia) to join Anthropic to lead a pretraining research team</td></tr>
+</table>
+
+<h3>Karpathy on GitHub</h3>
+<p class="lede">Profile: <a href="https://github.com/karpathy" target="_blank" rel="noopener">github.com/karpathy</a>. Star counts and dates below are from the GitHub API at the time of writing and will keep changing.</p>
+<p>Most of these repos share one habit: shrink an idea until the whole thing fits in your head. They are best read in roughly the order of the table, which also follows the order of the "how does a language model work" story.</p>
+<table>
+<tr><th>Project</th><th>Created</th><th>Language</th><th>One-line idea</th></tr>
+<tr><td><a href="#micrograd">micrograd</a></td><td>2020</td><td>Python</td><td>Backpropagation in a tiny scalar engine</td></tr>
+<tr><td><a href="#char-rnn">char-rnn</a></td><td>2015</td><td>Lua (Torch)</td><td>Character-level RNN, LSTM and GRU text models</td></tr>
+<tr><td><a href="#makemore">makemore</a></td><td>2022</td><td>Python</td><td>Character-level language models, simple to Transformer</td></tr>
+<tr><td><a href="#nanogpt">nanoGPT</a></td><td>2022</td><td>Python</td><td>Simplest, fastest GPT training and fine-tuning</td></tr>
+<tr><td><a href="#minbpe">minbpe</a></td><td>2024</td><td>Python</td><td>Byte Pair Encoding tokenizer</td></tr>
+<tr><td><a href="#llama2-c">llama2.c</a></td><td>2023</td><td>C</td><td>Llama 2 inference in one C file</td></tr>
+<tr><td><a href="#llm-c">llm.c</a></td><td>2024</td><td>C / CUDA</td><td>LLM training in raw C and CUDA</td></tr>
+<tr><td><a href="#nanochat">nanochat</a></td><td>2025</td><td>Python</td><td>A full ChatGPT-style pipeline on a small budget</td></tr>
+<tr><td><a href="#microgpt">microgpt</a></td><td>2026</td><td>Python</td><td>A whole GPT in about 200 dependency-free lines</td></tr>
+<tr><td><a href="#autoresearch">autoresearch</a></td><td>2026</td><td>Python</td><td>An AI agent that runs training experiments overnight</td></tr>
+<tr><td><a href="#llm-council">llm-council</a></td><td>2025</td><td>Python</td><td>Several LLMs answer, review and merge</td></tr>
+<tr><td><a href="#llm-wiki">llm-wiki.md</a></td><td>2026</td><td>Markdown (gist)</td><td>An LLM-maintained personal knowledge base</td></tr>
+<tr><td><a href="#reader3">reader3</a></td><td>2025</td><td>Python</td><td>Read books alongside an LLM</td></tr>
+<tr><td><a href="#rendergit">rendergit</a></td><td>2025</td><td>Python</td><td>Turn a git repo into one HTML page</td></tr>
+<tr><td><a href="#arxiv-sanity-lite">arxiv-sanity-lite</a></td><td>2021</td><td>Python</td><td>Tag arXiv papers, get similar ones</td></tr>
+</table>
+
+<h4 id="micrograd">micrograd</h4>
+<p>A tiny automatic-differentiation engine that works on single numbers, plus a small neural-network library on top with a PyTorch-like feel. Every operation records how to compute its own gradient, and calling <code>backward()</code> walks the graph applying the chain rule. It is the clearest demonstration of the <em>backpropagation</em> step described on the <a href="deep-learning.html">Deep Learning</a> page, and it pairs with Karpathy's first Zero to Hero lecture. <a href="https://github.com/karpathy/micrograd" target="_blank" rel="noopener">Repo</a></p>
+
+<h4 id="char-rnn">char-rnn</h4>
+<p>Multi-layer recurrent networks (plain RNN, LSTM and GRU) for character-level language models, written in Lua for the Torch framework. You feed it any text file, it learns to predict the next character, and then it generates new text in the same style. Together with the 2015 blog post it popularised the idea that sequence models learn spelling, syntax and structure from raw characters alone. It is historical now (Torch is retired) but it set up everything that followed. <a href="https://github.com/karpathy/char-rnn" target="_blank" rel="noopener">Repo</a></p>
+
+<h4 id="makemore">makemore</h4>
+<p>A character-level autoregressive model that "makes more" of whatever you give it; the running example is a file of names that it learns to invent. The same task is solved with progressively better models: bigram counts, an MLP, an RNN and finally a Transformer, which makes it a good way to see why each step helped. It is the code behind the Zero to Hero lectures. <a href="https://github.com/karpathy/makemore" target="_blank" rel="noopener">Repo</a></p>
+
+<h4 id="nanogpt">nanoGPT</h4>
+<p>Described as the simplest, fastest repository for training and fine-tuning medium-sized GPTs. The model and the training loop are each a few hundred lines in PyTorch, close enough to GPT-2 that it can reproduce the small GPT-2 model on OpenWebText, yet short enough to read in one sitting. For years it was the default teaching codebase for how GPT training works. The repo has been largely superseded by nanochat. <a href="https://github.com/karpathy/nanoGPT" target="_blank" rel="noopener">Repo</a></p>
+
+<h4 id="minbpe">minbpe</h4>
+<p>Minimal, clean code for <strong>Byte Pair Encoding</strong>, the tokenizing method behind GPT-style models. BPE starts from raw bytes and repeatedly merges the most frequent adjacent pair into a new token until the vocabulary reaches a target size. The repo includes a basic tokenizer, a regex-split version in the GPT-4 style, and training and encode/decode paths. It makes the <em>token</em> entry in the <a href="glossary.html">glossary</a> concrete. <a href="https://github.com/karpathy/minbpe" target="_blank" rel="noopener">Repo</a></p>
+
+<h4 id="llama2-c">llama2.c</h4>
+<p>Llama 2 inference in a single file of pure C. You can train small Llama-2-architecture models in PyTorch, export the weights, and then run them with a program of a few hundred lines and no dependencies. It showed that running a modern LLM does not require a heavy framework, and it inspired a wave of tiny "run it anywhere" ports. <a href="https://github.com/karpathy/llama2.c" target="_blank" rel="noopener">Repo</a></p>
+
+<h4 id="llm-c">llm.c</h4>
+<p>LLM training in simple, raw C and CUDA. It reimplements GPT-2 training without PyTorch or Python: every forward and backward pass is hand-written. It starts with a plain C reference and grows into optimised CUDA kernels, so you can read exactly what a framework does for you and see where the speed comes from. <a href="https://github.com/karpathy/llm.c" target="_blank" rel="noopener">Repo</a></p>
+
+<h4 id="nanochat">nanochat</h4>
+<p>Tagline: "the best ChatGPT that $100 can buy." It is a complete, minimal pipeline from raw text to a chat model: tokenizer training, pretraining, fine-tuning, evaluation, inference and a web chat interface, in one small codebase run from a handful of scripts. Where nanoGPT covered only pretraining, nanochat covers the whole path to a conversational assistant, and it is meant to be read and modified. <a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener">Repo</a></p>
+
+<h4 id="microgpt">microgpt</h4>
+<p>Published as a gist rather than a repo. A single dependency-free Python file of about 200 lines (standard library only) that contains the dataset handling, a tokenizer, an autograd engine, a GPT-2-style Transformer, the Adam optimizer, a training loop and sampling. It trains on a list of names and then invents new ones. The model is deliberately tiny (one layer, 16-dimensional embeddings, four attention heads). It is the "everything at once" counterpart to micrograd. <a href="https://gist.github.com/karpathy/8627fe009c40f57531cb18360106ce95" target="_blank" rel="noopener">Gist</a></p>
+
+<h4 id="autoresearch">autoresearch</h4>
+<p>AI agents running research on small single-GPU nanochat training. An agent edits one file (<code>train.py</code>: model, optimizer, training loop), trains for a fixed five minutes, checks whether validation bits-per-byte improved, keeps or discards the change and repeats. That is about a dozen experiments an hour, or roughly a hundred overnight. The human edits the instruction file <code>program.md</code> instead of the Python. It is a small-scale look at automated AI research and at what "agentic AI" (see <a href="generative-ai.html">Generative AI</a>) can do with a clear metric. <a href="https://github.com/karpathy/autoresearch" target="_blank" rel="noopener">Repo</a></p>
+
+<h4 id="llm-council">llm-council</h4>
+<p>A local web app that asks several LLMs the same question. In stage one each model answers on its own. In stage two each model reads the others' answers (with the authors hidden) and ranks them. In stage three a designated "chairman" model writes the final answer. It uses a FastAPI backend, a React front end and OpenRouter to reach many providers through one API key. It is a hands-on example of the ensemble idea from <a href="machine-learning.html">Machine Learning</a>, applied to language models. <a href="https://github.com/karpathy/llm-council" target="_blank" rel="noopener">Repo</a></p>
+
+<h4 id="llm-wiki">llm-wiki.md</h4>
+<p>An "idea file" published as a gist: a pattern, not an app. Instead of retrieving raw documents on every question (RAG), an LLM builds and maintains a persistent set of interlinked markdown pages. There are three layers: raw sources the LLM never edits, the wiki it writes, and a schema file (such as <code>CLAUDE.md</code>) that sets the rules. The main operations are ingest, query and lint, with an <code>index.md</code> and a <code>log.md</code> for navigation. You give the file to your own agent and let it implement the details. <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">Gist</a></p>
+
+<h4 id="reader3">reader3</h4>
+<p>Described by its author as a quick illustration of how easily you can read books together with an LLM, and one he highly recommends. It is a small demo of an everyday workflow (reading with a model beside you) rather than a framework. Check the README for the exact mechanics. <a href="https://github.com/karpathy/reader3" target="_blank" rel="noopener">Repo</a></p>
+
+<h4 id="rendergit">rendergit</h4>
+<p>Renders any git repository into a single static HTML page, meant to be read by humans or handed to an LLM. Useful when you want a model (or a person) to skim a whole codebase in one place. <a href="https://github.com/karpathy/rendergit" target="_blank" rel="noopener">Repo</a></p>
+
+<h4 id="arxiv-sanity-lite">arxiv-sanity-lite</h4>
+<p>A lighter rewrite of the earlier arxiv-sanity tool. You tag papers you care about, and it recommends similar new arXiv papers in a simple UI. The recommender is classical ML from this course: TF-IDF features of the abstracts fed to a support vector machine. A good example of a useful product built from <a href="machine-learning.html">"old" techniques</a> rather than a giant model. <a href="https://github.com/karpathy/arxiv-sanity-lite" target="_blank" rel="noopener">Repo</a></p>
+
+<h2 id="alec-radford">Alec Radford</h2>
+<p>Radford is a researcher who works quietly and publishes few papers, but he was first author on several that defined modern generative AI. Much of the field's move from "train a model for one task" to "pretrain a big model, then adapt it" runs through his work.</p>
+<h3>What they researched and created</h3>
+<ul>
+<li><strong>DCGAN (2015).</strong> With Luke Metz and Soumith Chintala, a set of design rules that made convolutional GANs stable to train. It became the template for image GANs, and it also showed that the latent space holds meaningful directions (vector arithmetic on faces).</li>
+<li><strong>The sentiment neuron (2017).</strong> A character-level LSTM trained only to predict the next character on Amazon reviews. One unit ended up tracking sentiment, an early sign that next-token prediction learns useful structure.</li>
+<li><strong>GPT-1 (2018).</strong> <em>Improving Language Understanding by Generative Pre-Training</em>: pretrain a Transformer decoder on unlabelled text, then fine-tune it on a task. This is the origin of the GPT line.</li>
+<li><strong>GPT-2 (2019).</strong> <em>Language Models are Unsupervised Multitask Learners</em>: a much larger model that could perform tasks it was never explicitly trained for. OpenAI at first held back the largest version over misuse concerns.</li>
+<li><strong>GPT-3 (2020).</strong> Co-author of the few-shot learning paper (see few-shot prompting on the <a href="generative-ai.html">Generative AI</a> page).</li>
+<li><strong>CLIP and DALL-E (2021).</strong> CLIP learns images and text in one shared embedding space from captioned pictures and enables zero-shot image classification. DALL-E generated images from text prompts. CLIP is also used inside many diffusion image generators.</li>
+<li><strong>Whisper (2022).</strong> A robust speech-recognition and translation model trained on a large amount of weakly supervised audio.</li>
+</ul>
+<h3>Timeline</h3>
+<table>
+<tr><th>When</th><th>Event</th></tr>
+<tr><td>2015</td><td>DCGAN paper</td></tr>
+<tr><td>2017</td><td>Unsupervised sentiment neuron</td></tr>
+<tr><td>2018</td><td>GPT-1</td></tr>
+<tr><td>2019</td><td>GPT-2</td></tr>
+<tr><td>2020</td><td>GPT-3 (co-author)</td></tr>
+<tr><td>2021</td><td>CLIP and DALL-E</td></tr>
+<tr><td>2022</td><td>Whisper</td></tr>
+<tr><td>Dec 2024</td><td>Reported to leave OpenAI for independent research</td></tr>
+<tr><td>2025</td><td>Reported to advise Thinking Machines Lab</td></tr>
+</table>
+
+<h2 id="the-common-thread">The common thread</h2>
+<p>All three worked on the same arc. Goodfellow's GANs showed that networks could <em>generate</em> convincing data. Radford's DCGAN, GPT, CLIP and Whisper work showed that large generatively pretrained models transfer to many tasks. Karpathy then taught the field how those systems are built, with code short enough to read. If you want to follow the arc yourself, read <a href="deep-learning.html">Deep Learning</a>, then <a href="generative-ai.html">Generative AI</a>, then work through micrograd, makemore and nanoGPT in that order.</p>
+<div class="pager"><a href="playbook.html">← Project Playbook</a><a href="glossary.html">Glossary →</a></div></main></div>
+<footer>Everything AI · a study guide built from the Simplilearn Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<script src="assets/search-index.js"></script><script src="assets/app.js"></script>
+</body></html>

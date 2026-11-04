@@ -15,6 +15,7 @@ PAGES = [
     ("deep-learning", "Deep Learning", "🧠", "Neural nets, optimizers, CNNs, RNNs, transformers, PyTorch"),
     ("generative-ai", "Generative AI", "✨", "LLMs, prompt engineering, APIs, limits and cost"),
     ("playbook", "Project Playbook", "🧭", "A practical checklist from the live classes"),
+    ("pioneers", "AI Pioneers", "🧬", "Goodfellow, Karpathy and Radford, plus a tour of Karpathy's GitHub"),
     ("glossary", "Glossary", "📖", "Searchable definitions"),
 ]
 
