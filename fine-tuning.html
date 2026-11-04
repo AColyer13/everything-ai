@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fine-Tuning · Everything AI</title>
+<meta name="description" content="A QLoRA pipeline for improving a local LLM on one 16 GB GPU">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="top"><div class="bar">
+<a class="logo" href="index.html">Everything <b>AI</b></a>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="fine-tuning.html" class=active>Fine-Tuning</a><a href="loops.html">Loops</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
+<div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
+</div></header>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#summary">Summary</a><a href="#hardware-and-model-choices">Hardware and model choices</a><a href="#the-pipeline">The pipeline</a><a href="#recommended-qlora-configuration-16-gb">Recommended QLoRA configuration (16 GB)</a><a href="#optional-and-experimental-steps">Optional and experimental steps</a><a href="#risks-and-pitfalls">Risks and pitfalls</a><a href="#day-1-checklist">Day-1 checklist</a><a href="#sources">Sources</a></aside><main><h1>Fine-Tuning</h1>
+<p class="lede">The recommended pipeline for improving a local language model on one 16 GB GPU. Written Nov 4, 2026 by Adam.</p>
+<div class="callout note"><strong class="t">Not from the class</strong><p>This page is a practical guide added on top of the course content. It builds on <a href="deep-learning.html">Deep Learning</a> (transfer learning) and <a href="generative-ai.html">Generative AI</a> (fine-tuning versus RAG). Model names, sizes and release dates are as of the date above and change quickly, so check the model cards before you start.</p></div>
+
+<h2 id="summary">Summary</h2>
+<p>The recommended way to improve a local model on one 16 GB GPU is: <strong>build an eval set, ground the model with retrieval, optimize the prompt, then distill the best verified outputs into a QLoRA adapter and ship it as a quantized GGUF.</strong> Everything past that is optional and only triggered by a measured failure.</p>
+<p>This version corrects an earlier draft playbook in four places:</p>
+<ul>
+<li><strong>Model IDs and memory math.</strong> The real IDs are <code>Qwen/Qwen3.5-9B</code> and <code>google/gemma-4-12B-it</code>. The 16-bit sizes are about 18 GB and 27 GB, not 24 GB.</li>
+<li><strong>Training batch size.</strong> Batch 2 at 8,192 tokens is too tight for 16 GB. Start at batch 1 with gradient accumulation 8.</li>
+<li><strong>Weight surgery (abliteration).</strong> Demoted from a pipeline step to an experiment. It is proven for refusal removal, unproven for sycophancy or loops, and it weakens safety behavior by design.</li>
+<li><strong>autoresearch ratchet.</strong> Demoted. It was built for 5-minute from-scratch pretraining on an H100, not for fine-tuning a 9B model. Tune against the task benchmark instead of validation loss.</li>
+</ul>
+
+<h2 id="hardware-and-model-choices">Hardware and model choices</h2>
+<p>Target machine: RTX 5070 Ti (16 GB VRAM) with 64 GB system RAM. Qwen3.5-9B is the safer default for training on this card. Gemma 4 12B fits for inference but is tight for QLoRA at long context.</p>
+<table>
+<tr><th>Model</th><th>Hugging Face ID</th><th>Released</th><th>Weights at 16-bit</th><th>Notes</th></tr>
+<tr><td>Qwen3.5-9B</td><td><code>Qwen/Qwen3.5-9B</code></td><td>Feb 23, 2026</td><td>~18 GB</td><td>Ships with a vision encoder. Load with Unsloth's multimodal loader and the model's own chat template. No <code>-Instruct</code> suffix exists.</td></tr>
+<tr><td>Gemma 4 12B</td><td><code>google/gemma-4-12B-it</code></td><td>Jun 3, 2026</td><td>26.7 GB (Google)</td><td>Dense, 11.95B params, encoder-free multimodal. Google also publishes official QAT checkpoints.</td></tr>
+</table>
+<h3>What fits on 16 GB</h3>
+<ul>
+<li><strong>Training (QLoRA, 4-bit base):</strong> 9B fits comfortably at 4k–8k context with batch 1. 12B fits at batch 1 with shorter context; expect to drop to 4k.</li>
+<li><strong>Merging and weight edits (16-bit):</strong> neither model fits in VRAM. Use CPU offload into the 64 GB of system RAM.</li>
+<li><strong>Inference:</strong> 9B at Q8_0 (~9.5 GB) or 12B at Q4_K_M (~7 GB) both leave room for the KV cache.</li>
+</ul>
+
+<h2 id="the-pipeline">The pipeline</h2>
+<p>Six core steps, in order. The benchmark from step 1 is the single yardstick for every later decision. Steps 1–4 build the data; steps 5–6 build the model. A model that doesn't beat the prompted base goes to the optional fixes, then back through training.</p>
+<ol class="steps">
+<li><strong>Build the evaluation set first.</strong> 50–100 real domain questions with known-good answers and a scoring script (schema valid, citations correct, answer correct). Hold out a separate test split that is never used for tuning.</li>
+<li><strong>Ground the model with retrieval.</strong> Keep source documents in <code>raw/</code>, cleaned and cross-referenced notes in <code>wiki/</code>, and log every run to <code>traces/</code> as JSONL (prompt, retrieved context, response, score, latency). Fine-tuning teaches format and reasoning style, not facts, so facts stay in retrieval. (See RAG on the <a href="generative-ai.html">Generative AI</a> page.)</li>
+<li><strong>Optimize the prompt before touching weights.</strong> Define input/output signatures and let DSPy / GEPA search instructions and few-shot examples against the scoring script. Use a larger teacher model here if the local model can't reach the target score on its own.</li>
+<li><strong>Harvest the dataset.</strong> Keep traces that pass the scoring script, including the retrieved context inside each prompt. Aim for 300–1,000 examples in ChatML <code>dataset.jsonl</code>. Deliberately keep hard cases, not only the easy ones that score highest.</li>
+<li><strong>Train a QLoRA adapter with Unsloth.</strong> Use the configuration in the next section, 1–3 epochs, and stop on validation loss. Score the adapter on the benchmark, not just the loss curve.</li>
+<li><strong>Merge, quantize and verify.</strong> Merge the adapter into the 16-bit base, convert to GGUF, build an importance matrix with <code>llama-imatrix</code> from your own domain prompts, quantize to Q8_0 (9B) or Q4_K_M (12B), load with <code>ollama create</code>, and re-run the benchmark. Ship only if the quantized model still beats the prompted base model.</li>
+</ol>
+<p>If step 6 shows a specific, repeatable failure, go to the optional steps below. Otherwise you're done.</p>
+
+<h2 id="recommended-qlora-configuration-16-gb">Recommended QLoRA configuration (16 GB)</h2>
+<p>Start from these values and change one at a time, judged by the benchmark.</p>
+<table>
+<tr><th>Setting</th><th>Value</th><th>Why</th></tr>
+<tr><td>Base model load</td><td>4-bit NF4</td><td>Fits 9B/12B weights in ~6–7 GB</td></tr>
+<tr><td>Max sequence length</td><td>4,096 (raise to 8,192 only if examples need it)</td><td>Retrieved context plus reasoning; memory grows with length</td></tr>
+<tr><td>LoRA rank / alpha</td><td>r = 16, alpha = 16–32 (r = 32 for harder reasoning)</td><td>Standard starting point</td></tr>
+<tr><td>Target modules</td><td>q, k, v, o, gate, up, down projections</td><td>All linear layers</td></tr>
+<tr><td>Batch / gradient accumulation</td><td>1 / 8 (effective batch 8)</td><td>Batch 2 at 8k context risks out-of-memory on 16 GB</td></tr>
+<tr><td>Gradient checkpointing</td><td>Unsloth mode, on</td><td>Required for long context on this card</td></tr>
+<tr><td>Learning rate / schedule</td><td>2e-4, cosine, warmup 5%</td><td>Standard for QLoRA</td></tr>
+<tr><td>Optimizer</td><td><code>adamw_8bit</code></td><td>Saves VRAM</td></tr>
+<tr><td>Epochs</td><td>1–3, early stop on validation loss</td><td>Small datasets overfit fast</td></tr>
+</table>
+
+<h2 id="optional-and-experimental-steps">Optional and experimental steps</h2>
+<p>Use these only when the benchmark shows a specific problem the core pipeline didn't fix.</p>
+<table>
+<tr><th>Technique</th><th>Use it when</th><th>Status</th><th>Caveats</th></tr>
+<tr><td>GRPO (reinforcement learning after SFT)</td><td>The task has a reward a script can check (math, schema, citation verifier)</td><td>Established; supported by Unsloth on low VRAM</td><td>Needs a reliable reward; a loose reward gets gamed</td></tr>
+<tr><td>Directional ablation ("abliteration")</td><td>A consistent, single behavior must be removed, chiefly over-refusal</td><td>Experimental</td><td>Rank-1 edit to entire output matrices across many layers, not a tiny patch. Unproven for sycophancy or loops. Weakens safety behavior by design. Needs 16-bit weights with CPU offload.</td></tr>
+<tr><td>Automated hyperparameter search (e.g. an autoresearch-style loop)</td><td>Defaults plateau and you have GPU time to spare</td><td>Experimental for fine-tuning</td><td>autoresearch was built for 5-minute from-scratch training on an H100. Five minutes barely warms up a 9B QLoRA run. Rank runs by the benchmark, not validation loss, to avoid overfitting a small validation set.</td></tr>
+<tr><td>Harness optimization (Meta-Harness)</td><td>The retrieval and context code, not the weights, is the bottleneck</td><td>Research (Mar 2026)</td><td>Optimizes the code around the model, not the model itself.</td></tr>
+</table>
+<p>Related: the <a href="loops.html">Loops</a> page covers the autoresearch and Meta-Harness loops, and the <a href="pioneers.html">Karpathy projects</a> include autoresearch itself.</p>
+
+<h2 id="risks-and-pitfalls">Risks and pitfalls</h2>
+<ul>
+<li><strong>Self-distillation has a ceiling.</strong> Training on the same model's best prompted outputs mostly buys shorter prompts and faster inference, not new capability. For real gains, generate the dataset with a stronger teacher model.</li>
+<li><strong>Easy-case bias.</strong> Filtering for only the top-scoring outputs drops hard examples, so the model gets worse on exactly the cases that matter.</li>
+<li><strong>Benchmark leakage.</strong> If test questions or their wiki context end up in training data, scores will look better than real performance.</li>
+<li><strong>Quantization loss.</strong> Gains can shrink at Q4. Always re-score after quantizing.</li>
+<li><strong>Chat template mismatch.</strong> Training and Ollama inference must use the same template, or output quality drops sharply.</li>
+<li><strong>Out of memory.</strong> Long context is the usual cause on 16 GB. Cut sequence length before cutting rank.</li>
+</ul>
+
+<h2 id="day-1-checklist">Day-1 checklist</h2>
+<ul class="checklist">
+<li>☐ Write a 50-question benchmark with a scoring script and a held-out test split</li>
+<li>☐ Load clean domain knowledge into <code>wiki/</code> and turn on trace logging</li>
+<li>☐ Optimize the prompt (DSPy / GEPA) and record the prompted-base score</li>
+<li>☐ Harvest 300–500 verified, context-grounded examples into <code>dataset.jsonl</code></li>
+<li>☐ Train QLoRA on <code>Qwen/Qwen3.5-9B</code> with the baseline config (r = 16, lr 2e-4, batch 1 × 8, 4k context)</li>
+<li>☐ Merge, quantize with imatrix to Q8_0, load in Ollama</li>
+<li>☐ Re-run the benchmark; ship only if it beats the prompted base</li>
+</ul>
+
+<h2 id="sources">Sources</h2>
+<ul>
+<li>Qwen/Qwen3.5-9B model card (Hugging Face)</li>
+<li>Gemma 4 model overview and memory requirements (Google AI for Developers)</li>
+<li>Gemma 4 12B release guide (Digital Applied, Jun 2026)</li>
+<li><a href="https://github.com/karpathy/autoresearch" target="_blank" rel="noopener">karpathy/autoresearch (GitHub)</a></li>
+<li><a href="https://arxiv.org/abs/2603.28052" target="_blank" rel="noopener">Meta-Harness: End-to-End Optimization of Model Harnesses (arXiv 2603.28052)</a></li>
+</ul>
+<div class="pager"><a href="case-studies.html">← Case Studies</a><a href="loops.html">Loops →</a></div></main></div>
+<footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<script src="assets/search-index.js"></script><script src="assets/app.js"></script>
+</body></html>

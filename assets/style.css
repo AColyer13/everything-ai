@@ -94,3 +94,6 @@ details.loop.star{border-left:4px solid #e0a800}
 .lsteps li{margin:6px 0}
 .lsteps ul{margin:4px 0 4px 1.2em}
 .lexit{margin:8px 0 2px;padding:8px 12px;border-radius:8px;background:rgba(127,127,127,.1)}
+
+.checklist{list-style:none;padding-left:0}
+.checklist li{margin:6px 0}
