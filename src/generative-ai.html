@@ -153,3 +153,42 @@ print(ticket["priority"])</code></pre>
 <li>Have you tested for bias and for failure cases?</li>
 <li>Do you know the cost per request at your expected volume?</li>
 </ol>
+
+<h2>More from the class: governance, tools and prompting tips</h2>
+<div class="callout note"><strong class="t">From the live classes</strong><p>Points from the GenAI Literacy sessions that go beyond the sections above.</p></div>
+<h3>Regulation and governance</h3>
+<ul>
+<li><strong>EU AI Act:</strong> classifies AI systems by risk. <strong>GDPR:</strong> limits how personal data may be stored and used. <strong>US executive orders</strong> give guidance on responsible AI use.</li>
+<li><strong>Governance components:</strong> risk assessment, compliance monitoring, a human in the loop, and accountability shared among developers, organizations and policymakers.</li>
+<li><strong>Explainable AI principles:</strong> interpretability, traceability, accountability and algorithmic transparency.</li>
+</ul>
+<h3>Security, bias and privacy</h3>
+<ul>
+<li><strong>Threats named in class:</strong> data poisoning, model inversion, deepfakes and misinformation, and prompt injection.</li>
+<li><strong>Bias mitigation:</strong> fairness audits and diverse training data. If the bias comes from the base model you cannot remove it, so report it to the provider; supplying your own data through RAG can counter it.</li>
+<li><strong>Privacy practices:</strong> data anonymization and user-consent mechanisms. Federated learning keeps raw data on the device (the class example was phone face unlock).</li>
+<li><strong>Cost and sustainability:</strong> data centres strain water and local ecology, memory and compute prices have risen sharply, and token costs are rising.</li>
+</ul>
+<h3>Physical AI and model families</h3>
+<ul>
+<li><strong>Physical AI</strong> acts in the real world through robots, drones, exoskeletons and self-driving cars. Self-driving cars combine physical and agentic AI.</li>
+<li><strong>Model names mentioned:</strong> BERT (bidirectional, for understanding text), GPT (generates text), T5 (text-to-text), and image tools such as Art Breeder, DeepArt and Runway ML.</li>
+</ul>
+<h3>Tools named in class</h3>
+<table>
+<tr><th>Tool</th><th>What it is</th></tr>
+<tr><td>Hugging Face</td><td>Open-source model hub</td></tr>
+<tr><td>Groq</td><td>A host that serves open models fast. Not the same as Grok, xAI's model</td></tr>
+<tr><td>ElevenLabs</td><td>AI voice generation</td></tr>
+<tr><td>HeyGen</td><td>AI video avatars</td></tr>
+<tr><td>Unity ML-Agents, NVIDIA Omniverse</td><td>Simulation for training physical and game agents</td></tr>
+<tr><td>GitHub Copilot, Cursor</td><td>AI coding assistants (see <a href="tools.html">Tools</a>)</td></tr>
+</table>
+<h3>Prompting and API tips</h3>
+<ul>
+<li>Build <strong>reusable prompt templates</strong> and train your team to prompt well. Iterate after a first detailed prompt.</li>
+<li>For resumes and profiles, add &ldquo;use only the information given; do not invent anything&rdquo; because these prompts hallucinate. Cross-check translations with another tool.</li>
+<li>Ask the model to check itself: validate output more than once, make the simplest change, remove dead code, and validate code flow and data flow.</li>
+<li><strong>API access:</strong> an API key is the minimum. Sensitive flows also need a user ID and a secret token. Model IDs get deprecated (the class Llama model was retired), so be ready to change them.</li>
+<li>Class demos included a launch-campaign prompt, multilingual translation, a LinkedIn profile from a resume, a 2 &times; 2 prioritization grid, and zero-shot versus few-shot sentiment.</li>
+</ul>

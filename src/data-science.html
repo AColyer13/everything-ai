@@ -143,3 +143,53 @@ plt.show()
 
 sns.heatmap(df.corr(numeric_only=True), annot=True, cmap="vlag", center=0)</code></pre>
 <p><strong>Matplotlib</strong> is the low-level base, <strong>Seaborn</strong> adds statistical charts with good defaults, <strong>Plotly</strong> and <strong>Bokeh</strong> make interactive charts for the web. Label axes, start bar charts at zero, and avoid decoration that does not carry information.</p>
+
+<h2>More from the class: statistics and pandas details</h2>
+<div class="callout note"><strong class="t">From the lessons</strong><p>Rules, formulas and defaults the instructors taught that the sections above summarise only briefly.</p></div>
+<h3>Levels of measurement</h3>
+<table>
+<tr><th>Level</th><th>Meaning</th><th>Example</th></tr>
+<tr><td>Nominal</td><td>Categories, no order</td><td>Colour, city</td></tr>
+<tr><td>Ordinal</td><td>Ordered, gaps not equal</td><td>Small / medium / large</td></tr>
+<tr><td>Interval</td><td>Equal spacing, no true zero</td><td>Temperature in Celsius</td></tr>
+<tr><td>Ratio</td><td>Equal spacing and a true zero</td><td>Kelvin, height, price</td></tr>
+</table>
+<p><strong>Sets:</strong> sample space (all outcomes), event (a subset), union, intersection and complement.</p>
+<h3>Shape of a distribution</h3>
+<ul>
+<li><strong>Skewness</strong> is 0 for a normal distribution. Negative = longer left tail, positive = longer right tail.</li>
+<li><strong>Kurtosis</strong> is 3 for a normal distribution. <em>Excess kurtosis</em> (kurtosis minus 3) is 0 for normal, positive for heavy tails and outliers, negative for light tails.</li>
+</ul>
+<h3>Distributions</h3>
+<ul>
+<li><strong>Binomial:</strong> <code>P(X = r) = nCr &middot; p<sup>r</sup> &middot; q<sup>n-r</sup></code> with <code>q = 1 - p</code>.</li>
+<li><strong>Poisson:</strong> mean = variance = &lambda;, standard deviation = &radic;&lambda;. Used when there are many opportunities and each is unlikely.</li>
+</ul>
+<h3>Estimation and confidence</h3>
+<ul>
+<li>A <strong>point estimate</strong> is one number; an <strong>interval estimate</strong> is a range. A good estimator is unbiased, has minimum variance (efficient) and is consistent.</li>
+<li><strong>Confidence level</strong> is commonly 95% or 99%. The <strong>margin of error</strong> is the half-width of the interval; smaller is better.</li>
+<li><strong>t or z?</strong> Use <strong>t</strong> when n &lt; 30 and the population variance is unknown; use <strong>z</strong> when n &ge; 30 or the population variance is known. <code>t = (x&#772; - &mu;) / (s / &radic;n)</code>; z uses &sigma; in place of s.</li>
+</ul>
+<h3>Chi-square, F and ANOVA</h3>
+<ul>
+<li><strong>Chi-square goodness of fit</strong> is a non-parametric (Pearson) test with <code>df = k - 1</code>. Steps: state hypotheses, choose &alpha; (usually 0.05), compute df, apply the decision rule. <strong>Reject H0 when p &lt; &alpha;</strong>. Shapiro-Wilk and Kolmogorov-Smirnov are other goodness-of-fit tests.</li>
+<li><strong>F-distribution:</strong> the ratio of two chi-square variables, each divided by its degrees of freedom. The shape depends on both df, and the order matters: F(6, 8) is not F(8, 6).</li>
+<li><strong>ANOVA</strong> tests whether three or more group means differ. H0: all means are equal; H1: at least one differs. It is an <em>omnibus</em> test, so it does not say which group differs. Assumptions: independent observations, normally distributed residuals, equal variances and a continuous outcome.</li>
+<li><strong>Partitioning:</strong> total variation splits into <em>between-group</em> and <em>within-group</em> (error) sums of squares. <code>F = between-group variance / within-group variance</code>; a large F means the group means differ more than chance would explain.</li>
+<li><strong>Types:</strong> one-way (one factor), two-way (two factors) and N-way / MANOVA. A factor has <em>levels</em>; a factor can be fixed or random.</li>
+</ul>
+<h3>Linear algebra</h3>
+<p>Vectors are <strong>linearly independent</strong> when none of them can be written as a combination of the others.</p>
+<h3>pandas defaults and idioms</h3>
+<ul>
+<li><code>loc</code> selects by label, <code>iloc</code> by integer position.</li>
+<li>Statistics skip missing values by default (<code>skipna=True</code>); <code>std</code> uses <code>ddof=1</code>; <code>corr</code> defaults to Pearson. <code>pivot_table</code> defaults to <code>aggfunc="mean"</code>.</li>
+<li>Window functions: <code>rolling</code> and <code>expanding</code>. Dates: <code>DatetimeIndex</code>, <code>date_range</code> and <code>Timedelta</code>.</li>
+<li><strong>Method chaining</strong> ("pandorable" code) strings operations together in one readable expression.</li>
+<li>Basics worth knowing: lists are mutable, tuples are not; a list comprehension can include an <code>if</code>; <code>statsmodels</code> provides OLS regression with a full summary table.</li>
+</ul>
+<h3>Chart design (Tufte)</h3>
+<ul>
+<li>Graphical integrity: do not distort the data. Maximize the <strong>data-ink ratio</strong> and remove chart junk. Prefer high data density and <strong>small multiples</strong> (many small charts on the same scale) over one cluttered chart.</li>
+</ul>

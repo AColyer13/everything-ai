@@ -10,7 +10,7 @@
 <nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html" class=active>Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html">Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
-<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#why-deep-learning-and-when">Why deep learning, and when</a><a href="#the-perceptron-and-how-networks-learn">The perceptron and how networks learn</a><a href="#tensorflow-and-keras">TensorFlow and Keras</a><a href="#optimizers">Optimizers</a><a href="#making-training-work">Making training work</a><a href="#convolutional-neural-networks-cnns">Convolutional neural networks (CNNs)</a><a href="#transfer-learning">Transfer learning</a><a href="#object-detection-and-edge-deployment">Object detection and edge deployment</a><a href="#sequence-models-rnns">Sequence models: RNNs</a><a href="#transformers-and-bert">Transformers and BERT</a><a href="#autoencoders">Autoencoders</a><a href="#pytorch">PyTorch</a></aside><main><h1>Deep Learning</h1>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#why-deep-learning-and-when">Why deep learning, and when</a><a href="#the-perceptron-and-how-networks-learn">The perceptron and how networks learn</a><a href="#tensorflow-and-keras">TensorFlow and Keras</a><a href="#optimizers">Optimizers</a><a href="#making-training-work">Making training work</a><a href="#convolutional-neural-networks-cnns">Convolutional neural networks (CNNs)</a><a href="#transfer-learning">Transfer learning</a><a href="#object-detection-and-edge-deployment">Object detection and edge deployment</a><a href="#sequence-models-rnns">Sequence models: RNNs</a><a href="#transformers-and-bert">Transformers and BERT</a><a href="#autoencoders">Autoencoders</a><a href="#pytorch">PyTorch</a><a href="#more-from-the-class-details-and-specifics">More from the class: details and specifics</a></aside><main><h1>Deep Learning</h1>
 <p class="lede">Deep learning uses neural networks with many layers to learn features directly from raw data such as pixels, audio and text. It powers modern vision, speech and language systems.</p>
 
 <h2 id="why-deep-learning-and-when">Why deep learning, and when</h2>
@@ -148,6 +148,50 @@ for epoch in range(20):
         loss.backward()      # backpropagation
         opt.step()           # weight update</code></pre>
 <div class="callout note"><strong class="t">TensorFlow or PyTorch?</strong><p>Both are fine. Keras gets you a working model in fewer lines; PyTorch gives more control and is common in research. Concepts transfer completely, so learn one well first.</p></div>
+
+<h2 id="more-from-the-class-details-and-specifics">More from the class: details and specifics</h2>
+<div class="callout note"><strong class="t">From the lessons</strong><p>Parameters, rules and API points the instructors covered that the sections above summarise briefly.</p></div>
+<h3>Tensors and Keras</h3>
+<ul>
+<li>A tensor has a rank (number of dimensions). Know broadcasting, <code>reshape</code>, element-wise vs matrix multiplication, <code>argmax</code>, and ragged and string tensors.</li>
+<li>The <strong>Functional API</strong> needs an explicit <code>Input</code> layer. The class labs used <code>sparse_categorical_crossentropy</code> (integer labels) rather than one-hot <code>categorical_crossentropy</code>.</li>
+<li>Keras runs on top of TensorFlow and supports multi-GPU data parallelism. It is not for clustering or PCA, and it has no dynamic graphs.</li>
+</ul>
+<h3>Optimizers and training</h3>
+<ul>
+<li>SGD learning rate is often 0.01; momentum typically 0.9; RMSProp <code>rho</code> about 0.9 to 0.99. Adam combines momentum and RMSProp with bias correction. Adagrad suits sparse data; Adadelta needs no initial learning rate.</li>
+<li><strong>Dropout</strong> is active only during training and is not applied to the output layer. Typical rate: 0.5 for hidden layers.</li>
+<li><strong>EarlyStopping</strong> arguments: <code>monitor</code>, <code>min_delta</code>, <code>patience</code>, <code>mode</code>, <code>restore_best_weights=True</code>. Drawback: it does not use all of the training data.</li>
+<li><strong>Batch normalization</strong> (<code>BatchNormalization</code>) has learnable gamma and beta and sits after the layer whose output it normalises.</li>
+<li><strong>Hyperparameter search:</strong> grid search is exhaustive and costly, random search is cheaper, and Hyperopt (TPE) searches smartly.</li>
+<li><strong>Interpretability</strong> can be judged application-grounded, human-grounded or functionally-grounded.</li>
+</ul>
+<h3>CNNs</h3>
+<ul>
+<li>An image is height &times; width &times; channels (3 for colour) with pixel values 0 to 255; divide by 255 to scale to 0 to 1.</li>
+<li><strong>Stride</strong> is how many pixels the filter moves each step (1 or 2). <strong>Padding</strong> adds zeros around the image: <em>valid</em> = none (the output shrinks), <em>same</em> = enough to keep the output size.</li>
+<li><strong>Pooling:</strong> max, average and min. <strong>Global</strong> max or average pooling reduces each channel to one value (1 &times; 1 &times; C), which is what <code>GlobalAveragePooling2D</code> does.</li>
+<li><strong>Filters are learned, not hand-written.</strong> Classic examples (Sobel edge, blur, outline) show what a filter does, but the network starts from random values and learns them. Early layers find edges; later layers find abstract parts.</li>
+<li><strong>Limits:</strong> a CNN does not encode the position or orientation of objects, and it needs a lot of data and compute.</li>
+<li><strong>Famous CNNs:</strong> AlexNet, VGG16, GoogLeNet/Inception and ResNet (ResNet-50 won ILSVRC 2015; skip connections add no extra parameters).</li>
+</ul>
+<h3>Transfer learning, detection and edge</h3>
+<ul>
+<li>Transfer can be <strong>positive</strong> (helps) or <strong>negative</strong> (hurts, when the tasks differ too much). Choose a pretrained model by size, file format (<code>.h5</code> for TensorFlow, <code>.pt</code> for PyTorch), input and output format, and reported accuracy (for example AP).</li>
+<li><strong>YOLO</strong> is regression-based (one pass), unlike the region-based R-CNN family. YOLOv3 uses a Darknet-53 backbone and detects at three scales. A box is (bx, by, bw, bh) plus a class. Remove the classifier head when training on a custom dataset; accuracy is reported as mAP. The class labs used YOLOv5.</li>
+<li><strong>TensorFlow Lite</strong> targets edge devices with limited memory, storage and latency, and keeps data on the device (privacy). Convert a Keras model with <code>TFLiteConverter</code> to a <code>.tflite</code> file.</li>
+</ul>
+<h3>Sequences, Transformers, autoencoders</h3>
+<ul>
+<li><strong>RNN shapes:</strong> one-to-one, one-to-many, many-to-one and many-to-many (encoder-decoder). Pros: any input length, shared weights. Cons: slow, exploding or vanishing gradients. Tasks: sentiment, part-of-speech tagging, named-entity recognition. A <strong>hybrid CNN + RNN</strong> uses the CNN for spatial features and the RNN for temporal context (for example video).</li>
+<li><strong>Transformer:</strong> each token gets query, key and value vectors; several attention heads run in parallel (8 in the original); the decoder uses masked self-attention and encoder-decoder attention, then a linear layer and softmax.</li>
+<li><strong>BERT</strong> is trained by masked language modelling: about 15% of tokens are masked and the loss counts only those predictions. The Hugging Face <code>transformers</code> library provides pretrained versions.</li>
+<li><strong>Autoencoders</strong> are data-specific, lossy and self-supervised. The compressed middle is the code or latent space. Hyperparameters: code size, number of layers, nodes per layer and the loss function. Variational autoencoders generate new data.</li>
+</ul>
+<h3>PyTorch</h3>
+<ul>
+<li><code>autograd</code> computes gradients, <code>torch.nn</code> holds layers and <code>torch.optim</code> holds optimizers. <code>Dataset</code> and <code>DataLoader</code> feed batches; <code>ToTensor</code> converts images and scales them to 0 to 1; a <code>Lambda</code> transform can one-hot encode labels; <code>DataParallel</code> uses several GPUs.</li>
+</ul>
 <div class="pager"><a href="machine-learning.html">← Machine Learning</a><a href="generative-ai.html">Generative AI →</a></div></main></div>
 <footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>

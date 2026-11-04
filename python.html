@@ -10,7 +10,7 @@
 <nav class="main"><a href="python.html" class=active>Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html">Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
-<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#getting-set-up">Getting set up</a><a href="#types-variables-and-operators">Types, variables and operators</a><a href="#decisions-and-loops">Decisions and loops</a><a href="#functions">Functions</a><a href="#object-oriented-programming">Object-oriented programming</a><a href="#threads">Threads</a><a href="#files-and-data-formats">Files and data formats</a></aside><main><h1>Python</h1>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#getting-set-up">Getting set up</a><a href="#types-variables-and-operators">Types, variables and operators</a><a href="#decisions-and-loops">Decisions and loops</a><a href="#functions">Functions</a><a href="#object-oriented-programming">Object-oriented programming</a><a href="#threads">Threads</a><a href="#files-and-data-formats">Files and data formats</a><a href="#more-from-the-class-python-details-that-get-asked">More from the class: Python details that get asked</a></aside><main><h1>Python</h1>
 <p class="lede">Python is the default language of AI because it reads almost like English and has a library for nearly everything. This page covers the parts of the language you will use every day.</p>
 
 <h2 id="getting-set-up">Getting set up</h2>
@@ -137,6 +137,46 @@ with open("data.csv", newline="") as f:
 with open("out.json", "w") as f:
     json.dump(rows, f, indent=2)</code></pre>
 <div class="callout note"><strong class="t">JSON and dictionaries</strong><p>JSON is how most web APIs send data, and a JSON object maps almost one-to-one onto a Python dictionary. If you understand dictionaries, you already understand JSON. This comes up again on the <a href="generative-ai.html">Generative AI</a> page.</p></div>
+
+<h2 id="more-from-the-class-python-details-that-get-asked">More from the class: Python details that get asked</h2>
+<div class="callout note"><strong class="t">From the live classes and lessons</strong><p>Details the instructors stressed that the sections above only touch on.</p></div>
+<h3>Basics</h3>
+<ul>
+<li><strong>Identifiers:</strong> cannot start with a digit, are case-sensitive, and cannot be keywords. Notebooks use the <code>.ipynb</code> extension. <strong>REPL</strong> = read-eval-print loop. A missing indent raises <code>IndentationError</code>.</li>
+<li><strong>Variables are references.</strong> <code>id()</code> shows the object's memory address. <code>y = x</code> shares one object; reassigning creates a new one, and <code>+=</code> on an immutable value also makes a new object.</li>
+<li><strong>Conversion:</strong> <code>int(45.77)</code> truncates (gives 45, no rounding). <code>int("45.88")</code> fails but <code>float("45.88")</code> works. Spaces around a number are fine, spaces inside are not.</li>
+<li><strong>Falsy values:</strong> <code>0</code>, <code>False</code>, <code>""</code>, empty list/tuple/dict, and <code>None</code>. Everything else is truthy.</li>
+<li><strong><code>input()</code> always returns a string.</strong> Convert it with <code>int()</code> or <code>float()</code>.</li>
+<li><strong>Operators:</strong> <code>/</code> true division, <code>//</code> floor division (<code>50 // 4 = 12</code>), <code>%</code> modulo, <code>**</code> power. <code>is</code> / <code>is not</code> compare identity (same object), not value. <code>in</code> / <code>not in</code> test membership and are case-sensitive.</li>
+<li><strong>Strings:</strong> triple quotes make multi-line strings, negative indexes start at <code>-1</code>, and every string method returns a new string.</li>
+</ul>
+<h3>Loops and range</h3>
+<ul>
+<li><code>range(stop)</code>, <code>range(start, stop)</code> and <code>range(start, stop, step)</code> exclude the stop value. A step cannot be 0, and a negative step needs start &gt; stop. <code>range</code> returns a range object; wrap it in <code>list()</code> to see it.</li>
+<li>The three loop styles: count-controlled, condition-controlled (<code>while</code>) and collection-controlled (<code>for</code>). A <code>while</code> loop can run zero times, and Python has no do-while. Stop an infinite loop in Jupyter with <em>Interrupt kernel</em>. After a <code>break</code> the loop variable keeps its last value.</li>
+</ul>
+<h3>Functions</h3>
+<ul>
+<li><strong>Arguments:</strong> positional vs keyword. Defaults must come after required parameters. A missing required argument raises <code>TypeError</code>.</li>
+<li><strong><code>return</code>:</strong> a function with no return gives <code>None</code>, nothing after <code>return</code> runs, and you can return several values (as a tuple).</li>
+<li><strong>Scope:</strong> a local variable can shadow a global one. Reading a global needs no keyword; changing it inside a function needs <code>global</code>.</li>
+<li><strong><code>map</code>, <code>filter</code>, <code>reduce</code>:</strong> <code>map(f, items)</code> applies <code>f</code> to every item and returns an iterator (wrap in <code>list()</code>). <code>filter(f, items)</code> keeps items where <code>f</code> returns true. <code>reduce</code> lives in <code>functools</code> and folds a sequence to one value: <code>reduce(lambda x, y: x + y, nums)</code>. A <code>lambda</code> is an anonymous function with a single expression.</li>
+<li><strong>Generators:</strong> <code>yield</code> pauses and keeps local state (<code>return</code> destroys it). Use <code>next(gen)</code> or a <code>for</code> loop. A generator can be iterated only once.</li>
+</ul>
+<h3>Object-oriented programming</h3>
+<ul>
+<li><code>__init__</code> is the constructor, called automatically when an object is created; <code>self</code> is the instance. <strong>Instance attributes</strong> belong to one object; a <strong>class attribute</strong> is shared by all instances (for example an object counter). Python has automatic garbage collection and no destructor to call. <code>pass</code> is the placeholder for an empty class.</li>
+<li><strong>Access levels (the course's framing):</strong> public by default, <code>_x</code> protected by convention, <code>__x</code> private (a subclass touching it gets <code>AttributeError</code>).</li>
+<li><strong>Inheritance types:</strong> single, multilevel, multiple and hierarchical. A subclass <code>__init__</code> replaces the parent's, so call the parent's explicitly (<code>super().__init__()</code>).</li>
+<li><strong>Polymorphism:</strong> run-time (overriding) works. Python does not truly support method overloading (the last definition wins), but operators are overloaded, such as <code>+</code> adding numbers and joining strings.</li>
+<li><strong>Abstraction:</strong> use <code>ABC</code> and <code>@abstractmethod</code> from <code>abc</code>. An abstract class cannot be instantiated (<code>TypeError</code>), and subclasses must implement its abstract methods.</li>
+</ul>
+<h3>Threads</h3>
+<ul>
+<li>You can subclass <code>threading.Thread</code> and override <code>__init__</code> and <code>run()</code>. A lock has <code>acquire()</code> and <code>release()</code>.</li>
+<li><strong>Race condition:</strong> two threads change shared data at once and the result depends on timing. Locks give mutual exclusion but can cause <strong>deadlock</strong> if threads wait on each other.</li>
+<li>Threads are lightweight and share memory. Operations on lists and dicts are effectively atomic; plain int and float updates are not, so protect them with a lock.</li>
+</ul>
 <div class="pager"><span></span><a href="data-science.html">Data Science →</a></div></main></div>
 <footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>
