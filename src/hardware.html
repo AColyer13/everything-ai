@@ -156,6 +156,24 @@
 </ul>
 <div class="callout tip"><strong class="t">Rule of thumb</strong><p>Choose <strong>x86 + NVIDIA GPU</strong> when you want maximum speed on models that fit in VRAM, or you need to follow tutorials and tools that assume CUDA. Choose <strong>ARM with unified memory</strong> (Apple or DGX Spark) when you want to run models too big for any single gaming GPU at a reasonable price and power draw.</p></div>
 
+<h2>What each can run (rules of thumb)</h2>
+<ul>
+<li><strong>DGX Spark (128 GB):</strong> models up to about 100 to 120B parameters at 4-bit, best when they are MoE so generation stays fast.</li>
+<li><strong>Mac Studio (512 GB):</strong> 4-bit models up to roughly 400B+ parameters, or a mid-size model at high precision with a very long context.</li>
+<li><strong>DGX Station:</strong> models in the several-hundred-billion to trillion-parameter range when quantized, with the speed to serve several people at once.</li>
+</ul>
+
+<h2>Combining machines, and how they compare</h2>
+<p>You can link machines to run a model that does not fit on one. The pieces are connected over a network and the model is split across them (layers on one machine and layers on the next, or experts spread out). The link speed decides how well it works.</p>
+<table>
+<tr><th>Setup</th><th>How it is combined</th><th>Result</th></tr>
+<tr><td>Two DGX Sparks</td><td>Direct high-speed link (ConnectX-7 networking) as an officially supported pair</td><td>256 GB combined, for models around 200B parameters at 4-bit</td></tr>
+<tr><td>Several Mac Studios</td><td>Thunderbolt or Ethernet with software such as MLX distributed or exo</td><td>Combined memory for the biggest open models; speed limited by the link</td></tr>
+<tr><td>Mac plus Spark</td><td>Mix: the Spark processes the long prompt, the Mac does the token generation (an approach community projects have demonstrated)</td><td>Uses each machine's strength; experimental and fiddly</td></tr>
+<tr><td>Station plus Spark or Mac</td><td>Station as the main server, others as extra capacity or for separate jobs</td><td>Usually simpler to give each machine its own model than to split one</td></tr>
+</table>
+<div class="callout tip"><strong class="t">Compare on three axes</strong><p><strong>Capacity</strong> (which models fit), <strong>bandwidth</strong> (tokens per second), and <strong>compute</strong> (how quickly it reads a long prompt). Mac Studio wins on capacity per dollar, the Spark on software compatibility for its price, and the Station on all three at a much higher price. Combining machines adds capacity but rarely speed, so buy one machine large enough for your model before clustering.</p></div>
+
 <h2>Which one for what</h2>
 <table>
 <tr><th>Goal</th><th>Pick</th></tr>
