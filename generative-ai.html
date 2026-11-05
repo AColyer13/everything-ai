@@ -29,7 +29,7 @@
 <li><strong>Pretraining:</strong> the model reads huge amounts of text and learns to predict the next token. This is where its broad knowledge and fluency come from.</li>
 <li><strong>Fine-tuning and instruction tuning:</strong> further training on examples of good behaviour, so the model follows instructions, keeps a consistent format and handles a specific domain.</li>
 <li><strong>Context window:</strong> the amount of text the model can consider at once. Anything outside it is invisible to the model.</li>
-<li><strong>Temperature:</strong> controls randomness. Low values give steadier, more repeatable answers; higher values give more varied ones.</li>
+<li><strong>Temperature:</strong> controls randomness. Low values give steadier, more repeatable answers; higher values give more varied ones. The full list of sampling settings (top_p, top_k, penalties and more) is on the <a href="models.html#sampling-settings-what-each-knob-does">Models</a> page.</li>
 </ul>
 <div class="callout note"><strong class="t">Fluent is not the same as correct</strong><p>An LLM produces the most plausible continuation, not a verified fact. It can state wrong things confidently (called <em>hallucination</em>), so important outputs need checking.</p></div>
 

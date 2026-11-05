@@ -104,6 +104,29 @@
 <p><strong>The difference in one line:</strong> Ollama, LM Studio and vLLM are general engines for models that fit in memory. Strata is a specialist that makes large mixture-of-experts models such as this 125B one usable by treating RAM and SSD as extra memory and reading only the roughly 6B active parameters for each token. Support for new models in the general engines tends to arrive over time, so check before you assume a model can run.</p>
 <p>Treat the context figures as maximums. Real speed and the usable context depend on your system RAM, the quantization, and the software. Test with your own prompts.</p>
 
+<h2>Sampling settings: what each knob does</h2>
+<p>When you run a model locally (in LM Studio, Ollama, llama.cpp or a script), you can change how it picks each next token. The model scores every possible token; these settings reshape that list before one is chosen. The values below are starting points from the notes added to this guide. The model's own card on <a href="tools.html#hugging-face">Hugging Face</a> is the authority, because makers publish different recommended values for different models.</p>
+<div class="callout tip"><strong class="t">Short version</strong><p>Most people only change the first three or four settings (temperature, repeat penalty, presence penalty, max tokens). Leave the rest at the recommended numbers. If the model loops, raise the repeat penalty a little or raise the temperature.</p></div>
+<table>
+<tr><th>Setting</th><th>Recommended</th><th>Low</th><th>Medium</th><th>High</th><th>Raise it</th><th>Lower it</th></tr>
+<tr><td><strong>Temperature</strong></td><td>0.6 for one model in the notes (Qwythos), 0.8 to 1.0 for another (NeoHorse)</td><td>0.0 to 0.4: careful, picks the safest word, can get stuck repeating</td><td>0.5 to 0.7: balanced</td><td>0.8 to 1.2: creative, surprising</td><td>More variety, less looping risk</td><td>More focused and predictable, higher loop risk</td></tr>
+<tr><td><strong>Repeat penalty</strong></td><td>1.05 (1.05 to 1.1 for NeoHorse)</td><td>1.0: no extra penalty</td><td>1.05: light "don't repeat"</td><td>1.1 to 1.15: strong anti-repeat</td><td>Less repetition</td><td>More natural flow, higher loop risk</td></tr>
+<tr><td><strong>Presence penalty</strong></td><td>0 for most people, 1.5 in NeoHorse's official tests</td><td>0: off</td><td>0.5 to 1.0: mild push to new topics</td><td>1.5 to 2.0: strong push away from anything already said</td><td>Jumps to new ideas faster</td><td>Stays on topic longer</td></tr>
+<tr><td><strong>Max tokens</strong> (<code>n_predict</code>)</td><td>2048 to 8192 normally, 16384+ for long reasoning</td><td>512 to 1024: short answers</td><td>2048 to 4096: normal length</td><td>8192 to 16384+: long, detailed answers</td><td>Longer replies, less chance of being cut off</td><td>Shorter replies, finishes sooner</td></tr>
+<tr><td><strong>top_p</strong></td><td>0.95</td><td>0.8: more focused</td><td>0.9 to 0.95: normal</td><td>0.99+: almost no filtering</td><td>Slightly more variety</td><td>More predictable</td></tr>
+<tr><td><strong>top_k</strong></td><td>20</td><td>10 to 20: very restricted</td><td>20 to 40: normal</td><td>50+: more options allowed</td><td>More variety</td><td>More focused</td></tr>
+<tr><td><strong>Context length</strong> (<code>-c</code> or <code>num_ctx</code>)</td><td>8192 to 32768 for everyday use</td><td>2048 to 4096: short memory</td><td>8192 to 16384: good for most chats</td><td>32768 to 131072+: long documents or long agent runs</td><td>Remembers more of the conversation, uses more memory</td><td>Uses less VRAM, forgets earlier parts sooner</td></tr>
+<tr><td><strong>Repeat last n</strong></td><td>Default (usually 64)</td><td>32: short look-back</td><td>64: normal</td><td>128+: looks further back</td><td>Catches longer-range repetition</td><td>Only cares about very recent repeats</td></tr>
+<tr><td><strong>min_p</strong></td><td>0.0</td><td>0.0: off</td><td>0.05: mild filtering</td><td>0.1: strong filtering of rare words</td><td>Removes more low-probability words</td><td>Allows more rare words</td></tr>
+<tr><td><strong>Frequency penalty</strong></td><td>0.0</td><td>0.0: off</td><td>0.3 to 0.5: mild</td><td>0.7 to 1.0: strong</td><td>Fewer overused words</td><td>No extra effect</td></tr>
+</table>
+<ul>
+<li><strong>How they combine:</strong> top_k keeps only the k most likely tokens, top_p keeps the smallest group whose probabilities add up to p, and min_p drops tokens far less likely than the best one. Temperature then spreads or sharpens what is left. Changing several at once makes the effect hard to judge, so change one at a time.</li>
+<li><strong>Repeat penalty versus presence and frequency penalty:</strong> repeat penalty is the llama.cpp-style setting where 1.0 means off. Presence and frequency penalty are the OpenAI-style ones where 0 means off. Presence penalty applies once a token has appeared at all, while frequency penalty grows with each repeat.</li>
+<li><strong>Max tokens is not context length.</strong> Context length is the total memory for the prompt plus the reply. Max tokens only caps the length of one reply. Both must fit inside the memory you have (see the KV cache note above).</li>
+<li><strong>Model-specific values:</strong> the Qwythos and NeoHorse figures come from the notes pasted into this guide and were not checked against model cards, so confirm them before relying on them.</li>
+</ul>
+
 <h2>Kinds of models and what they are for</h2>
 <p>There is no single best model. Pick by the job. This list starts with the large MoE "next flash" style of model and works toward the specialized ones.</p>
 <table>
