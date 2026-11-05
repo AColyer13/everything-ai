@@ -44,7 +44,42 @@
 <h3>Dense versus mixture of experts (MoE)</h3>
 <p>A <strong>dense</strong> model uses all its parameters for every token. A <strong>mixture-of-experts</strong> model holds many specialist sub-networks and activates only a few per token. A "125B" MoE model that activates about 6B parameters per token needs memory for all 125B but reads only about 6B per token, so it generates much faster than a dense 125B model. That trick is what makes huge models usable on desktop machines.</p>
 <h3>Quantization</h3>
-<p><strong>Quantization</strong> stores weights with fewer bits (8, 4, or even 2). It shrinks the file and speeds up generation with some quality loss; 4-bit is the usual sweet spot. <strong>QAT</strong> (quantization-aware training) means the model was trained with the low precision in mind, so it loses less quality than compressing afterward.</p>
+<p><strong>Quantization</strong> stores each weight with fewer bits. A full-precision weight takes 2 to 4 bytes; a 4-bit weight takes half a byte. The file shrinks, it fits in less memory, and generation gets faster because fewer bytes are read per token (see the bandwidth rule on the <a href="hardware.html">Hardware</a> page). The cost is some loss of quality, small at 8 and 4 bits and growing below that.</p>
+<p><strong>Size rule of thumb:</strong> file size in GB is about <em>parameters in billions &times; bits &divide; 8</em>, plus 10% to 20% for overhead. A 20B model is about 40 GB at 16-bit, 20 GB at 8-bit and 10 GB at 4-bit.</p>
+<h4>Precision levels</h4>
+<table>
+<tr><th>Format</th><th>Bits</th><th>Quality</th><th>Used for</th></tr>
+<tr><td>FP32</td><td>32</td><td>Reference</td><td>Training internals; rarely used to run models</td></tr>
+<tr><td>FP16 / BF16</td><td>16</td><td>Full quality (BF16 has a wider number range, which makes training steadier)</td><td>The normal released form of a model; cloud serving</td></tr>
+<tr><td>FP8 / INT8</td><td>8</td><td>Close to lossless</td><td>Data-center serving (H100 and B200 have FP8 hardware); safe local choice when it fits</td></tr>
+<tr><td>4-bit (INT4, Q4)</td><td>4</td><td>Small loss; the usual sweet spot</td><td>Most local models on 16 GB cards and Macs</td></tr>
+<tr><td>FP4 (MXFP4, NVFP4)</td><td>4</td><td>Close to 8-bit for a 4-bit format</td><td>Native on NVIDIA Blackwell GPUs; gpt-oss ships its expert weights in MXFP4</td></tr>
+<tr><td>3-bit and 2-bit</td><td>2 to 3</td><td>Noticeable loss, especially on small models</td><td>Squeezing a huge model into limited memory, as with the 125B model on Strata</td></tr>
+</table>
+<h4>The two ways to get a quantized model</h4>
+<ul>
+<li><strong>Post-training quantization (PTQ):</strong> take a finished model and compress its weights afterward. Quick and cheap, and almost every file you download from the community is made this way. Quality drops more as the bit count falls.</li>
+<li><strong>Quantization-aware training (QAT):</strong> the model is trained or fine-tuned while simulating the low precision, so it learns to work around the rounding. A QAT 4-bit model (such as Google's Gemma 4 QAT checkpoints) keeps noticeably more quality than the same model compressed afterward.</li>
+</ul>
+<h4>Common file and method types</h4>
+<table>
+<tr><th>Type</th><th>What it is</th><th>Runs in</th></tr>
+<tr><td><strong>GGUF</strong></td><td>A single-file format from llama.cpp that holds a quantized model. Names such as <code>Q8_0</code>, <code>Q6_K</code>, <code>Q5_K_M</code>, <code>Q4_K_M</code>, <code>Q3_K_M</code> and <code>Q2_K</code> give the approximate bit count. <strong>K-quants</strong> (the <code>_K</code> ones) mix precisions across layers, and the suffix <code>S</code>, <code>M</code> or <code>L</code> means small, medium or large mix (more bits on important layers). <code>Q4_K_M</code> is the common default.</td><td>Ollama, LM Studio, llama.cpp, Strata</td></tr>
+<tr><td><strong>I-quants</strong> (<code>IQ4_XS</code>, <code>IQ3_S</code>, <code>IQ3_XXS</code>)</td><td>GGUF types that use an importance matrix (a sample of real text showing which weights matter most) to keep quality at very low bit counts. Slightly slower to run than K-quants of the same size. The 125B Qwen model on Strata is distributed in IQ3 forms.</td><td>Same as GGUF</td></tr>
+<tr><td><strong>GPTQ</strong></td><td>GPU-oriented 4-bit (or 8-bit) post-training method that rounds weights layer by layer using a small calibration set.</td><td>vLLM, Hugging Face Transformers</td></tr>
+<tr><td><strong>AWQ</strong></td><td>Activation-aware weight quantization: protects the small share of weights that matter most to the outputs. Often a bit better than plain GPTQ at 4-bit.</td><td>vLLM and similar GPU servers</td></tr>
+<tr><td><strong>bitsandbytes NF4</strong></td><td>A 4-bit format used mainly to <em>train</em> adapters on a compressed base model (QLoRA). See <a href="fine-tuning.html">Finetuning an LLM</a>.</td><td>Hugging Face, Unsloth</td></tr>
+<tr><td><strong>MLX quantization</strong></td><td>Apple's format for Apple Silicon, typically 4-bit or 8-bit.</td><td>MLX, LM Studio on a Mac</td></tr>
+<tr><td><strong>Dynamic quants</strong></td><td>Releases (for example from Unsloth) that keep the most sensitive layers at higher precision and squeeze the rest, giving better quality than a uniform quant of the same size.</td><td>GGUF runners</td></tr>
+</table>
+<h4>How to choose</h4>
+<ul>
+<li>Use the <strong>highest precision that fits</strong> in your fast memory with room left for the context (KV cache). If 8-bit fits, take it; if not, 4-bit.</li>
+<li>A larger model at 4-bit usually beats a smaller model at 8-bit, so it is often better to quantize a bigger model than to run a small one at full quality.</li>
+<li>Go below 4-bit only when you have to, as with a 125B model on a 16 GB card. Expect some quality loss, and prefer I-quants or dynamic quants at 2 to 3 bits.</li>
+<li>Quantization shrinks the weights, not the context. The KV cache that grows with context length has its own memory cost, and some runners can quantize it too.</li>
+<li>Prefer a <strong>QAT</strong> release when one exists, because it loses the least at 4-bit.</li>
+</ul>
 <h3>Context length</h3>
 <p>The <strong>context window</strong> is how much text the model can consider at once (128K tokens is roughly a 300-page book). Longer context costs memory for the KV cache and slows prompt processing, so a model that "supports" 256K may not fit 256K on your hardware.</p>
 
