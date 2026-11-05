@@ -55,7 +55,7 @@
 <tr><td>Everything in RAM, CPU only</td><td>24 ÷ 80 = 0.30 s</td><td>about 3 tokens/s</td></tr>
 </table>
 <p>So putting just one third of the model in RAM makes generation about <strong>5 times slower</strong>, and running entirely from RAM is roughly <strong>10 to 15 times slower</strong> than VRAM, because VRAM bandwidth is that much higher. The slow part dominates: the more of the model that spills, the closer you get to RAM speed. Loading from an SSD is slower again (about 12 to 14 GB/s). These are ceilings; real slowdowns are often worse because data also crosses the PCIe link.</p>
-<p>Mixture-of-experts models soften the blow, since only a few experts are read per token, so keeping the always-used parts in VRAM and the rarely used experts in RAM costs less. This is the trick behind running a 125B model on a 16 GB card with Strata, and why it is slower than a model that fits.</p>
+<p>Mixture-of-experts models soften the blow, since only a few experts are read per token, so keeping the always-used parts in VRAM and the rarely used experts in RAM costs less. This is the trick behind running a 125B model on a 16 GB card with Strata, which makes that model practical on a desktop 5080.</p>
 <h3 id="unified-memory-one-pool">Unified memory: one pool</h3>
 <p>Apple's M-series chips and the NVIDIA DGX Spark put the CPU and GPU on the same chip package sharing <strong>one pool of memory</strong>. There is no VRAM versus RAM split and no PCIe copy: the GPU can use almost all of the memory at full speed. (NVIDIA's Grace-based DGX Station is a related design: the CPU and GPU memory are joined by a fast coherent link rather than shared in one pool.) Not every ARM chip does this, but the ARM machines built for AI mostly do.</p>
 <table>
@@ -96,11 +96,11 @@
 <tr><td>DGX Station</td><td>about 175 to 200 tokens/s (in HBM)</td><td>about 2,000 tokens/s</td><td>about 3,500 tokens/s</td></tr>
 <tr><td>M5 Ultra</td><td>about 30 tokens/s</td><td>about 340 tokens/s</td><td>about 600 tokens/s</td></tr>
 <tr><td>M5 Max</td><td>about 15 tokens/s</td><td>about 175 tokens/s</td><td>about 300 tokens/s</td></tr>
-<tr><td>RTX 5080</td><td>Does not fit in 16 GB</td><td>Does not fit; needs offloading (see Strata), far below the ceiling</td><td>about 480 tokens/s</td></tr>
+<tr><td>RTX 5080</td><td>Does not fit in 16 GB</td><td>Runs well with <a href="tools.html#strata">Strata</a>: it keeps the hot parts in VRAM, streams the rest from RAM and SSD, and a small helper model speeds up generation. The simple ceiling does not apply to the whole model here, so no single number is given (Strata reports its own speeds)</td><td>about 480 tokens/s</td></tr>
 <tr><td>DGX Spark</td><td>about 7 tokens/s</td><td>about 78 tokens/s</td><td>about 135 tokens/s</td></tr>
 <tr><td>M6 (base)</td><td>about 5 tokens/s (fits at 64 GB, uses most of it)</td><td>Does not fit (about 70 GB needed)</td><td>about 100 tokens/s</td></tr>
 </table>
-<div class="callout tip"><strong class="t">What the table teaches</strong><p>Two things beat raw size: a <strong>mixture-of-experts model</strong> (reads far fewer weights per token) and <strong>more bandwidth</strong>. The 16 GB RTX 5080 has more bandwidth than the 128 GB DGX Spark, so it is faster on anything that fits, but the Spark can load models the 5080 cannot.</p></div>
+<div class="callout tip"><strong class="t">What the table teaches</strong><p>Two things beat raw size: a <strong>mixture-of-experts model</strong> (reads far fewer weights per token) and <strong>more bandwidth</strong>. The 16 GB RTX 5080 has more bandwidth than the 128 GB DGX Spark, so it is faster on anything that fits, but the Spark can hold large dense models the 5080 cannot, without special offloading software.</p></div>
 
 <h2 id="the-best-each-can-do">The best each can do</h2>
 <h3 id="b200">NVIDIA B200</h3>
@@ -131,7 +131,7 @@
 <ul>
 <li><strong>Speed:</strong> about 960 GB/s (256-bit GDDR7; this figure is from the card's specification rather than the sources I searched), faster than the DGX Spark and the M5 Max.</li>
 <li><strong>Best at:</strong> models that fit in 16 GB: Gemma 4 12B QAT, gpt-oss-20b, and 7B to 14B models, all fast. Strong at image generation, and at prompt processing for its price.</li>
-<li><strong>Limits:</strong> only 16 GB. Anything larger spills into slower system RAM, as with Qwen3.8-Flash-Next through Strata.</li>
+<li><strong>Limits:</strong> only 16 GB. Anything larger spills into slower system RAM, which a dense model feels badly. Strata is the exception: it is built to run the 125B Qwen3.8-Flash-Next on this card.</li>
 </ul>
 <h3 id="dgx-spark">NVIDIA DGX Spark</h3>
 <ul>
