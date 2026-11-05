@@ -55,7 +55,7 @@
 </ol>
 
 <h2 id="starter-configuration-125m-parameters">Starter configuration (~125M parameters)</h2>
-<p>This is GPT-2 small's shape with modern components, sized for one 16 GB card. For the 10M test run, use 6 layers, 6 heads, width 384 and context 256 on TinyStories.</p>
+<p>This is GPT-2 small's shape with modern components, sized for one 16 GB card. For the 10M test run, use 6 layers, 6 heads, width 384 and context 256 on TinyStories. That is about 10M non-embedding parameters; use a small 4k to 8k vocabulary, because a 50k GPT-2 vocabulary would add about 19M embedding parameters.</p>
 <table>
 <tr><th>Setting</th><th>Value</th></tr>
 <tr><td>Layers / attention heads / width</td><td>12 / 12 / 768</td></tr>
@@ -75,8 +75,8 @@
 <table>
 <tr><th>nanochat run</th><th>Parameters</th><th>Time on 8×H100</th><th>Approx. cost</th><th>Result</th></tr>
 <tr><td>d20 speedrun</td><td>~561M</td><td>~4 hours</td><td>~$100</td><td>Basic chatbot, "like talking to a kindergartener"</td></tr>
-<tr><td>GPT-2 reference</td><td>d24–d26</td><td>~1.65–3 hours</td><td>~$50–75</td><td>Matches or beats 2019 GPT-2 on the CORE benchmark</td></tr>
-<tr><td>d32</td><td>1.9B, trained on 38B tokens</td><td>~33 hours</td><td>~$800</td><td>Strongest model the repo targets</td></tr>
+<tr><td>GPT-2 reference</td><td>d24–d26</td><td>~1.65–3 hours</td><td>~$40–75</td><td>Matches or beats 2019 GPT-2 on the CORE benchmark</td></tr>
+<tr><td>d32</td><td>1.9B, trained on 38B tokens</td><td>~33 hours</td><td>~$800</td><td>A larger, slower run</td></tr>
 </table>
 <p>Costs assume about $24/hour for the node; spot pricing can be much lower. The same code also runs on one GPU with gradient accumulation, just about 8× slower than a full node. The 5070 Ti has roughly a tenth of an H100's training throughput, so a d20 run at home would take on the order of weeks (approximate).</p>
 

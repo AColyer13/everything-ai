@@ -118,7 +118,7 @@ df["segment"] = km.labels_</code></pre>
 <tr><td>MCA</td><td>PCA's counterpart for categorical data</td></tr>
 </table>
 <pre><code>from sklearn.decomposition import PCA
-pca = PCA(n_components=0.95).fit(X_scaled)      # keep 95% of variance
+pca = PCA(n_components=0.95).fit(X)      # keep 95% of variance
 print(pca.n_components_, pca.explained_variance_ratio_.cumsum())</code></pre>
 
 <h2 id="ensemble-learning">Ensemble learning</h2>
@@ -183,7 +183,7 @@ vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
 <h3 id="algorithms-in-depth">Algorithms in depth</h3>
 <ul>
 <li><strong>Decision trees:</strong> the root is the feature that gives the lowest weighted impurity (Gini or entropy; weighting stops a tiny branch distorting the result). Continuous features split at a threshold. Algorithms: ID3, C4.5, CART. Key controls: <code>max_depth</code> (often enough alone), <code>min_samples_leaf</code>, <code>max_leaf_nodes</code>.</li>
-<li><strong>Random forest:</strong> each tree trains on a bootstrap sample and considers a random subset of features per split (<code>max_features="sqrt"</code>); rows left out are the out-of-bag samples. Classification takes the majority vote, regression the mean. More trees help until a plateau. Use <code>n_jobs</code> for speed and feature importances to select features, then retrain on the top ones. <strong>Boruta</strong> wraps a random forest to find all relevant features.</li>
+<li><strong>Random forest:</strong> each tree trains on a bootstrap sample and considers a random subset of features per split (<code>max_features="sqrt"</code>); rows left out are the out-of-bag samples. Classification effectively takes a majority vote (scikit-learn averages the trees' class probabilities), regression takes the mean. More trees help until a plateau. Use <code>n_jobs</code> for speed and feature importances to select features, then retrain on the top ones. <strong>Boruta</strong> wraps a random forest to find all relevant features.</li>
 <li><strong>Forest vs linear model:</strong> linear regression gives direction and size (&ldquo;near the river adds $1,500&rdquo;) and wins when explainability matters; a forest gives only importance percentages but captures non-linear trends and often scores higher.</li>
 <li><strong>KNN:</strong> a lazy, non-parametric learner that stores the training data. Distances: Euclidean, Manhattan, Hamming. Regression averages the neighbours, classification takes the mode (<code>predict_proba</code> gives the vote share). Choose k by trying values; use an <strong>odd k</strong> for classification to avoid ties (k = 1 is noisy, a large k underfits). Scale first. It can also detect anomalies.</li>
 <li><strong>Naive Bayes:</strong> built from a frequency table and likelihood table with Bayes' formula. Variants: Gaussian (continuous features), Multinomial, Bernoulli.</li>
@@ -202,7 +202,7 @@ vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
 <h3 id="delivering-a-model">Delivering a model</h3>
 <ul>
 <li><strong>Save the scaler and the model together</strong> (pickle or joblib). New data goes through the same fitted scaler (<code>transform</code>, never <code>fit</code>) with the <strong>same column order</strong> as training, and predictions may need an inverse transform back to real units.</li>
-<li><strong>Test-time rules (Mercedes project):</strong> decide zero-variance columns from the training set only. Fit label encoders on train and test combined so unseen categories do not break prediction. Fit PCA on train and only transform test. Wrap the steps in a reusable, documented function: no process should be manual.</li>
+<li><strong>Test-time rules (Mercedes project):</strong> decide zero-variance columns from the training set only. Fit label encoders on train and test combined so unseen categories do not break prediction (a pragmatic class choice; a stricter option is an encoder fitted on train only that handles unknown categories). Fit PCA on train and only transform test. Wrap the steps in a reusable, documented function: no process should be manual.</li>
 <li><strong>MLOps:</strong> three phases (design, model development, operations) with CI/CD; tools include MLflow, DVC and H2O.</li>
 <li><strong>Library breakage:</strong> newer pandas errors on <code>df.corr()</code> with text columns (use <code>numeric_only=True</code>) and newer scikit-learn requires keyword arguments. Read the error and the docs.</li>
 <li><strong>Project timeline (as described in class):</strong> data collection 1 to 2 weeks, pre-processing 2.5 to 3 months, then feasibility; 1 to 2 months of paid support after delivery; retrain after 7 to 8 months or a data shift.</li>

@@ -189,7 +189,7 @@ sns.heatmap(df.corr(numeric_only=True), annot=True, cmap="vlag", center=0)</code
 <li><strong>F-distribution:</strong> the ratio of two chi-square variables, each divided by its degrees of freedom. The shape depends on both df, and the order matters: F(6, 8) is not F(8, 6).</li>
 <li><strong>ANOVA</strong> tests whether three or more group means differ. H0: all means are equal; H1: at least one differs. It is an <em>omnibus</em> test, so it does not say which group differs. Assumptions: independent observations, normally distributed residuals, equal variances and a continuous outcome.</li>
 <li><strong>Partitioning:</strong> total variation splits into <em>between-group</em> and <em>within-group</em> (error) sums of squares. <code>F = between-group variance / within-group variance</code>; a large F means the group means differ more than chance would explain.</li>
-<li><strong>Types:</strong> one-way (one factor), two-way (two factors) and N-way / MANOVA. A factor has <em>levels</em>; a factor can be fixed or random.</li>
+<li><strong>Types:</strong> one-way (one factor), two-way (two factors) and N-way (more factors). MANOVA is a separate extension with several outcome variables. A factor has <em>levels</em>; a factor can be fixed or random.</li>
 </ul>
 <h3 id="linear-algebra">Linear algebra</h3>
 <p>Vectors are <strong>linearly independent</strong> when none of them can be written as a combination of the others.</p>

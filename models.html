@@ -65,7 +65,7 @@
 <p>A single gaming card is the most common local setup. The card has 16 GB of fast video memory (VRAM); everything beyond that must spill into system RAM, which is slower. Three models stand out for it:</p>
 <table>
 <tr><th>Model</th><th>Size and type</th><th>Context</th><th>How it fits</th></tr>
-<tr><td><strong>Qwen3.8-Flash-Next</strong> (run with <a href="tools.html#strata">Strata</a>)</td><td>125B MoE, about 6B active per token</td><td>Up to 128K in Strata's reports</td><td>Too big for 16 GB, so Strata spreads it across VRAM, system RAM and SSD. Needs roughly 32 GB or more of system RAM and a 66 to 76 GB download, and works well on a 16 GB card; speed depends on context length and RAM.</td></tr>
+<tr><td><strong>Qwen3.8-Flash-Next</strong> (run with <a href="tools.html#strata">Strata</a>)</td><td>125B MoE, about 6B active per token</td><td>Up to 128K in Strata's reports</td><td>Too big for 16 GB, so Strata spreads it across VRAM, system RAM and SSD. Needs a lot of system RAM (the project suggests about 64 GB, with at least 48 GB for the smaller quantizations), an NVIDIA RTX card with at least 12 GB of VRAM and a download of roughly 75 to 85 GB depending on the quantization, and works well on a 16 GB card; speed depends on context length and RAM.</td></tr>
 <tr><td><strong>Gemma 4 12B, QAT, instruction-tuned</strong></td><td>12B dense, quantization-aware trained</td><td>256K</td><td>The QAT build is small enough to sit in 16 GB. Very long contexts use more memory, so expect to trim the context before you hit 256K.</td></tr>
 <tr><td><strong>gpt-oss-20b</strong></td><td>20B MoE (about 3.6B active), OpenAI open-weight</td><td>128K</td><td>Designed to run in about 16 GB, so it fits the card with room for a long context. Fast.</td></tr>
 </table>
@@ -76,7 +76,7 @@
 <tr><td>Gemma 4 12B QAT, gpt-oss-20b</td><td>Yes: <code>ollama run</code>, quantized GGUF, easiest start</td><td>Yes: pick from the model browser, choose context length with a slider</td><td>Yes: full-precision or quantized Hugging Face weights; best when serving several users</td><td>Not its job</td></tr>
 <tr><td>Qwen3.8-Flash-Next (125B MoE)</td><td>Only once support lands</td><td>Only once support lands</td><td>Needs far more GPU memory than 16 GB</td><td>Yes: the purpose it was built for</td></tr>
 <tr><td>Where the model lives</td><td colspan="3">Whole model in the GPU's VRAM (the 16 GB card), spilling to RAM only if you push the context too far</td><td>Split across VRAM, system RAM and SSD, with expert weights streamed in as needed</td></tr>
-<tr><td>What you notice</td><td colspan="3">Fast, simple, predictable speed</td><td>Slower, a 66 to 76 GB download, heavy RAM use, speed varies with context length</td></tr>
+<tr><td>What you notice</td><td colspan="3">Fast, simple, predictable speed</td><td>A 75 to 85 GB download, heavy RAM use, speed varies with context length</td></tr>
 </table>
 <p><strong>The difference in one line:</strong> Ollama, LM Studio and vLLM are general engines for models that fit in memory. Strata is a specialist that makes one 125B mixture-of-experts model usable by treating RAM and SSD as extra memory and reading only the roughly 6B active parameters for each token, with a small helper model drafting words that the big model verifies. Support for new models in the general engines tends to arrive over time, so check before you assume a model can run.</p>
 <p>Treat the context figures as maximums. Real speed and the usable context depend on your system RAM, the quantization, and the software. Test with your own prompts.</p>

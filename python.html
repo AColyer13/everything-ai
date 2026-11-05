@@ -110,7 +110,7 @@ class Savings(Account):                # inheritance
 <p>Python has no strict private members. A single underscore signals "internal" and a double underscore triggers name mangling.</p>
 
 <h2 id="threads">Threads</h2>
-<p>Threads let a program do several things at once, which helps when work spends its time waiting, such as network calls or file reads. Because of the Global Interpreter Lock, threads do not speed up CPU-heavy Python code; use <code>multiprocessing</code> for that.</p>
+<p>Threads let a program do several things at once, which helps when work spends its time waiting, such as network calls or file reads. Because of the Global Interpreter Lock, threads do not speed up CPU-heavy Python code in the standard build; use <code>multiprocessing</code> for that. (Newer Python versions offer an optional free-threaded build that removes this limit.)</p>
 <pre><code>import threading, time
 
 def work(n):
@@ -165,7 +165,7 @@ with open("out.json", "w") as f:
 </ul>
 <h3 id="object-oriented-programming-2">Object-oriented programming</h3>
 <ul>
-<li><code>__init__</code> is the constructor, called automatically when an object is created; <code>self</code> is the instance. <strong>Instance attributes</strong> belong to one object; a <strong>class attribute</strong> is shared by all instances (for example an object counter). Python has automatic garbage collection and no destructor to call. <code>pass</code> is the placeholder for an empty class.</li>
+<li><code>__init__</code> is the constructor, called automatically when an object is created; <code>self</code> is the instance. <strong>Instance attributes</strong> belong to one object; a <strong>class attribute</strong> is shared by all instances (for example an object counter). Python has automatic garbage collection, so you rarely need a destructor (<code>__del__</code> exists but is seldom used). <code>pass</code> is the placeholder for an empty class.</li>
 <li><strong>Access levels (the course's framing):</strong> public by default, <code>_x</code> protected by convention, <code>__x</code> private (a subclass touching it gets <code>AttributeError</code>).</li>
 <li><strong>Inheritance types:</strong> single, multilevel, multiple and hierarchical. A subclass <code>__init__</code> replaces the parent's, so call the parent's explicitly (<code>super().__init__()</code>).</li>
 <li><strong>Polymorphism:</strong> run-time (overriding) works. Python does not truly support method overloading (the last definition wins), but operators are overloaded, such as <code>+</code> adding numbers and joining strings.</li>
@@ -175,7 +175,7 @@ with open("out.json", "w") as f:
 <ul>
 <li>You can subclass <code>threading.Thread</code> and override <code>__init__</code> and <code>run()</code>. A lock has <code>acquire()</code> and <code>release()</code>.</li>
 <li><strong>Race condition:</strong> two threads change shared data at once and the result depends on timing. Locks give mutual exclusion but can cause <strong>deadlock</strong> if threads wait on each other.</li>
-<li>Threads are lightweight and share memory. Operations on lists and dicts are effectively atomic; plain int and float updates are not, so protect them with a lock.</li>
+<li>Threads are lightweight and share memory. Single operations such as <code>list.append</code> are atomic, but read-modify-write steps such as <code>count += 1</code> are not, so protect shared data with a lock.</li>
 </ul>
 <div class="pager"><span></span><a href="data-science.html">Data Science →</a></div></main></div>
 <footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>

@@ -56,7 +56,8 @@ pipe = Pipeline([("pre", pre), ("model", RandomForestClassifier(random_state=42)
 <li>Try a tree-based ensemble (random forest, gradient boosting). They are strong defaults on tabular data.</li>
 <li>Compare models on the <em>same</em> split or cross-validation folds, using the metric from step 1.</li>
 </ul>
-<pre><code>from sklearn.model_selection import cross_validate
+<pre><code>from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_validate
 models = {"logreg": LogisticRegression(max_iter=1000), "rf": RandomForestClassifier(random_state=42)}
 for name, m in models.items():
     r = cross_validate(Pipeline([("pre", pre), ("m", m)]), X_train, y_train, cv=5, scoring=["f1", "roc_auc"])
@@ -103,7 +104,7 @@ for name, m in models.items():
 <h2 id="program-and-certification-notes">Program and certification notes</h2>
 <div class="callout note"><strong class="t">From the induction session (March 2026)</strong><p>As described by the program lead at the start of the program. Check the learning portal for the current rules.</p></div>
 <ul>
-<li><strong>Structure:</strong> seven parts: Python, Data Science, Machine Learning, Deep Learning, Azure AI (preparing for the <strong>AI-900</strong> exam, Azure AI Fundamentals), Microsoft Copilot, and a Capstone. PySpark is not required.</li>
+<li><strong>Structure:</strong> seven parts: Python, Data Science, Machine Learning, Deep Learning, Azure AI (preparing for the Azure AI Fundamentals certification. The AI-900 exam was reported retired in mid-2026 and replaced by AI-901, so check the portal for which exam your cohort sits), Microsoft Copilot, and a Capstone. PySpark is not required.</li>
 <li><strong>Azure AI course:</strong> also covers cost management, governance tools, compliance and policies.</li>
 <li><strong>Copilot course:</strong> Copilot Studio, building a RAG-based Copilot on your own data, model grounding and Prompt Flow.</li>
 <li><strong>Final certificate:</strong> 117 hours of live classes plus self-learning, and at least two projects passed from two different courses.</li>

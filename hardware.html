@@ -12,7 +12,7 @@
 </div></header>
 <div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#the-parts-of-a-computer-and-what-each-does-for-ai">The parts of a computer, and what each does for AI</a><a href="#ram-versus-vram-and-why-unified-memory-helps">RAM versus VRAM, and why unified memory helps</a><a href="#why-bandwidth-sets-the-speed">Why bandwidth sets the speed</a><a href="#the-hardware-at-a-glance">The hardware at a glance</a><a href="#speed-ceilings-how-fast-each-could-generate">Speed ceilings: how fast each could generate</a><a href="#the-best-each-can-do">The best each can do</a><a href="#linux-x86-versus-arm">Linux x86 versus ARM</a><a href="#what-each-can-run-rules-of-thumb">What each can run (rules of thumb)</a><a href="#combining-machines-and-how-they-compare">Combining machines, and how they compare</a><a href="#which-one-for-what">Which one for what</a><a href="#sources">Sources</a></aside><main><h1>Hardware</h1>
 <p class="lede">How fast each kind of AI hardware really is, measured by memory bandwidth, and the best job each one can do: NVIDIA B200, RTX 5080, DGX Station, DGX Spark, Apple M5 Ultra, M5 Max and M6.</p>
-<div class="callout note"><strong class="t">Not from the class</strong><p>This page is a reference added on top of the course content. Specs are a snapshot from November 2026 taken from vendor pages and secondary coverage, and some are rumors (marked below). Speeds shown are <strong>theoretical ceilings</strong>; real-world results are typically about half. The models these machines run, and the software, are on the <a href="models.html">Models</a> and <a href="tools.html">Tools</a> pages.</p></div>
+<div class="callout note"><strong class="t">Not from the class</strong><p>This page is a reference added on top of the course content. Specs are a snapshot from November 2026 taken from vendor pages and secondary coverage, and a few figures are secondary-source estimates. Speeds shown are <strong>theoretical ceilings</strong>; real-world results are typically about half. The models these machines run, and the software, are on the <a href="models.html">Models</a> and <a href="tools.html">Tools</a> pages.</p></div>
 
 <h2 id="the-parts-of-a-computer-and-what-each-does-for-ai">The parts of a computer, and what each does for AI</h2>
 <p>Four components decide how a machine runs a model. Knowing each one explains the bandwidth numbers further down.</p>
@@ -29,7 +29,7 @@
 <table>
 <tr><th>Level</th><th>Example</th><th>Approx. bandwidth</th><th>Size</th></tr>
 <tr><td>GPU memory (HBM or GDDR)</td><td>B200, RTX 5080</td><td>1 to 8 TB/s</td><td>16 to 290 GB</td></tr>
-<tr><td>Unified memory</td><td>Apple M5, DGX Spark</td><td>273 GB/s to 1.2 TB/s</td><td>64 to 512 GB</td></tr>
+<tr><td>Unified memory</td><td>Apple M-series, DGX Spark</td><td>150 GB/s to 1.2 TB/s</td><td>16 to 512 GB</td></tr>
 <tr><td>System RAM (DDR5)</td><td>Desktop PC</td><td>60 to 100 GB/s</td><td>32 to 256 GB</td></tr>
 <tr><td>PCIe link to the GPU</td><td>PCIe 5.0 x16</td><td>about 64 GB/s</td><td>-</td></tr>
 <tr><td>NVMe SSD</td><td>PCIe 5.0 drive</td><td>about 12 to 14 GB/s</td><td>1 to 8 TB</td></tr>
@@ -80,12 +80,12 @@
 <table>
 <tr><th>Hardware</th><th>Fast memory</th><th>Bandwidth</th><th>Class</th></tr>
 <tr><td>NVIDIA B200</td><td>about 180 to 192 GB HBM3e</td><td>about 8 TB/s</td><td>Data-center GPU (sold in 8-GPU servers)</td></tr>
-<tr><td>NVIDIA DGX Station (GB300)</td><td>about 250 to 290 GB HBM3e, plus about 496 GB LPDDR5X (roughly 750 to 780 GB total)</td><td>about 7 to 8 TB/s on the HBM, about 400 GB/s on the CPU memory</td><td>Desktop data-center system</td></tr>
+<tr><td>NVIDIA DGX Station (GB300)</td><td>about 252 GB HBM3e, plus about 496 GB LPDDR5X (about 748 GB total)</td><td>about 7 TB/s on the HBM, about 400 GB/s on the CPU memory</td><td>Desktop data-center system</td></tr>
 <tr><td>Apple M5 Ultra (Mac Studio)</td><td>up to 512 GB unified</td><td>about 1.2 TB/s</td><td>Desktop</td></tr>
 <tr><td>Apple M5 Max</td><td>up to 128 GB unified</td><td>about 614 GB/s (40-core GPU version)</td><td>Laptop or desktop</td></tr>
 <tr><td>NVIDIA RTX 5080 (desktop)</td><td>16 GB GDDR7</td><td>about 960 GB/s</td><td>Gaming GPU</td></tr>
 <tr><td>NVIDIA DGX Spark</td><td>128 GB unified LPDDR5X</td><td>about 273 GB/s</td><td>Small desktop box</td></tr>
-<tr><td>Apple M6 (base chip, <em>reported, not confirmed</em>)</td><td>up to about 64 GB (varies by configuration)</td><td>about 200 GB/s reported (one source says 170)</td><td>Laptop</td></tr>
+<tr><td>Apple M6 (base chip)</td><td>up to 32 GB (16, 24 or 32 GB)</td><td>up to 170 GB/s (24 and 32 GB configurations; 153 GB/s on 16 GB)</td><td>Laptop</td></tr>
 </table>
 
 <h2 id="speed-ceilings-how-fast-each-could-generate">Speed ceilings: how fast each could generate</h2>
@@ -93,12 +93,12 @@
 <table>
 <tr><th>Hardware</th><th>Dense 70B, 4-bit (about 40 GB per token)</th><th>MoE 125B, about 6B active, 4-bit (about 3.5 GB per token)</th><th>gpt-oss-20b (about 2 GB per token)</th></tr>
 <tr><td>B200</td><td>about 200 tokens/s</td><td>about 2,000 tokens/s</td><td>about 4,000 tokens/s</td></tr>
-<tr><td>DGX Station</td><td>about 175 to 200 tokens/s (in HBM)</td><td>about 2,000 tokens/s</td><td>about 3,500 tokens/s</td></tr>
+<tr><td>DGX Station</td><td>about 180 tokens/s (in HBM)</td><td>about 2,000 tokens/s</td><td>about 3,500 tokens/s</td></tr>
 <tr><td>M5 Ultra</td><td>about 30 tokens/s</td><td>about 340 tokens/s</td><td>about 600 tokens/s</td></tr>
 <tr><td>M5 Max</td><td>about 15 tokens/s</td><td>about 175 tokens/s</td><td>about 300 tokens/s</td></tr>
 <tr><td>RTX 5080</td><td>Does not fit in 16 GB</td><td>Runs well with <a href="tools.html#strata">Strata</a>: it keeps the hot parts in VRAM, streams the rest from RAM and SSD, and a small helper model speeds up generation. The simple ceiling does not apply to the whole model here, so no single number is given (Strata reports its own speeds)</td><td>about 480 tokens/s</td></tr>
 <tr><td>DGX Spark</td><td>about 7 tokens/s</td><td>about 78 tokens/s</td><td>about 135 tokens/s</td></tr>
-<tr><td>M6 (base)</td><td>about 5 tokens/s (fits at 64 GB, uses most of it)</td><td>Does not fit (about 70 GB needed)</td><td>about 100 tokens/s</td></tr>
+<tr><td>M6 (base)</td><td>Does not fit in 32 GB</td><td>Does not fit (about 70 GB needed)</td><td>about 85 tokens/s</td></tr>
 </table>
 <div class="callout tip"><strong class="t">What the table teaches</strong><p>Two things beat raw size: a <strong>mixture-of-experts model</strong> (reads far fewer weights per token) and <strong>more bandwidth</strong>. The 16 GB RTX 5080 has more bandwidth than the 128 GB DGX Spark, so it is faster on anything that fits, but the Spark can hold large dense models the 5080 cannot, without special offloading software.</p></div>
 
@@ -111,13 +111,13 @@
 </ul>
 <h3 id="dgx-station">NVIDIA DGX Station</h3>
 <ul>
-<li><strong>Speed:</strong> data-center class bandwidth (HBM around 7 to 8 TB/s) in a desk-side machine, with a big pool of slower CPU memory behind it.</li>
+<li><strong>Speed:</strong> data-center class bandwidth (HBM around 7 TB/s) in a desk-side machine, with a big pool of slower CPU memory behind it.</li>
 <li><strong>Best at:</strong> running or fine-tuning very large models (hundreds of billions of parameters) at full speed, and serving a whole team from one box with the full CUDA stack.</li>
 <li><strong>Limits:</strong> priced like a server, far above the others. Models that spill from HBM into the CPU memory slow down to about 400 GB/s.</li>
 </ul>
 <h3 id="m5-ultra">Apple M5 Ultra (Mac Studio)</h3>
 <ul>
-<li><strong>Speed:</strong> about 1.2 TB/s, roughly 50% above the M3 Ultra it replaces. Apple announced it in August 2026 with the 512 GB configuration said to arrive in late October; I did not confirm that it has shipped.</li>
+<li><strong>Speed:</strong> about 1.2 TB/s, roughly 50% above the M3 Ultra it replaces. Apple announced it in August 2026; the base model shipped in September and the 512 GB configuration from late October, according to press coverage.</li>
 <li><strong>Best at:</strong> the most memory per dollar. It loads huge models (hundreds of billions of parameters at 4-bit) in one quiet machine and runs mixture-of-experts models at comfortable speeds.</li>
 <li><strong>Limits:</strong> slower than NVIDIA at prompt processing and training, and software built only for CUDA will not run.</li>
 </ul>
@@ -141,10 +141,10 @@
 </ul>
 <h3 id="m6">Apple M6 (base chip)</h3>
 <ul>
-<li><strong>Status:</strong> reported by Bloomberg's Mark Gurman and other outlets for late 2026 in a MacBook Pro, built on a 2 nm process. Reports of its bandwidth disagree: about 200 GB/s in most, 170 GB/s in two. Treat everything here as unconfirmed.</li>
-<li><strong>Memory:</strong> configurations vary; this page uses up to 64 GB as the working assumption.</li>
+<li><strong>Status:</strong> announced in late October 2026 in the 14-inch MacBook Pro (about $1,999), shipping in early November, built on a 2 nm process.</li>
+<li><strong>Memory:</strong> 16, 24 or 32 GB of unified memory. Bandwidth is up to 170 GB/s on the 24 and 32 GB configurations and 153 GB/s on the 16 GB base model.</li>
 <li><strong>Entry-level chip:</strong> reports say Apple does not plan M6 Pro, Max or Ultra variants and expects bigger chips to follow with the M7 family.</li>
-<li><strong>Best at (if it matches reports):</strong> models up to about the 30B class at 4-bit, and small to mid-size models (1B to 14B) comfortably. At about 200 GB/s it is slow on dense models of that size, so prefer mixture-of-experts models that fit in 64 GB. It cannot hold the 100B-class models.</li>
+<li><strong>Best at:</strong> small to mid-size models (1B to 14B) comfortably, and models up to about the 30B class at 4-bit on the 32 GB version, ideally mixture-of-experts models. At 170 GB/s dense models of that size generate slowly, and it cannot hold 70B-class or 100B-class models.</li>
 </ul>
 
 <h2 id="linux-x86-versus-arm">Linux x86 versus ARM</h2>
@@ -195,7 +195,7 @@
 <tr><td>Serve a team with huge models at full speed</td><td>DGX Station</td></tr>
 <tr><td>Train or serve at cloud scale</td><td>B200 servers (rented)</td></tr>
 <tr><td>Portable, mid-size models</td><td>Laptop with M5 Max 128 GB</td></tr>
-<tr><td>Small to mid-size models on a light laptop</td><td>M6 class laptop (up to about 64 GB)</td></tr>
+<tr><td>Small to mid-size models on a light laptop</td><td>M6 laptop (up to 32 GB)</td></tr>
 </table>
 <div class="callout tip"><strong class="t">Buy for the model you want to run</strong><p>Start from the model: its size at 4-bit decides the memory you need, whether it is dense or mixture-of-experts decides the bandwidth you need, and your tolerance for slow prompt processing decides Apple versus NVIDIA.</p></div>
 
@@ -204,6 +204,7 @@
 <ul>
 <li><a href="https://www.macrumors.com/2026/03/03/apple-debuts-m5-pro-and-m5-max-chips/" target="_blank" rel="noopener">Apple debuts M5 Pro and M5 Max (MacRumors)</a></li>
 <li><a href="https://9to5mac.com/2026/08/25/apple-unveils-next-generation-mac-studio-with-m5-max-and-m5-ultra/" target="_blank" rel="noopener">Mac Studio with M5 Max and M5 Ultra (9to5Mac)</a></li>
+<li><a href="https://macrumors.com/2026/10/27/m6-14-inch-macbook-pro-memory-bandwidth-split/" target="_blank" rel="noopener">M6 MacBook Pro memory bandwidth split (MacRumors)</a></li>
 <li><a href="https://9to5mac.com/2026/07/16/apples-m6-chip-is-coming-soon-heres-everything-we-know/" target="_blank" rel="noopener">Apple's M6 chip: everything we know (9to5Mac)</a></li>
 <li><a href="https://www.runpod.io/blog/nvidia-b200-gpu-specs-vram-price-and-ai-performance" target="_blank" rel="noopener">NVIDIA B200 specs (Runpod)</a></li>
 <li><a href="https://wccftech.com/nvidia-enters-ai-pc-realm-dgx-spark-dgx-station-desktops-72-core-grace-cpu-blackwell-gpus-up-to-784-gb-memory/" target="_blank" rel="noopener">DGX Spark and DGX Station (Wccftech)</a></li>

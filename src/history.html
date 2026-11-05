@@ -42,7 +42,7 @@
 <h2>3. The XOR crisis and the first AI winter (1969–1979)</h2>
 <p>By the late 1960s the hype met a mathematical and computational wall.</p>
 <ul>
-<li><strong>Neural nets set back (1969).</strong> Minsky and Seymour Papert's book <em>Perceptrons</em> proved that a single-layer perceptron cannot solve problems that are not linearly separable, the classic example being the <strong>XOR</strong> (exclusive OR) gate. Nobody yet knew how to train multi-layer networks, and funding for neural nets dried up for the better part of two decades.</li>
+<li><strong>Neural nets set back (1969).</strong> Minsky and Seymour Papert's book <em>Perceptrons</em> proved that a single-layer perceptron cannot solve problems that are not linearly separable, the classic example being the <strong>XOR</strong> (exclusive OR) gate. Nobody had yet popularized a way to train multi-layer networks (backpropagation was described earlier but not widely adopted until 1986), and funding for neural nets dried up for the better part of two decades.</li>
 <li><strong>Combinatorial explosion and the Lighthill Report (1973).</strong> Symbolic AI stalled too. Programs that solved "toy problems" in the lab failed in the real world because the number of possible states grew exponentially. The U.S. agency DARPA and the British government (after the critical <strong>1973 Lighthill Report</strong>) cut academic AI funding, causing the <strong>first AI winter</strong>.</li>
 </ul>
 
@@ -76,7 +76,7 @@
 <ul>
 <li><strong>"Attention Is All You Need" (June 2017).</strong> Eight Google researchers (Vaswani et al.) dropped recurrence and introduced the <strong>Transformer</strong>. With <strong>self-attention</strong>, the model processes all tokens in a passage in parallel and relates words however far apart they are. See the transformer section on the <a href="deep-learning.html">Deep Learning</a> page and the <a href="llm.html">Creating an LLM</a> page for building one.</li>
 <li><strong>Pre-training: BERT vs GPT (2018–2020).</strong> Researchers found they could train transformers by <strong>self-supervised learning</strong> on raw internet text, with no human labels. Google's <strong>BERT (2018)</strong> masks words and predicts them using context from both sides. OpenAI's <strong>Alec Radford</strong> pursued next-token prediction with <strong>GPT-1 (2018)</strong>, <strong>GPT-2 (2019)</strong> and <strong>GPT-3 (2020, 175B parameters)</strong>, supporting the <strong>scaling laws</strong> (Kaplan et al., then Chinchilla): as compute, data and parameters grow by orders of magnitude, capabilities such as coding and multi-step reasoning improve and new ones appear.</li>
-<li><strong>Diffusion and science (2020–2021).</strong> DeepMind's <strong>AlphaFold 2</strong> made a breakthrough on the 50-year protein-folding problem. <strong>Diffusion models</strong> (DDPM, Stable Diffusion, DALL-E 2) overtook GANs for images by learning to turn random noise into detailed pictures step by step.</li>
+<li><strong>Diffusion and science (2020–2022).</strong> DeepMind's <strong>AlphaFold 2</strong> made a breakthrough on the 50-year protein-folding problem. <strong>Diffusion models</strong> (DDPM, Stable Diffusion, DALL-E 2) overtook GANs for images by learning to turn random noise into detailed pictures step by step.</li>
 </ul>
 
 <h2>8. Alignment, reasoning models and agents (2022–present)</h2>

@@ -99,7 +99,7 @@ base.trainable = False
 model = keras.Sequential([base, keras.layers.GlobalAveragePooling2D(), keras.layers.Dense(5, activation="softmax")])</code></pre>
 
 <h2>Object detection and edge deployment</h2>
-<p>Classification says what is in an image; <strong>object detection</strong> also says where, by predicting bounding boxes. <strong>YOLO</strong> ("you only look once") does this in a single pass, which makes it fast enough for video. Preparing the dataset means labelling boxes for each object. For phones and embedded devices, <strong>TensorFlow Lite</strong> converts a trained model into a smaller, faster format.</p>
+<p>Classification says what is in an image; <strong>object detection</strong> also says where, by predicting bounding boxes. <strong>YOLO</strong> ("you only look once") does this in a single pass, which makes it fast enough for video. Preparing the dataset means labelling boxes for each object. For phones and embedded devices, <strong>TensorFlow Lite</strong> (now called LiteRT) converts a trained model into a smaller, faster format.</p>
 
 <h2>Sequence models: RNNs</h2>
 <p>Some data is ordered: text, speech, sensor readings. A <strong>recurrent neural network</strong> reads one step at a time and carries a hidden state forward as memory. Training uses backpropagation through time. Plain RNNs forget over long spans because of vanishing gradients, which is why <strong>LSTM</strong> and <strong>GRU</strong> cells with gates were invented. <strong>Hybrid models</strong> combine a CNN to read each frame with an RNN to read the sequence, as in video classification.</p>
@@ -143,11 +143,11 @@ for epoch in range(20):
 <ul>
 <li>A tensor has a rank (number of dimensions). Know broadcasting, <code>reshape</code>, element-wise vs matrix multiplication, <code>argmax</code>, and ragged and string tensors.</li>
 <li>The <strong>Functional API</strong> needs an explicit <code>Input</code> layer. The class labs used <code>sparse_categorical_crossentropy</code> (integer labels) rather than one-hot <code>categorical_crossentropy</code>.</li>
-<li>Keras runs on top of TensorFlow and supports multi-GPU data parallelism. It is not for clustering or PCA, and it has no dynamic graphs.</li>
+<li>Keras runs on top of TensorFlow and supports multi-GPU data parallelism. It is not for clustering or PCA, and it runs eagerly. Keras 3 can use TensorFlow, JAX or PyTorch as its backend.</li>
 </ul>
 <h3>Optimizers and training</h3>
 <ul>
-<li>SGD learning rate is often 0.01; momentum typically 0.9; RMSProp <code>rho</code> about 0.9 to 0.99. Adam combines momentum and RMSProp with bias correction. Adagrad suits sparse data; Adadelta needs no initial learning rate.</li>
+<li>SGD learning rate is often 0.01; momentum typically 0.9; RMSProp <code>rho</code> about 0.9 to 0.99. Adam combines momentum and RMSProp with bias correction. Adagrad suits sparse data; the original Adadelta needs no hand-set learning rate.</li>
 <li><strong>Dropout</strong> is active only during training and is not applied to the output layer. Typical rate: 0.5 for hidden layers.</li>
 <li><strong>EarlyStopping</strong> arguments: <code>monitor</code>, <code>min_delta</code>, <code>patience</code>, <code>mode</code>, <code>restore_best_weights=True</code>. Drawback: it does not use all of the training data.</li>
 <li><strong>Batch normalization</strong> (<code>BatchNormalization</code>) has learnable gamma and beta and sits after the layer whose output it normalises.</li>
@@ -161,13 +161,13 @@ for epoch in range(20):
 <li><strong>Pooling:</strong> max, average and min. <strong>Global</strong> max or average pooling reduces each channel to one value (1 &times; 1 &times; C), which is what <code>GlobalAveragePooling2D</code> does.</li>
 <li><strong>Filters are learned, not hand-written.</strong> Classic examples (Sobel edge, blur, outline) show what a filter does, but the network starts from random values and learns them. Early layers find edges; later layers find abstract parts.</li>
 <li><strong>Limits:</strong> a CNN does not encode the position or orientation of objects, and it needs a lot of data and compute.</li>
-<li><strong>Famous CNNs:</strong> AlexNet, VGG16, GoogLeNet/Inception and ResNet (ResNet-50 won ILSVRC 2015; skip connections add no extra parameters).</li>
+<li><strong>Famous CNNs:</strong> AlexNet, VGG16, GoogLeNet/Inception and ResNet (the 152-layer version won ILSVRC 2015; plain identity skip connections add no extra parameters).</li>
 </ul>
 <h3>Transfer learning, detection and edge</h3>
 <ul>
-<li>Transfer can be <strong>positive</strong> (helps) or <strong>negative</strong> (hurts, when the tasks differ too much). Choose a pretrained model by size, file format (<code>.h5</code> for TensorFlow, <code>.pt</code> for PyTorch), input and output format, and reported accuracy (for example AP).</li>
+<li>Transfer can be <strong>positive</strong> (helps) or <strong>negative</strong> (hurts, when the tasks differ too much). Choose a pretrained model by size, file format (<code>.keras</code>, or the older <code>.h5</code>, for Keras and TensorFlow; <code>.pt</code> for PyTorch), input and output format, and reported accuracy (for example AP).</li>
 <li><strong>YOLO</strong> is regression-based (one pass), unlike the region-based R-CNN family. YOLOv3 uses a Darknet-53 backbone and detects at three scales. A box is (bx, by, bw, bh) plus a class. Remove the classifier head when training on a custom dataset; accuracy is reported as mAP. The class labs used YOLOv5.</li>
-<li><strong>TensorFlow Lite</strong> targets edge devices with limited memory, storage and latency, and keeps data on the device (privacy). Convert a Keras model with <code>TFLiteConverter</code> to a <code>.tflite</code> file.</li>
+<li><strong>TensorFlow Lite</strong> (now called LiteRT) targets edge devices with limited memory, storage and latency, and keeps data on the device (privacy). Convert a Keras model with <code>TFLiteConverter</code> to a <code>.tflite</code> file.</li>
 </ul>
 <h3>Sequences, Transformers, autoencoders</h3>
 <ul>
