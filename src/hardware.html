@@ -84,7 +84,7 @@
 <tr><td>DGX Station</td><td>about 180 tokens/s (in HBM)</td><td>about 2,000 tokens/s</td><td>about 3,500 tokens/s</td></tr>
 <tr><td>M5 Ultra</td><td>about 30 tokens/s</td><td>about 340 tokens/s</td><td>about 600 tokens/s</td></tr>
 <tr><td>M5 Max</td><td>about 15 tokens/s</td><td>about 175 tokens/s</td><td>about 300 tokens/s</td></tr>
-<tr><td>RTX 5080</td><td>Does not fit in 16 GB</td><td>Runs well with <a href="tools.html#strata">Strata</a>: it keeps the hot parts in VRAM, streams the rest from RAM and SSD, and a small helper model speeds up generation. The simple ceiling does not apply to the whole model here, so no single number is given (Strata reports its own speeds)</td><td>about 480 tokens/s</td></tr>
+<tr><td>RTX 5080</td><td>Does not fit in 16 GB</td><td>Runs well with <a href="tools.html#strata">Strata</a>: it keeps the hot parts in VRAM, streams the rest from RAM and SSD, and a small helper model speeds up generation. The simple ceiling does not apply to the whole model here. Users report roughly 98 to 150 tokens/s of generation on a 5080 depending on quantization, context length and PC (self-reported GitHub benchmarks, not independent tests)</td><td>about 480 tokens/s</td></tr>
 <tr><td>DGX Spark</td><td>about 7 tokens/s</td><td>about 78 tokens/s</td><td>about 135 tokens/s</td></tr>
 <tr><td>M6 (base)</td><td>Does not fit in 32 GB</td><td>Does not fit (about 70 GB needed)</td><td>about 85 tokens/s</td></tr>
 </table>
@@ -192,6 +192,8 @@
 <ul>
 <li><a href="https://www.macrumors.com/2026/03/03/apple-debuts-m5-pro-and-m5-max-chips/" target="_blank" rel="noopener">Apple debuts M5 Pro and M5 Max (MacRumors)</a></li>
 <li><a href="https://9to5mac.com/2026/08/25/apple-unveils-next-generation-mac-studio-with-m5-max-and-m5-ultra/" target="_blank" rel="noopener">Mac Studio with M5 Max and M5 Ultra (9to5Mac)</a></li>
+<li><a href="https://github.com/Niko1221/Strata/issues/3620" target="_blank" rel="noopener">Strata benchmark: RTX 5080 16 GB, 150 tok/s decode (GitHub issue 3620)</a></li>
+<li><a href="https://github.com/Niko1221/Strata/issues/3859" target="_blank" rel="noopener">Strata benchmark: RTX 5080 16 GB on an older PC, about 98 tok/s (GitHub issue 3859)</a></li>
 <li><a href="https://macrumors.com/2026/10/27/m6-14-inch-macbook-pro-memory-bandwidth-split/" target="_blank" rel="noopener">M6 MacBook Pro memory bandwidth split (MacRumors)</a></li>
 <li><a href="https://9to5mac.com/2026/07/16/apples-m6-chip-is-coming-soon-heres-everything-we-know/" target="_blank" rel="noopener">Apple's M6 chip: everything we know (9to5Mac)</a></li>
 <li><a href="https://www.runpod.io/blog/nvidia-b200-gpu-specs-vram-price-and-ai-performance" target="_blank" rel="noopener">NVIDIA B200 specs (Runpod)</a></li>

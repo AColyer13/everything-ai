@@ -65,7 +65,7 @@
 <p>A single gaming card is the most common local setup. The card has 16 GB of fast video memory (VRAM); everything beyond that must spill into system RAM, which is slower. Three models stand out for it:</p>
 <table>
 <tr><th>Model</th><th>Size and type</th><th>Context</th><th>How it fits</th></tr>
-<tr><td><strong>Qwen3.8-Flash-Next</strong> (run with <a href="tools.html#strata">Strata</a>)</td><td>125B MoE, about 6B active per token</td><td>Up to 128K in Strata's reports</td><td>Too big for 16 GB, so Strata spreads it across VRAM, system RAM and SSD. Needs a lot of system RAM (the project suggests about 64 GB, with at least 48 GB for the smaller quantizations), an NVIDIA RTX card with at least 12 GB of VRAM and a download of roughly 75 to 85 GB depending on the quantization, and works well on a 16 GB card; speed depends on context length and RAM.</td></tr>
+<tr><td><strong>Qwen3.8-Flash-Next</strong> (run with <a href="tools.html#strata">Strata</a>)</td><td>125B MoE, about 6B active per token</td><td>Up to 128K in Strata's reports</td><td>Too big for 16 GB, so Strata spreads it across VRAM, system RAM and SSD. Needs a lot of system RAM (the project suggests about 64 GB, with at least 48 GB for the smaller quantizations), an NVIDIA RTX card with at least 12 GB of VRAM and a download of roughly 75 to 85 GB depending on the quantization, and works well on a 16 GB card. Users report about 98 to 150 tokens/s of generation on an RTX 5080; speed depends on quantization, context length and RAM.</td></tr>
 <tr><td><strong>Gemma 4 12B, QAT, instruction-tuned</strong></td><td>12B dense, quantization-aware trained</td><td>256K</td><td>The QAT build is small enough to sit in 16 GB. Very long contexts use more memory, so expect to trim the context before you hit 256K.</td></tr>
 <tr><td><strong>gpt-oss-20b</strong></td><td>20B MoE (about 3.6B active), OpenAI open-weight</td><td>128K</td><td>Designed to run in about 16 GB, so it fits the card with room for a long context. Fast.</td></tr>
 </table>
@@ -101,7 +101,7 @@
 </table>
 
 <h2 id="comparing-models-benchlm">Comparing models: BenchLM</h2>
-<p><a href="https://benchlm.ai/" target="_blank" rel="noopener">BenchLM</a> is a leaderboard site that compares language models on quality, cost and context window. It tracks more than a thousand models and offers quick picks such as best open-weight model, best value, fastest, and largest useful context, plus comparison tools and a downloadable dataset.</p>
+<p><a href="https://benchlm.ai/" target="_blank" rel="noopener">BenchLM</a> is a leaderboard site that compares language models on quality, cost and context window. Its own pages report between about 400 tracked models and about 1,000 model profiles (the count changes as it updates), with scores built from published benchmark results rather than private tests. It offers quick picks such as best open-weight model, best value, fastest, and largest useful context, plus comparison tools and a downloadable dataset.</p>
 <ul>
 <li><strong>Use it to:</strong> shortlist models, find the best open-weight option for your memory budget, and check cost against quality.</li>
 <li><strong>Remember:</strong> benchmark scores are not your task. Build your own small test set (see the <a href="fine-tuning.html">Finetuning an LLM</a> pipeline) and run the shortlist through it.</li>
