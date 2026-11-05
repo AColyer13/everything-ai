@@ -115,7 +115,7 @@ pd.pivot_table(df, values="revenue", index="region", columns=df["date"].dt.month
 <li><strong>Joins:</strong> <code>pd.merge(left, right, on="id", how="left")</code>.</li>
 <li><strong>Memory:</strong> use <code>category</code> dtype for repeated strings and downcast numbers for big files.</li>
 </ul>
-<div class="callout live"><strong class="t">From the live classes</strong><p>Write cleaning code as functions that find columns automatically instead of listing them by hand. For example, flag columns with a single unique value (zero variance, which carry no information), treat columns with few unique values as categorical, and columns with exactly two as binary. Scripts like that keep working when new data arrives.</p></div>
+<div class="callout live"><strong class="t">Practical tip</strong><p>Write cleaning code as functions that find columns automatically instead of listing them by hand. For example, flag columns with a single unique value (zero variance, which carry no information), treat columns with few unique values as categorical, and columns with exactly two as binary. Scripts like that keep working when new data arrives.</p></div>
 <pre><code>zero_var = [c for c in df.columns if df[c].nunique() == 1]
 binary   = [c for c in df.columns if df[c].nunique() == 2]
 categ    = [c for c in df.columns if 2 &lt; df[c].nunique() &lt;= 100]</code></pre>
@@ -144,8 +144,8 @@ plt.show()
 sns.heatmap(df.corr(numeric_only=True), annot=True, cmap="vlag", center=0)</code></pre>
 <p><strong>Matplotlib</strong> is the low-level base, <strong>Seaborn</strong> adds statistical charts with good defaults, <strong>Plotly</strong> and <strong>Bokeh</strong> make interactive charts for the web. Label axes, start bar charts at zero, and avoid decoration that does not carry information.</p>
 
-<h2>More from the class: statistics and pandas details</h2>
-<div class="callout note"><strong class="t">From the lessons</strong><p>Rules, formulas and defaults the instructors taught that the sections above summarise only briefly.</p></div>
+<h2>More statistics and pandas details</h2>
+<div class="callout note"><strong class="t">Details</strong><p>Rules, formulas and defaults that the sections above summarise only briefly.</p></div>
 <h3>Levels of measurement</h3>
 <table>
 <tr><th>Level</th><th>Meaning</th><th>Example</th></tr>

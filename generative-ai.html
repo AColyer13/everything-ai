@@ -10,7 +10,7 @@
 <nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html" class=active>Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="mcp.html">MCP</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html">Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
-<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#what-makes-it-generative">What makes it "generative"</a><a href="#how-large-language-models-work">How large language models work</a><a href="#prompt-engineering">Prompt engineering</a><a href="#calling-a-model-from-python">Calling a model from Python</a><a href="#giving-a-model-your-own-knowledge-rag-and-the-llm-wiki">Giving a model your own knowledge: RAG and the LLM Wiki</a><a href="#agentic-ai">Agentic AI</a><a href="#responsible-ai-bias-privacy-and-security">Responsible AI: bias, privacy and security</a><a href="#will-ai-replace-jobs">Will AI replace jobs?</a><a href="#a-quick-checklist-before-you-ship-an-ai-feature">A quick checklist before you ship an AI feature</a><a href="#more-from-the-class-governance-tools-and-prompting-tips">More from the class: governance, tools and prompting tips</a></aside><main><h1>Generative AI</h1>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#what-makes-it-generative">What makes it "generative"</a><a href="#how-large-language-models-work">How large language models work</a><a href="#prompt-engineering">Prompt engineering</a><a href="#calling-a-model-from-python">Calling a model from Python</a><a href="#giving-a-model-your-own-knowledge-rag-and-the-llm-wiki">Giving a model your own knowledge: RAG and the LLM Wiki</a><a href="#agentic-ai">Agentic AI</a><a href="#responsible-ai-bias-privacy-and-security">Responsible AI: bias, privacy and security</a><a href="#will-ai-replace-jobs">Will AI replace jobs?</a><a href="#a-quick-checklist-before-you-ship-an-ai-feature">A quick checklist before you ship an AI feature</a><a href="#more-on-governance-tools-and-prompting-tips">More on governance, tools and prompting tips</a></aside><main><h1>Generative AI</h1>
 <p class="lede">Generative AI creates new content (text, images, code, audio) rather than only labelling or predicting. This page covers how the main model families work, how to steer them with prompts, how to call them from code, and where the real limits are.</p>
 
 <h2 id="what-makes-it-generative">What makes it "generative"</h2>
@@ -59,7 +59,7 @@ Now summarize Report C in the same style.</code></pre>
 <li><strong>Show examples</strong> when wording alone is ambiguous.</li>
 <li><strong>Iterate.</strong> Read the output, tighten the prompt, run again.</li>
 </ol>
-<div class="callout live"><strong class="t">From the live classes</strong><p>Prompt engineering is also a cost lever. A precise prompt ("under 100 words, as a table") returns something you can use directly, so you do not spend more tokens on follow-up corrections. Vague prompts waste tokens, time and money.</p></div>
+<div class="callout live"><strong class="t">Practical tip</strong><p>Prompt engineering is also a cost lever. A precise prompt ("under 100 words, as a table") returns something you can use directly, so you do not spend more tokens on follow-up corrections. Vague prompts waste tokens, time and money.</p></div>
 <h3 id="weak-versus-strong">Weak versus strong</h3>
 <table>
 <tr><th>Weak</th><th>Strong</th></tr>
@@ -148,7 +148,7 @@ print(ticket["priority"])</code></pre>
 </ul>
 
 <h2 id="will-ai-replace-jobs">Will AI replace jobs?</h2>
-<p>The realistic view from the class discussion: generative AI changes how work is done more than it removes whole roles. It speeds up drafting, coding and analysis, so a person can act as a <em>reviewer</em> who validates the output rather than writing everything from scratch. Reasons it does not simply replace people:</p>
+<p>The realistic view: generative AI changes how work is done more than it removes whole roles. It speeds up drafting, coding and analysis, so a person can act as a <em>reviewer</em> who validates the output rather than writing everything from scratch. Reasons it does not simply replace people:</p>
 <ul>
 <li><strong>Cost.</strong> Running large models at scale is expensive, so automating everything is often uneconomical.</li>
 <li><strong>Errors.</strong> Even strong models make mistakes, including in code, so humans must check results.</li>
@@ -166,8 +166,8 @@ print(ticket["priority"])</code></pre>
 <li>Do you know the cost per request at your expected volume?</li>
 </ol>
 
-<h2 id="more-from-the-class-governance-tools-and-prompting-tips">More from the class: governance, tools and prompting tips</h2>
-<div class="callout note"><strong class="t">From the live classes</strong><p>Points from the GenAI Literacy sessions that go beyond the sections above.</p></div>
+<h2 id="more-on-governance-tools-and-prompting-tips">More on governance, tools and prompting tips</h2>
+<div class="callout note"><strong class="t">Details</strong><p>Points that go beyond the sections above.</p></div>
 <h3 id="regulation-and-governance">Regulation and governance</h3>
 <ul>
 <li><strong>EU AI Act:</strong> classifies AI systems by risk. <strong>GDPR:</strong> limits how personal data may be stored and used. <strong>US executive orders</strong> give guidance on responsible AI use.</li>
@@ -178,7 +178,7 @@ print(ticket["priority"])</code></pre>
 <ul>
 <li><strong>Threats named in class:</strong> data poisoning, model inversion, deepfakes and misinformation, and prompt injection.</li>
 <li><strong>Bias mitigation:</strong> fairness audits and diverse training data. If the bias comes from the base model you cannot remove it, so report it to the provider; supplying your own data through RAG can counter it.</li>
-<li><strong>Privacy practices:</strong> data anonymization and user-consent mechanisms. Federated learning keeps raw data on the device (the class example was phone face unlock).</li>
+<li><strong>Privacy practices:</strong> data anonymization and user-consent mechanisms. Federated learning keeps raw data on the device (phone face unlock is an example).</li>
 <li><strong>Cost and sustainability:</strong> data centres strain water and local ecology, memory and compute prices have risen sharply, and token costs are rising.</li>
 </ul>
 <h3 id="physical-ai-and-model-families">Physical AI and model families</h3>
@@ -201,10 +201,10 @@ print(ticket["priority"])</code></pre>
 <li>Build <strong>reusable prompt templates</strong> and train your team to prompt well. Iterate after a first detailed prompt.</li>
 <li>For resumes and profiles, add &ldquo;use only the information given; do not invent anything&rdquo; because these prompts hallucinate. Cross-check translations with another tool.</li>
 <li>Ask the model to check itself: validate output more than once, make the simplest change, remove dead code, and validate code flow and data flow.</li>
-<li><strong>API access:</strong> an API key is the minimum. Sensitive flows also need a user ID and a secret token. Model IDs get deprecated (the class Llama model was retired), so be ready to change them.</li>
+<li><strong>API access:</strong> an API key is the minimum. Sensitive flows also need a user ID and a secret token. Model IDs get deprecated (older hosted Llama models have been retired), so be ready to change them.</li>
 <li>Class demos included a launch-campaign prompt, multilingual translation, a LinkedIn profile from a resume, a 2 &times; 2 prioritization grid, and zero-shot versus few-shot sentiment.</li>
 </ul>
 <div class="pager"><a href="deep-learning.html">← Deep Learning</a><a href="playbook.html">Project Playbook →</a></div></main></div>
-<footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<footer>Everything AI · a study guide to Python, data science, machine learning, deep learning and generative AI.</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>
 </body></html>

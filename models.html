@@ -12,7 +12,7 @@
 </div></header>
 <div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#the-one-rule-memory-decides-everything">The one rule: memory decides everything</a><a href="#nvidia-in-the-enterprise-how-cloud-models-run">NVIDIA in the enterprise: how cloud models run</a><a href="#cloud-models-versus-local-models">Cloud models versus local models</a><a href="#parameter-size-what-the-number-means">Parameter size: what the number means</a><a href="#a-desktop-rtx-5080-with-16-gb">A desktop RTX 5080 with 16 GB</a><a href="#sampling-settings-what-each-knob-does">Sampling settings: what each knob does</a><a href="#kinds-of-models-and-what-they-are-for">Kinds of models and what they are for</a><a href="#comparing-models-benchlm">Comparing models: BenchLM</a><a href="#sources">Sources</a></aside><main><h1>Models</h1>
 <p class="lede">Where AI models actually run. The hardware NVIDIA sells to enterprises for cloud models, the desktop machines that run big models locally (Mac Studio, DGX Spark, DGX Station), what a single 16 GB RTX 5080 can do, the main kinds of models, and how to compare them.</p>
-<div class="callout note"><strong class="t">Not from the class</strong><p>This page is a reference added on top of the course content. Hardware specs and model details are a snapshot from November 2026 taken from vendor docs and secondary coverage, and they change quickly. Speeds and memory needs are estimates; verify before you buy hardware. The software that runs these models is on the <a href="tools.html#running-models-locally">Tools</a> page.</p></div>
+<div class="callout note"><strong class="t">About this page</strong><p>Hardware specs and model details are a snapshot from November 2026 taken from vendor docs and secondary coverage, and they change quickly. Speeds and memory needs are estimates; verify before you buy hardware. The software that runs these models is on the <a href="tools.html#running-models-locally">Tools</a> page.</p></div>
 
 <h2 id="the-one-rule-memory-decides-everything">The one rule: memory decides everything</h2>
 <p>A model's weights must sit in fast memory while it runs. Rough sizing: <strong>file size in GB is about parameters (in billions) × bytes per weight</strong>. At 16-bit that is 2 bytes, at 8-bit 1 byte, at 4-bit about 0.5 byte. Add room for the <em>KV cache</em> (the model's working memory of the conversation), which grows with context length.</p>
@@ -175,6 +175,6 @@
 <li><a href="https://pi3g.com/?p=32200" target="_blank" rel="noopener">DGX Spark vs DGX Station GB300 (pi3g)</a></li>
 </ul>
 <div class="pager"><a href="mcp.html">← MCP</a><a href="hardware.html">Hardware →</a></div></main></div>
-<footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<footer>Everything AI · a study guide to Python, data science, machine learning, deep learning and generative AI.</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>
 </body></html>

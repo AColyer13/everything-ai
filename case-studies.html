@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Case Studies · Everything AI</title>
-<meta name="description" content="All 14 course projects and how AI solves each one">
+<meta name="description" content="All 14 projects and how AI solves each one">
 <link rel="stylesheet" href="assets/style.css">
 </head><body>
 <header class="top"><div class="bar">
@@ -10,12 +10,12 @@
 <nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html" class=active>Case Studies</a><a href="tools.html">Tools</a><a href="mcp.html">MCP</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html">Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
-<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#python-for-ai">Python For AI</a><a href="#applied-data-science-with-python">Applied Data Science with Python</a><a href="#machine-learning-using-python">Machine Learning using Python</a><a href="#deep-learning-specialization">Deep Learning Specialization</a><a href="#microsoft-ai-engineer-capstone">Microsoft AI Engineer Capstone</a><a href="#the-pattern-across-all-14">The pattern across all 14</a></aside><main><h1>Case Studies</h1>
-<p class="lede">The 14 projects in the Microsoft AI Engineer program, and for each one, how AI actually solves it: the problem type, the data, the method, and the trap to avoid.</p>
-<div class="callout note"><strong class="t">How these were written</strong><p>The project titles come from the course's Assessments tab. The LMS briefs were not read, so each write-up is based on the title and the standard version of that problem. Where the exact task is a guess, the entry says so. Check your own brief for the real dataset and questions. All of them follow the workflow on the <a href="playbook.html">Project Playbook</a>.</p></div>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#python-for-ai">Python For AI</a><a href="#applied-data-science-with-python">Applied Data Science with Python</a><a href="#machine-learning-using-python">Machine Learning using Python</a><a href="#deep-learning-specialization">Deep Learning Specialization</a><a href="#capstone-projects">Capstone projects</a><a href="#the-pattern-across-all-14">The pattern across all 14</a></aside><main><h1>Case Studies</h1>
+<p class="lede">14 practice projects, and for each one, how AI actually solves it: the problem type, the data, the method, and the trap to avoid.</p>
+<div class="callout note"><strong class="t">How these were written</strong><p>Each write-up is based on the project title and the standard version of that problem. Where the exact task is a guess, the entry says so. Check your own brief for the real dataset and questions. All of them follow the workflow on the <a href="playbook.html">Project Playbook</a>.</p></div>
 
 <table>
-<tr><th>Course</th><th>Project</th><th>Problem type</th></tr>
+<tr><th>Topic</th><th>Project</th><th>Problem type</th></tr>
 <tr><td>Python For AI</td><td><a href="#customer-orders">Analyzing Customer Orders</a></td><td>Data analysis</td></tr>
 <tr><td>Python For AI</td><td><a href="#adventure-game">Python Adventure Game with GitHub Copilot</a></td><td>AI-assisted coding</td></tr>
 <tr><td>Applied Data Science</td><td><a href="#walmart">Retail Analysis with Walmart Data</a></td><td>Regression / forecasting</td></tr>
@@ -40,7 +40,7 @@
 
 <h3 id="adventure-game">Building a Python Adventure Game with GitHub Copilot</h3>
 <p><strong>Goal:</strong> build a text adventure while using an AI coding assistant.</p>
-<p><strong>How AI does it:</strong> Copilot is a large language model trained on code (see <a href="generative-ai.html">Generative AI</a>). You describe what you want in a comment or prompt ("a function that moves the player between rooms and updates inventory") and it predicts the next lines. You supply the design: rooms as a dictionary, a game loop, classes for player and items (the <a href="python.html">Python</a> OOP lesson). The assistant writes boilerplate; you decide structure and review everything.</p>
+<p><strong>How AI does it:</strong> Copilot is a large language model trained on code (see <a href="generative-ai.html">Generative AI</a>). You describe what you want in a comment or prompt ("a function that moves the player between rooms and updates inventory") and it predicts the next lines. You supply the design: rooms as a dictionary, a game loop, classes for player and items (the <a href="python.html">Python</a> OOP section). The assistant writes boilerplate; you decide structure and review everything.</p>
 <p><strong>Watch out:</strong> it produces plausible code, not guaranteed-correct code. Run it, test the edge cases (invalid commands, empty inventory) and read what it wrote.</p>
 
 <h2 id="applied-data-science-with-python">Applied Data Science with Python</h2>
@@ -91,7 +91,7 @@
 <p><strong>How AI does it:</strong> <strong>computer vision</strong>. If the job is "what type of vessel is this?", fine-tune a pretrained CNN with transfer learning (freeze early layers, train a new head). If it is "where are the containers or ships?", use object detection such as YOLO to draw boxes. Add augmentation (flips, crops, lighting) because port photos vary a lot, and evaluate on images the model never saw.</p>
 <p><strong>Watch out:</strong> small image sets overfit quickly. Transfer learning and augmentation are the fix, not a bigger model.</p>
 
-<h2 id="microsoft-ai-engineer-capstone">Microsoft AI Engineer Capstone</h2>
+<h2 id="capstone-projects">Capstone projects</h2>
 <h3 id="heritage">Preserving Heritage: Enhancing Tourism with AI</h3>
 <p><strong>Goal:</strong> the title suggests using AI to protect cultural sites and improve the visitor experience. The exact deliverable is not known from the title, so this entry lists the usual building blocks.</p>
 <p><strong>How AI could do it:</strong></p>
@@ -124,6 +124,6 @@
 </table>
 <p>The same four habits show up in every project: <strong>inspect the data first, split before you transform, pick a metric that matches the cost of mistakes, and compare against a simple baseline.</strong></p>
 <div class="pager"><a href="playbook.html">← Project Playbook</a><a href="tools.html">Tools →</a></div></main></div>
-<footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<footer>Everything AI · a study guide to Python, data science, machine learning, deep learning and generative AI.</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>
 </body></html>

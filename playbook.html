@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Project Playbook · Everything AI</title>
-<meta name="description" content="A practical checklist from the live classes">
+<meta name="description" content="A practical checklist for taking a dataset to a trusted model">
 <link rel="stylesheet" href="assets/style.css">
 </head><body>
 <header class="top"><div class="bar">
@@ -10,8 +10,8 @@
 <nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html" class=active>Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="mcp.html">MCP</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html">Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
-<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#1-frame-the-problem">1. Frame the problem</a><a href="#2-inspect-the-data">2. Inspect the data</a><a href="#3-clean-and-prepare">3. Clean and prepare</a><a href="#4-build-a-baseline-then-compare">4. Build a baseline, then compare</a><a href="#5-diagnose">5. Diagnose</a><a href="#6-tune-and-evaluate-once">6. Tune and evaluate once</a><a href="#7-explain-it">7. Explain it</a><a href="#8-ship-and-monitor">8. Ship and monitor</a><a href="#study-plan">Study plan</a><a href="#program-and-certification-notes">Program and certification notes</a></aside><main><h1>Project Playbook</h1>
-<p class="lede">A practical, end-to-end checklist for taking a dataset to a model you can trust. It pulls together the habits from the lessons and the live classes into one workflow.</p>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#1-frame-the-problem">1. Frame the problem</a><a href="#2-inspect-the-data">2. Inspect the data</a><a href="#3-clean-and-prepare">3. Clean and prepare</a><a href="#4-build-a-baseline-then-compare">4. Build a baseline, then compare</a><a href="#5-diagnose">5. Diagnose</a><a href="#6-tune-and-evaluate-once">6. Tune and evaluate once</a><a href="#7-explain-it">7. Explain it</a><a href="#8-ship-and-monitor">8. Ship and monitor</a><a href="#study-plan">Study plan</a></aside><main><h1>Project Playbook</h1>
+<p class="lede">A practical, end-to-end checklist for taking a dataset to a model you can trust. It pulls the usual good habits into one workflow.</p>
 
 <h2 id="1-frame-the-problem">1. Frame the problem</h2>
 <ul>
@@ -48,7 +48,7 @@ pre = ColumnTransformer([
                       ("oh", OneHotEncoder(handle_unknown="ignore"))]), cat_cols),
 ])
 pipe = Pipeline([("pre", pre), ("model", RandomForestClassifier(random_state=42))])</code></pre>
-<div class="callout live"><strong class="t">From the live classes</strong><p>Write the preparation as a script that works on any new data, not a one-off notebook edit. If the column rules are computed from the data (unique-value counts, data types), the same code keeps working when next month's file arrives with different columns.</p></div>
+<div class="callout live"><strong class="t">Practical tip</strong><p>Write the preparation as a script that works on any new data, not a one-off notebook edit. If the column rules are computed from the data (unique-value counts, data types), the same code keeps working when next month's file arrives with different columns.</p></div>
 
 <h2 id="4-build-a-baseline-then-compare">4. Build a baseline, then compare</h2>
 <ul>
@@ -101,18 +101,7 @@ for name, m in models.items():
 <tr><td>8</td><td><a href="generative-ai.html">Generative AI</a>: prompts and APIs</td><td>Build a JSON-returning triage tool</td></tr>
 </table>
 
-<h2 id="program-and-certification-notes">Program and certification notes</h2>
-<div class="callout note"><strong class="t">From the induction session (March 2026)</strong><p>As described by the program lead at the start of the program. Check the learning portal for the current rules.</p></div>
-<ul>
-<li><strong>Structure:</strong> seven parts: Python, Data Science, Machine Learning, Deep Learning, Azure AI (preparing for the Azure AI Fundamentals certification. Microsoft retired the AI-900 exam on 30 June 2026 and replaced it with AI-901; the certification itself continues. Check the portal for which exam your cohort sits), Microsoft Copilot, and a Capstone. PySpark is not required.</li>
-<li><strong>Azure AI course:</strong> also covers cost management, governance tools, compliance and policies.</li>
-<li><strong>Copilot course:</strong> Copilot Studio, building a RAG-based Copilot on your own data, model grounding and Prompt Flow.</li>
-<li><strong>Final certificate:</strong> 117 hours of live classes plus self-learning, and at least two projects passed from two different courses.</li>
-<li><strong>Course certificates:</strong> 80% live attendance, 65% self-learning, and one project passed. A recording counts toward attendance only if you watch at least 50% without skipping.</li>
-<li><strong>Deadlines:</strong> assessments are due within 15 days of the last class; project evaluation takes about 5 days.</li>
-</ul>
-<p>For the ML module the instructor advised attempting all three projects (Spotify song clustering, employee turnover, Mercedes-Benz), since machine learning is the core of the course. See the <a href="case-studies.html">Case Studies</a> page.</p>
 <div class="pager"><a href="generative-ai.html">← Generative AI</a><a href="case-studies.html">Case Studies →</a></div></main></div>
-<footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<footer>Everything AI · a study guide to Python, data science, machine learning, deep learning and generative AI.</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>
 </body></html>

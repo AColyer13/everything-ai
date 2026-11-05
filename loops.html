@@ -12,7 +12,7 @@
 </div></header>
 <div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#ai-agents">AI agents</a><a href="#software-engineering">Software engineering</a><a href="#management-and-quality">Management and quality</a><a href="#product-and-design">Product and design</a><a href="#data-and-ml">Data and ML</a><a href="#research">Research</a><a href="#writing">Writing</a><a href="#template-for-a-new-loop">Template for a new loop</a><a href="#rules-for-every-loop">Rules for every loop</a><a href="#sources">Sources</a></aside><main><h1>Loops</h1>
 <p class="lede">44 repeatable loops for agents, engineering, management, product, data science, research and writing. Each one lists where it comes from, what each stage or worker does, and when it stops. To design a new loop, start here and borrow the stage you are missing.</p>
-<div class="callout note"><strong class="t">Not from the class</strong><p>This page is a reference collection added on top of the course content. Loops marked ★ come from Andrej Karpathy (see <a href="pioneers.html">AI Pioneers</a>). Click a loop to open it.</p></div>
+<div class="callout note"><strong class="t">About this page</strong><p>This page is a reference collection. Loops marked ★ come from Andrej Karpathy (see <a href="pioneers.html">AI Pioneers</a>). Click a loop to open it.</p></div>
 <div class="loopbar"><button type="button" id="loops-open">Expand all</button><button type="button" id="loops-close">Collapse all</button></div>
 <h2 id="ai-agents">AI agents</h2>
 <details class="loop" id="react"><summary><span class="lname">ReAct</span><span class="lflow">Reason → Act → Observe</span></summary><div class="lbody"><p class="lmeta"><strong>Origin:</strong> AI research (Yao et al., 2022). The basic loop behind most tool-using agents.</p><ol class="lsteps"><li><strong>Reason:</strong> The agent thinks out loud about what it knows and what to do next.</li><li><strong>Act:</strong> It calls one tool, such as search, a file read or a shell command.</li><li><strong>Observe:</strong> It reads the tool's result and adds it to its context, then reasons again.</li></ol><p class="lexit"><strong>Exit:</strong> The agent has enough to answer, or it hits a step limit.</p></div></details>
@@ -109,6 +109,6 @@
 <li><a href="https://arxiv.org/abs/2603.28052" target="_blank" rel="noopener">Lee et al.: Meta-Harness, End-to-End Optimization of Model Harnesses (arXiv 2603.28052)</a></li>
 </ul>
 <div class="pager"><a href="fine-tuning.html">← Finetuning an LLM</a><a href="history.html">History of AI →</a></div></main></div>
-<footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<footer>Everything AI · a study guide to Python, data science, machine learning, deep learning and generative AI.</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>
 </body></html>

@@ -14,8 +14,8 @@ PAGES = [
     ("machine-learning", "Machine Learning", "🤖", "Regression, classification, clustering, ensembles, recommenders"),
     ("deep-learning", "Deep Learning", "🧠", "Neural nets, optimizers, CNNs, RNNs, transformers, PyTorch"),
     ("generative-ai", "Generative AI", "✨", "LLMs, prompt engineering, APIs, limits and cost"),
-    ("playbook", "Project Playbook", "🧭", "A practical checklist from the live classes"),
-    ("case-studies", "Case Studies", "🗂️", "All 14 course projects and how AI solves each one"),
+    ("playbook", "Project Playbook", "🧭", "A practical checklist for taking a dataset to a trusted model"),
+    ("case-studies", "Case Studies", "🗂️", "All 14 projects and how AI solves each one"),
     ("tools", "Tools", "🛠️", "Claude, Grok, Cursor, Antigravity, ChatGPT, OpenClaw, OpenCode, Hugging Face and Unsloth"),
     ("mcp", "MCP", "🔌", "How Anthropic's Model Context Protocol works, where it came from, and example connectors"),
     ("models", "Models", "🖥️", "Enterprise NVIDIA, big local machines, a 16 GB GPU, model types and BenchLM"),
@@ -101,7 +101,7 @@ def page(i):
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
 <div class="wrap{single}">{toc}<main>{body}{pager}</main></div>
-<footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<footer>Everything AI · a study guide to Python, data science, machine learning, deep learning and generative AI.</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>
 </body></html>"""
 

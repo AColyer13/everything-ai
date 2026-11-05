@@ -10,7 +10,7 @@
 <nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html" class=active>Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="mcp.html">MCP</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html">Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
-<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#the-big-picture">The big picture</a><a href="#the-ml-pipeline">The ML pipeline</a><a href="#generalization-overfitting-and-underfitting">Generalization: overfitting and underfitting</a><a href="#regression">Regression</a><a href="#classification">Classification</a><a href="#unsupervised-learning">Unsupervised learning</a><a href="#ensemble-learning">Ensemble learning</a><a href="#recommender-systems">Recommender systems</a><a href="#where-tensorflow-and-pytorch-fit-in">Where TensorFlow and PyTorch fit in</a><a href="#more-from-the-class-how-the-instructors-did-it">More from the class: how the instructors did it</a></aside><main><h1>Machine Learning</h1>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#the-big-picture">The big picture</a><a href="#the-ml-pipeline">The ML pipeline</a><a href="#generalization-overfitting-and-underfitting">Generalization: overfitting and underfitting</a><a href="#regression">Regression</a><a href="#classification">Classification</a><a href="#unsupervised-learning">Unsupervised learning</a><a href="#ensemble-learning">Ensemble learning</a><a href="#recommender-systems">Recommender systems</a><a href="#where-tensorflow-and-pytorch-fit-in">Where TensorFlow and PyTorch fit in</a><a href="#rules-of-thumb-and-project-habits">Rules of thumb and project habits</a></aside><main><h1>Machine Learning</h1>
 <p class="lede">Machine learning is software that improves at a task by learning patterns from examples instead of following hand-written rules. This page walks from the core ideas to the algorithms you will reach for most.</p>
 
 <h2 id="the-big-picture">The big picture</h2>
@@ -21,7 +21,7 @@
 <tr><td>Reinforcement</td><td>An environment and rewards</td><td>Choose actions that earn more reward</td><td>Game playing, robotics</td></tr>
 </table>
 <p>Supervised problems split in two. If the target is a <strong>number</strong> (sales next month), it is <strong>regression</strong>. If the target is a <strong>category</strong> (fraud or not), it is <strong>classification</strong>.</p>
-<div class="callout live"><strong class="t">From the live classes</strong><p>A quick test: count the distinct values the target can take. A handful of unrelated labels such as colours means classification. A quantity that can take many values means regression. If you have many classes, check whether splitting the problem into several simpler models works better, because accuracy often falls as the number of classes grows.</p></div>
+<div class="callout live"><strong class="t">Practical tip</strong><p>A quick test: count the distinct values the target can take. A handful of unrelated labels such as colours means classification. A quantity that can take many values means regression. If you have many classes, check whether splitting the problem into several simpler models works better, because accuracy often falls as the number of classes grows.</p></div>
 
 <h2 id="the-ml-pipeline">The ML pipeline</h2>
 <ol class="steps">
@@ -46,7 +46,7 @@
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 scores = cross_val_score(model, X_train, y_train, cv=5)   # honest estimate of performance
 print(scores.mean(), scores.std())</code></pre>
-<div class="callout live"><strong class="t">From the live classes</strong><p>To choose between algorithms, have each one predict on data whose answers you already know (for example three months of past sales), then see whose predictions land closest to the real values. The winner has learned the patterns best. Always judge on data the model did not train on.</p></div>
+<div class="callout live"><strong class="t">Practical tip</strong><p>To choose between algorithms, have each one predict on data whose answers you already know (for example three months of past sales), then see whose predictions land closest to the real values. The winner has learned the patterns best. Always judge on data the model did not train on.</p></div>
 
 <h2 id="regression">Regression</h2>
 <h3 id="linear-regression">Linear regression</h3>
@@ -98,14 +98,14 @@ print(sorted(zip(rf.feature_importances_, X.columns), reverse=True)[:10])</code>
 <h2 id="unsupervised-learning">Unsupervised learning</h2>
 <h3 id="clustering">Clustering</h3>
 <p><strong>K-means</strong> groups points into k clusters: (1) pick k starting centres, (2) assign each point to its nearest centre, (3) move each centre to the mean of its points, (4) repeat until nothing changes.</p>
-<div class="callout live"><strong class="t">From the live classes</strong><p>Worked by hand in one dimension: with ages and centres 10, 30 and 60, the point 35 is closest to 30 by Euclidean distance (in one dimension that is just the absolute difference). After assigning every point, the new centre is the mean of the group, for example the mean of 10 and 15 is 12.5. Seeing the loop on tiny numbers makes the algorithm obvious.</p></div>
+<div class="callout live"><strong class="t">Practical tip</strong><p>Worked by hand in one dimension: with ages and centres 10, 30 and 60, the point 35 is closest to 30 by Euclidean distance (in one dimension that is just the absolute difference). After assigning every point, the new centre is the mean of the group, for example the mean of 10 and 15 is 12.5. Seeing the loop on tiny numbers makes the algorithm obvious.</p></div>
 <pre><code>from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 
 X = StandardScaler().fit_transform(df[["annual_income", "spending_score"]])
 km = KMeans(n_clusters=3, random_state=42, n_init="auto").fit(X)
 df["segment"] = km.labels_</code></pre>
-<p>Choose k with the <strong>elbow method</strong> (plot inertia against k and look for the bend) or the <strong>silhouette score</strong>. In the live class, clustering customers on income and spending score turned segments into product ideas.</p>
+<p>Choose k with the <strong>elbow method</strong> (plot inertia against k and look for the bend) or the <strong>silhouette score</strong>. For example, clustering customers on income and spending score turned segments into product ideas.</p>
 <p><strong>Hierarchical clustering</strong> builds a tree you can cut at any level. <strong>BIRCH</strong> clusters very large datasets in one pass.</p>
 <h3 id="outlier-and-anomaly-detection">Outlier and anomaly detection</h3>
 <p>Find points that do not fit: far from neighbours (k-NN distance), isolated by random splits (isolation forest), or low-probability under a model. The <strong>PyOD</strong> library bundles many detectors.</p>
@@ -149,8 +149,8 @@ vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
 <h2 id="where-tensorflow-and-pytorch-fit-in">Where TensorFlow and PyTorch fit in</h2>
 <p>The same ideas extend to neural networks, covered on the <a href="deep-learning.html">Deep Learning</a> page. TensorFlow with Keras and PyTorch both let you build models layer by layer and train them on a GPU.</p>
 
-<h2 id="more-from-the-class-how-the-instructors-did-it">More from the class: how the instructors did it</h2>
-<div class="callout note"><strong class="t">From the live classes and lessons</strong><p>Rules of thumb, formulas and project habits the instructors stressed. Where a number is a rule of thumb, it came from the instructor, not from a standard.</p></div>
+<h2 id="rules-of-thumb-and-project-habits">Rules of thumb and project habits</h2>
+<div class="callout note"><strong class="t">Details</strong><p>Rules of thumb, formulas and project habits. Where a number is a rule of thumb, it is practitioner advice, not a standard.</p></div>
 <h3 id="framing-and-data">Framing and data</h3>
 <ul>
 <li><strong>Churn framing:</strong> take features from an earlier date and the exit label from a later date, leaving a gap of about 3 to 6 months so the business has time to act. Same-day data is useless, and every feature must be available at prediction time.</li>
@@ -158,7 +158,7 @@ vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
 <li><strong>Classification EDA:</strong> correlation with a 0/1 target is weak, so compare group means or medians per class and plot by class. A big mean-median gap, or a max far above the 75th percentile, flags outliers. Finish EDA with a short business summary.</li>
 <li><strong>Cleaning:</strong> never impute the target column, only features. Prefer the median to the mean. Cap outliers with IQR fences (Q1 - 1.5&middot;IQR, Q3 + 1.5&middot;IQR) using <code>.clip()</code> instead of deleting rows. Extract month, quarter and week from dates to capture seasonality.</li>
 <li><strong>Leakage demos:</strong> putting the target into the features sends the intercept to zero and all weight onto the target; the Titanic <code>alive</code> column gave about 100% feature importance because it is a proxy for survival. Drop proxies, features with 0% importance, and columns that are about 80% missing.</li>
-<li><strong>Scaling:</strong> MinMax is <code>(x - min) / (max - min)</code> (range 0 to 1); StandardScaler is <code>(x - mean) / std</code> (can be negative). The instructor recommended <strong>MinMax for clustering and KNN</strong>, though standard scaling is acceptable. The example above uses StandardScaler.</li>
+<li><strong>Scaling:</strong> MinMax is <code>(x - min) / (max - min)</code> (range 0 to 1); StandardScaler is <code>(x - mean) / std</code> (can be negative). A common recommendation is <strong>MinMax for clustering and KNN</strong>, though standard scaling is acceptable. The example above uses StandardScaler.</li>
 <li><strong>Size:</strong> pandas handles roughly 2 to 3 GB comfortably. Beyond that use PySpark or Databricks with Parquet, then convert to pandas for modelling.</li>
 </ul>
 <h3 id="evaluating-and-tuning">Evaluating and tuning</h3>
@@ -176,7 +176,7 @@ vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
 <ul>
 <li><strong>Reading coefficients:</strong> the slope (coefficient, beta, weight) is the change in y for a one-unit change in x; the intercept is the constant or base value. Coefficients are not comparable across features on different scales.</li>
 <li><strong>Assumptions and how to check them:</strong> linear and additive relationship; residuals plotted against predictions should show no funnel shape (a funnel means heteroscedasticity); residuals roughly normal; no autocorrelation (mainly a time-series issue). Linear regression is sensitive to outliers.</li>
-<li><strong>Multicollinearity:</strong> detect with a correlation heatmap or the variance inflation factor (VIF). The instructor treated correlation above about 70% as risky and 40 to 50% as fine, and advised asking the client which of two collinear features to keep. Ridge handles multicollinearity.</li>
+<li><strong>Multicollinearity:</strong> detect with a correlation heatmap or the variance inflation factor (VIF). A common rule of thumb treats correlation above about 70% as risky and 40 to 50% as fine; ask the client which of two collinear features to keep. Ridge handles multicollinearity.</li>
 <li><strong>Regularization:</strong> loss = residual sum of squares + &lambda; &times; penalty. Ridge penalises squared weights (shrinks toward 0); LASSO penalises absolute weights (can reach exactly 0). &lambda; = 0 means no penalty. Polynomial regression is still linear in its coefficients. Other regressors: SVR, decision-tree and random-forest regression.</li>
 <li><strong>Gradient descent:</strong> step = gradient &times; learning rate; new parameter = old - step; repeat until the gradient is near 0. Too large a learning rate overshoots. SGD uses one random point per update: faster but noisier.</li>
 </ul>
@@ -209,6 +209,6 @@ vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
 <li><strong>Interview advice:</strong> write code yourself rather than leaning on autocomplete (live-coding interviews exist), and practise on sites like HackerRank. Kaggle is a good source of datasets and example notebooks.</li>
 </ul>
 <div class="pager"><a href="data-science.html">← Data Science</a><a href="deep-learning.html">Deep Learning →</a></div></main></div>
-<footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<footer>Everything AI · a study guide to Python, data science, machine learning, deep learning and generative AI.</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>
 </body></html>

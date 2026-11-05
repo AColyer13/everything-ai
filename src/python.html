@@ -126,8 +126,8 @@ with open("out.json", "w") as f:
     json.dump(rows, f, indent=2)</code></pre>
 <div class="callout note"><strong class="t">JSON and dictionaries</strong><p>JSON is how most web APIs send data, and a JSON object maps almost one-to-one onto a Python dictionary. If you understand dictionaries, you already understand JSON. This comes up again on the <a href="generative-ai.html">Generative AI</a> page.</p></div>
 
-<h2>More from the class: Python details that get asked</h2>
-<div class="callout note"><strong class="t">From the live classes and lessons</strong><p>Details the instructors stressed that the sections above only touch on.</p></div>
+<h2>More Python details that get asked</h2>
+<div class="callout note"><strong class="t">Details</strong><p>Points that the sections above only touch on.</p></div>
 <h3>Basics</h3>
 <ul>
 <li><strong>Identifiers:</strong> cannot start with a digit, are case-sensitive, and cannot be keywords. Notebooks use the <code>.ipynb</code> extension. <strong>REPL</strong> = read-eval-print loop. A missing indent raises <code>IndentationError</code>.</li>
@@ -154,7 +154,7 @@ with open("out.json", "w") as f:
 <h3>Object-oriented programming</h3>
 <ul>
 <li><code>__init__</code> is the constructor, called automatically when an object is created; <code>self</code> is the instance. <strong>Instance attributes</strong> belong to one object; a <strong>class attribute</strong> is shared by all instances (for example an object counter). Python has automatic garbage collection, so you rarely need a destructor (<code>__del__</code> exists but is seldom used). <code>pass</code> is the placeholder for an empty class.</li>
-<li><strong>Access levels (the course's framing):</strong> public by default, <code>_x</code> protected by convention, <code>__x</code> private (a subclass touching it gets <code>AttributeError</code>).</li>
+<li><strong>Access levels:</strong> public by default, <code>_x</code> protected by convention, <code>__x</code> private (a subclass touching it gets <code>AttributeError</code>).</li>
 <li><strong>Inheritance types:</strong> single, multilevel, multiple and hierarchical. A subclass <code>__init__</code> replaces the parent's, so call the parent's explicitly (<code>super().__init__()</code>).</li>
 <li><strong>Polymorphism:</strong> run-time (overriding) works. Python does not truly support method overloading (the last definition wins), but operators are overloaded, such as <code>+</code> adding numbers and joining strings.</li>
 <li><strong>Abstraction:</strong> use <code>ABC</code> and <code>@abstractmethod</code> from <code>abc</code>. An abstract class cannot be instantiated (<code>TypeError</code>), and subclasses must implement its abstract methods.</li>

@@ -137,12 +137,12 @@ for epoch in range(20):
         opt.step()           # weight update</code></pre>
 <div class="callout note"><strong class="t">TensorFlow or PyTorch?</strong><p>Both are fine. Keras gets you a working model in fewer lines; PyTorch gives more control and is common in research. Concepts transfer completely, so learn one well first.</p></div>
 
-<h2>More from the class: details and specifics</h2>
-<div class="callout note"><strong class="t">From the lessons</strong><p>Parameters, rules and API points the instructors covered that the sections above summarise briefly.</p></div>
+<h2>More details and specifics</h2>
+<div class="callout note"><strong class="t">Details</strong><p>Parameters, rules and API points that the sections above summarise briefly.</p></div>
 <h3>Tensors and Keras</h3>
 <ul>
 <li>A tensor has a rank (number of dimensions). Know broadcasting, <code>reshape</code>, element-wise vs matrix multiplication, <code>argmax</code>, and ragged and string tensors.</li>
-<li>The <strong>Functional API</strong> needs an explicit <code>Input</code> layer. The class labs used <code>sparse_categorical_crossentropy</code> (integer labels) rather than one-hot <code>categorical_crossentropy</code>.</li>
+<li>The <strong>Functional API</strong> needs an explicit <code>Input</code> layer. Use <code>sparse_categorical_crossentropy</code> for integer labels rather than one-hot <code>categorical_crossentropy</code>.</li>
 <li>Keras 3 runs on TensorFlow, JAX or PyTorch as its backend and supports multi-GPU data parallelism. It is not for clustering or PCA. Training runs as compiled graphs by default (<code>run_eagerly=True</code> forces eager execution).</li>
 </ul>
 <h3>Optimizers and training</h3>
@@ -166,7 +166,7 @@ for epoch in range(20):
 <h3>Transfer learning, detection and edge</h3>
 <ul>
 <li>Transfer can be <strong>positive</strong> (helps) or <strong>negative</strong> (hurts, when the tasks differ too much). Choose a pretrained model by size, file format (<code>.keras</code>, or the older <code>.h5</code>, for Keras and TensorFlow; <code>.pt</code> for PyTorch), input and output format, and reported accuracy (for example AP).</li>
-<li><strong>YOLO</strong> is regression-based (one pass), unlike the region-based R-CNN family. YOLOv3 uses a Darknet-53 backbone and detects at three scales. A box is (bx, by, bw, bh) plus a class. Remove the classifier head when training on a custom dataset; accuracy is reported as mAP. The class labs used YOLOv5.</li>
+<li><strong>YOLO</strong> is regression-based (one pass), unlike the region-based R-CNN family. YOLOv3 uses a Darknet-53 backbone and detects at three scales. A box is (bx, by, bw, bh) plus a class. Remove the classifier head when training on a custom dataset; accuracy is reported as mAP. YOLOv5 is a popular recent version.</li>
 <li><strong>TensorFlow Lite</strong> (now called LiteRT) targets edge devices with limited memory, storage and latency, and keeps data on the device (privacy). Convert a Keras model with <code>TFLiteConverter</code> to a <code>.tflite</code> file.</li>
 </ul>
 <h3>Sequences, Transformers, autoencoders</h3>

@@ -10,7 +10,7 @@
 <nav class="main"><a href="python.html">Python</a><a href="data-science.html" class=active>Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="mcp.html">MCP</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html">Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
-<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#the-data-science-process">The data science process</a><a href="#numpy">NumPy</a><a href="#linear-algebra-you-actually-use">Linear algebra you actually use</a><a href="#descriptive-statistics">Descriptive statistics</a><a href="#probability-and-distributions">Probability and distributions</a><a href="#hypothesis-testing">Hypothesis testing</a><a href="#pandas">pandas</a><a href="#regular-expressions-and-databases">Regular expressions and databases</a><a href="#visualization">Visualization</a><a href="#more-from-the-class-statistics-and-pandas-details">More from the class: statistics and pandas details</a></aside><main><h1>Data Science</h1>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#the-data-science-process">The data science process</a><a href="#numpy">NumPy</a><a href="#linear-algebra-you-actually-use">Linear algebra you actually use</a><a href="#descriptive-statistics">Descriptive statistics</a><a href="#probability-and-distributions">Probability and distributions</a><a href="#hypothesis-testing">Hypothesis testing</a><a href="#pandas">pandas</a><a href="#regular-expressions-and-databases">Regular expressions and databases</a><a href="#visualization">Visualization</a><a href="#more-statistics-and-pandas-details">More statistics and pandas details</a></aside><main><h1>Data Science</h1>
 <p class="lede">Data science is the craft of turning raw data into decisions. It rests on four skills: fast numerical computing, a little linear algebra, statistical thinking, and clean tabular data you can chart.</p>
 
 <h2 id="the-data-science-process">The data science process</h2>
@@ -127,7 +127,7 @@ pd.pivot_table(df, values="revenue", index="region", columns=df["date"].dt.month
 <li><strong>Joins:</strong> <code>pd.merge(left, right, on="id", how="left")</code>.</li>
 <li><strong>Memory:</strong> use <code>category</code> dtype for repeated strings and downcast numbers for big files.</li>
 </ul>
-<div class="callout live"><strong class="t">From the live classes</strong><p>Write cleaning code as functions that find columns automatically instead of listing them by hand. For example, flag columns with a single unique value (zero variance, which carry no information), treat columns with few unique values as categorical, and columns with exactly two as binary. Scripts like that keep working when new data arrives.</p></div>
+<div class="callout live"><strong class="t">Practical tip</strong><p>Write cleaning code as functions that find columns automatically instead of listing them by hand. For example, flag columns with a single unique value (zero variance, which carry no information), treat columns with few unique values as categorical, and columns with exactly two as binary. Scripts like that keep working when new data arrives.</p></div>
 <pre><code>zero_var = [c for c in df.columns if df[c].nunique() == 1]
 binary   = [c for c in df.columns if df[c].nunique() == 2]
 categ    = [c for c in df.columns if 2 &lt; df[c].nunique() &lt;= 100]</code></pre>
@@ -156,8 +156,8 @@ plt.show()
 sns.heatmap(df.corr(numeric_only=True), annot=True, cmap="vlag", center=0)</code></pre>
 <p><strong>Matplotlib</strong> is the low-level base, <strong>Seaborn</strong> adds statistical charts with good defaults, <strong>Plotly</strong> and <strong>Bokeh</strong> make interactive charts for the web. Label axes, start bar charts at zero, and avoid decoration that does not carry information.</p>
 
-<h2 id="more-from-the-class-statistics-and-pandas-details">More from the class: statistics and pandas details</h2>
-<div class="callout note"><strong class="t">From the lessons</strong><p>Rules, formulas and defaults the instructors taught that the sections above summarise only briefly.</p></div>
+<h2 id="more-statistics-and-pandas-details">More statistics and pandas details</h2>
+<div class="callout note"><strong class="t">Details</strong><p>Rules, formulas and defaults that the sections above summarise only briefly.</p></div>
 <h3 id="levels-of-measurement">Levels of measurement</h3>
 <table>
 <tr><th>Level</th><th>Meaning</th><th>Example</th></tr>
@@ -206,6 +206,6 @@ sns.heatmap(df.corr(numeric_only=True), annot=True, cmap="vlag", center=0)</code
 <li>Graphical integrity: do not distort the data. Maximize the <strong>data-ink ratio</strong> and remove chart junk. Prefer high data density and <strong>small multiples</strong> (many small charts on the same scale) over one cluttered chart.</li>
 </ul>
 <div class="pager"><a href="python.html">← Python</a><a href="machine-learning.html">Machine Learning →</a></div></main></div>
-<footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<footer>Everything AI · a study guide to Python, data science, machine learning, deep learning and generative AI.</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>
 </body></html>

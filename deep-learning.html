@@ -10,7 +10,7 @@
 <nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html" class=active>Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="mcp.html">MCP</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html">Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
-<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#why-deep-learning-and-when">Why deep learning, and when</a><a href="#the-perceptron-and-how-networks-learn">The perceptron and how networks learn</a><a href="#tensorflow-and-keras">TensorFlow and Keras</a><a href="#optimizers">Optimizers</a><a href="#making-training-work">Making training work</a><a href="#convolutional-neural-networks-cnns">Convolutional neural networks (CNNs)</a><a href="#transfer-learning">Transfer learning</a><a href="#object-detection-and-edge-deployment">Object detection and edge deployment</a><a href="#sequence-models-rnns">Sequence models: RNNs</a><a href="#transformers-and-bert">Transformers and BERT</a><a href="#autoencoders">Autoencoders</a><a href="#pytorch">PyTorch</a><a href="#more-from-the-class-details-and-specifics">More from the class: details and specifics</a></aside><main><h1>Deep Learning</h1>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#why-deep-learning-and-when">Why deep learning, and when</a><a href="#the-perceptron-and-how-networks-learn">The perceptron and how networks learn</a><a href="#tensorflow-and-keras">TensorFlow and Keras</a><a href="#optimizers">Optimizers</a><a href="#making-training-work">Making training work</a><a href="#convolutional-neural-networks-cnns">Convolutional neural networks (CNNs)</a><a href="#transfer-learning">Transfer learning</a><a href="#object-detection-and-edge-deployment">Object detection and edge deployment</a><a href="#sequence-models-rnns">Sequence models: RNNs</a><a href="#transformers-and-bert">Transformers and BERT</a><a href="#autoencoders">Autoencoders</a><a href="#pytorch">PyTorch</a><a href="#more-details-and-specifics">More details and specifics</a></aside><main><h1>Deep Learning</h1>
 <p class="lede">Deep learning uses neural networks with many layers to learn features directly from raw data such as pixels, audio and text. It powers modern vision, speech and language systems.</p>
 
 <h2 id="why-deep-learning-and-when">Why deep learning, and when</h2>
@@ -149,12 +149,12 @@ for epoch in range(20):
         opt.step()           # weight update</code></pre>
 <div class="callout note"><strong class="t">TensorFlow or PyTorch?</strong><p>Both are fine. Keras gets you a working model in fewer lines; PyTorch gives more control and is common in research. Concepts transfer completely, so learn one well first.</p></div>
 
-<h2 id="more-from-the-class-details-and-specifics">More from the class: details and specifics</h2>
-<div class="callout note"><strong class="t">From the lessons</strong><p>Parameters, rules and API points the instructors covered that the sections above summarise briefly.</p></div>
+<h2 id="more-details-and-specifics">More details and specifics</h2>
+<div class="callout note"><strong class="t">Details</strong><p>Parameters, rules and API points that the sections above summarise briefly.</p></div>
 <h3 id="tensors-and-keras">Tensors and Keras</h3>
 <ul>
 <li>A tensor has a rank (number of dimensions). Know broadcasting, <code>reshape</code>, element-wise vs matrix multiplication, <code>argmax</code>, and ragged and string tensors.</li>
-<li>The <strong>Functional API</strong> needs an explicit <code>Input</code> layer. The class labs used <code>sparse_categorical_crossentropy</code> (integer labels) rather than one-hot <code>categorical_crossentropy</code>.</li>
+<li>The <strong>Functional API</strong> needs an explicit <code>Input</code> layer. Use <code>sparse_categorical_crossentropy</code> for integer labels rather than one-hot <code>categorical_crossentropy</code>.</li>
 <li>Keras 3 runs on TensorFlow, JAX or PyTorch as its backend and supports multi-GPU data parallelism. It is not for clustering or PCA. Training runs as compiled graphs by default (<code>run_eagerly=True</code> forces eager execution).</li>
 </ul>
 <h3 id="optimizers-and-training">Optimizers and training</h3>
@@ -178,7 +178,7 @@ for epoch in range(20):
 <h3 id="transfer-learning-detection-and-edge">Transfer learning, detection and edge</h3>
 <ul>
 <li>Transfer can be <strong>positive</strong> (helps) or <strong>negative</strong> (hurts, when the tasks differ too much). Choose a pretrained model by size, file format (<code>.keras</code>, or the older <code>.h5</code>, for Keras and TensorFlow; <code>.pt</code> for PyTorch), input and output format, and reported accuracy (for example AP).</li>
-<li><strong>YOLO</strong> is regression-based (one pass), unlike the region-based R-CNN family. YOLOv3 uses a Darknet-53 backbone and detects at three scales. A box is (bx, by, bw, bh) plus a class. Remove the classifier head when training on a custom dataset; accuracy is reported as mAP. The class labs used YOLOv5.</li>
+<li><strong>YOLO</strong> is regression-based (one pass), unlike the region-based R-CNN family. YOLOv3 uses a Darknet-53 backbone and detects at three scales. A box is (bx, by, bw, bh) plus a class. Remove the classifier head when training on a custom dataset; accuracy is reported as mAP. YOLOv5 is a popular recent version.</li>
 <li><strong>TensorFlow Lite</strong> (now called LiteRT) targets edge devices with limited memory, storage and latency, and keeps data on the device (privacy). Convert a Keras model with <code>TFLiteConverter</code> to a <code>.tflite</code> file.</li>
 </ul>
 <h3 id="sequences-transformers-autoencoders">Sequences, Transformers, autoencoders</h3>
@@ -193,6 +193,6 @@ for epoch in range(20):
 <li><code>autograd</code> computes gradients, <code>torch.nn</code> holds layers and <code>torch.optim</code> holds optimizers. <code>Dataset</code> and <code>DataLoader</code> feed batches; <code>ToTensor</code> converts images and scales them to 0 to 1; a <code>Lambda</code> transform can one-hot encode labels; <code>DataParallel</code> uses several GPUs (<code>DistributedDataParallel</code> is the recommended option).</li>
 </ul>
 <div class="pager"><a href="machine-learning.html">← Machine Learning</a><a href="generative-ai.html">Generative AI →</a></div></main></div>
-<footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<footer>Everything AI · a study guide to Python, data science, machine learning, deep learning and generative AI.</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>
 </body></html>
