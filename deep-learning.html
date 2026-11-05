@@ -31,7 +31,7 @@ output = activation(z)</code></pre>
 <table>
 <tr><th>Activation</th><th>Shape</th><th>Typical use</th></tr>
 <tr><td>Sigmoid</td><td>Squashes to 0..1</td><td>Binary output probability</td></tr>
-<tr><td>Tanh</td><td>Squashes to -1..1</td><td>Older recurrent nets</td></tr>
+<tr><td>Tanh</td><td>Squashes to -1..1</td><td>Inside LSTM and GRU cells; older hidden layers</td></tr>
 <tr><td>ReLU</td><td>max(0, z)</td><td>Default for hidden layers</td></tr>
 <tr><td>Softmax</td><td>Probabilities that sum to 1</td><td>Multi-class output</td></tr>
 </table>
@@ -155,7 +155,7 @@ for epoch in range(20):
 <ul>
 <li>A tensor has a rank (number of dimensions). Know broadcasting, <code>reshape</code>, element-wise vs matrix multiplication, <code>argmax</code>, and ragged and string tensors.</li>
 <li>The <strong>Functional API</strong> needs an explicit <code>Input</code> layer. The class labs used <code>sparse_categorical_crossentropy</code> (integer labels) rather than one-hot <code>categorical_crossentropy</code>.</li>
-<li>Keras runs on top of TensorFlow and supports multi-GPU data parallelism. It is not for clustering or PCA, and it runs eagerly. Keras 3 can use TensorFlow, JAX or PyTorch as its backend.</li>
+<li>Keras 3 runs on TensorFlow, JAX or PyTorch as its backend and supports multi-GPU data parallelism. It is not for clustering or PCA. Training runs as compiled graphs by default (<code>run_eagerly=True</code> forces eager execution).</li>
 </ul>
 <h3 id="optimizers-and-training">Optimizers and training</h3>
 <ul>
@@ -190,7 +190,7 @@ for epoch in range(20):
 </ul>
 <h3 id="pytorch-2">PyTorch</h3>
 <ul>
-<li><code>autograd</code> computes gradients, <code>torch.nn</code> holds layers and <code>torch.optim</code> holds optimizers. <code>Dataset</code> and <code>DataLoader</code> feed batches; <code>ToTensor</code> converts images and scales them to 0 to 1; a <code>Lambda</code> transform can one-hot encode labels; <code>DataParallel</code> uses several GPUs.</li>
+<li><code>autograd</code> computes gradients, <code>torch.nn</code> holds layers and <code>torch.optim</code> holds optimizers. <code>Dataset</code> and <code>DataLoader</code> feed batches; <code>ToTensor</code> converts images and scales them to 0 to 1; a <code>Lambda</code> transform can one-hot encode labels; <code>DataParallel</code> uses several GPUs (<code>DistributedDataParallel</code> is the recommended option).</li>
 </ul>
 <div class="pager"><a href="machine-learning.html">← Machine Learning</a><a href="generative-ai.html">Generative AI →</a></div></main></div>
 <footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>

@@ -105,15 +105,15 @@
 <tr><td><strong>gpt-oss-20b</strong></td><td>20B MoE (about 3.6B active), OpenAI open-weight</td><td>128K</td><td>Designed to run in about 16 GB, so it fits the card with room for a long context. Fast.</td></tr>
 </table>
 <h3 id="which-software-runs-which-model">Which software runs which model</h3>
-<p><strong>Gemma 4 12B QAT and gpt-oss-20b</strong> are small enough to fit in the 16 GB card, so any of the mainstream engines can run them: <a href="tools.html#ollama">Ollama</a>, <a href="tools.html#lm-studio">LM Studio</a> or <a href="tools.html#vllm">vLLM</a>. <strong>Qwen3.8-Flash-Next (125B)</strong> does not fit, and it needs a new architecture that mainline llama.cpp did not support at the time of writing, so it runs through <a href="tools.html#strata">Strata</a> (or a custom llama.cpp build).</p>
+<p><strong>Gemma 4 12B QAT and gpt-oss-20b</strong> are small enough to fit in the 16 GB card, so any of the mainstream engines can run them: <a href="tools.html#ollama">Ollama</a>, <a href="tools.html#lm-studio">LM Studio</a> or <a href="tools.html#vllm">vLLM</a>. <strong>Qwen3.8-Flash-Next (125B)</strong> does not fit, and mainline llama.cpp added initial support for its architecture in version 0.4.0 (September 2026, optimizations still pending), and <a href="tools.html#strata">Strata</a> remains the route for fitting it into 12 to 16 GB of VRAM by using RAM and SSD.</p>
 <table>
 <tr><th></th><th>Ollama</th><th>LM Studio</th><th>vLLM</th><th>Strata</th></tr>
 <tr><td>Gemma 4 12B QAT, gpt-oss-20b</td><td>Yes: <code>ollama run</code>, quantized GGUF, easiest start</td><td>Yes: pick from the model browser, choose context length with a slider</td><td>Yes: full-precision or quantized Hugging Face weights; best when serving several users</td><td>Not its job</td></tr>
-<tr><td>Qwen3.8-Flash-Next (125B MoE)</td><td>Only once support lands</td><td>Only once support lands</td><td>Needs far more GPU memory than 16 GB</td><td>Yes: the purpose it was built for</td></tr>
+<tr><td>Qwen3.8-Flash-Next (125B MoE)</td><td>Listed in Ollama's library as a 105 GB Mac (MLX) build; too large for 16 GB</td><td>Depends on the bundled llama.cpp version; too large for 16 GB without offloading</td><td>Has an official recipe, but for multi-GPU servers</td><td>Yes: the purpose it was built for</td></tr>
 <tr><td>Where the model lives</td><td colspan="3">Whole model in the GPU's VRAM (the 16 GB card), spilling to RAM only if you push the context too far</td><td>Split across VRAM, system RAM and SSD, with expert weights streamed in as needed</td></tr>
 <tr><td>What you notice</td><td colspan="3">Fast, simple, predictable speed</td><td>A 75 to 85 GB download, heavy RAM use, speed varies with context length</td></tr>
 </table>
-<p><strong>The difference in one line:</strong> Ollama, LM Studio and vLLM are general engines for models that fit in memory. Strata is a specialist that makes one 125B mixture-of-experts model usable by treating RAM and SSD as extra memory and reading only the roughly 6B active parameters for each token, with a small helper model drafting words that the big model verifies. Support for new models in the general engines tends to arrive over time, so check before you assume a model can run.</p>
+<p><strong>The difference in one line:</strong> Ollama, LM Studio and vLLM are general engines for models that fit in memory. Strata is a specialist that makes large mixture-of-experts models such as this 125B one usable by treating RAM and SSD as extra memory and reading only the roughly 6B active parameters for each token. Support for new models in the general engines tends to arrive over time, so check before you assume a model can run.</p>
 <p>Treat the context figures as maximums. Real speed and the usable context depend on your system RAM, the quantization, and the software. Test with your own prompts.</p>
 
 <h2 id="kinds-of-models-and-what-they-are-for">Kinds of models and what they are for</h2>
@@ -136,7 +136,7 @@
 </table>
 
 <h2 id="comparing-models-benchlm">Comparing models: BenchLM</h2>
-<p><a href="https://benchlm.ai/" target="_blank" rel="noopener">BenchLM</a> is a leaderboard site that compares language models on quality, cost and context window. Its own pages report between about 400 tracked models and about 1,000 model profiles (the count changes as it updates), with scores built from published benchmark results rather than private tests. It offers quick picks such as best open-weight model, best value, fastest, and largest useful context, plus comparison tools and a downloadable dataset.</p>
+<p><a href="https://benchlm.ai/" target="_blank" rel="noopener">BenchLM</a> is a leaderboard site that compares language models on quality, cost and context window. Its own pages report about 1,000 tracked models, of which roughly 200 are on the main ranked leaderboard (the counts change as it updates), with scores built from published benchmark results rather than private tests. It offers quick picks such as best open-weight model, best value, fastest, and largest useful context, plus comparison tools and a downloadable dataset.</p>
 <ul>
 <li><strong>Use it to:</strong> shortlist models, find the best open-weight option for your memory budget, and check cost against quality.</li>
 <li><strong>Remember:</strong> benchmark scores are not your task. Build your own small test set (see the <a href="fine-tuning.html">Finetuning an LLM</a> pipeline) and run the shortlist through it.</li>
