@@ -29,7 +29,7 @@
 <p id="grok"><strong>Made by:</strong> xAI. <strong>Type:</strong> assistant and coding agent, available as both a <strong>web app</strong> and a <strong>CLI</strong>.</p>
 <ul>
 <li><strong>Web app:</strong> grok.com and inside X (formerly Twitter), where it can use live posts as context.</li>
-<li><strong>CLI:</strong> <em>Grok Build</em> is xAI's official terminal coding agent (command <code>grok</code>). It launched as an early beta in May 2026. It plans multi-step work, edits files and runs commands, and can run headless in scripts. Most reports say the beta launched in mid-May 2026 for SuperGrok Heavy subscribers; check xAI's site for current access.</li>
+<li><strong>CLI:</strong> <em>Grok Build</em> is xAI's official terminal coding agent (command <code>grok</code>). It launched as an early beta in May 2026. It plans multi-step work, edits files and runs commands, and can run headless in scripts. Most reports say the beta launched in mid-May 2026 for SuperGrok Heavy subscribers; access has reportedly widened since, so check x.ai/cli. The command is <code>grok</code> and the source is public under the Apache-2.0 licence.</li>
 <li><strong>Not the same thing:</strong> a community project also called <code>grok-cli</code> exists. Its own README says it is not affiliated with xAI. Make sure you install the one you mean.</li>
 <li><strong>Good for:</strong> questions about current events and social media, and trying a different model family for coding.</li>
 <li><strong>Watch out:</strong> early-beta tools change quickly and may be gated or unstable.</li>
@@ -89,7 +89,7 @@
 <tr><th></th><th>Ollama</th><th>LM Studio</th><th>vLLM</th><th>Strata</th></tr>
 <tr><td>What it is</td><td>Command-line tool and local server</td><td>Desktop app with a visual interface</td><td>High-throughput serving engine</td><td>Specialized engine for one huge MoE model</td></tr>
 <tr><td>Best for</td><td>Developers who want a simple <code>ollama run</code></td><td>Beginners who want to browse, download and chat</td><td>Production servers handling many users</td><td>Running Qwen3.8-Flash-Next (125B) on a gaming PC</td></tr>
-<tr><td>Hardware</td><td>Mac, Windows, Linux; CPU or GPU</td><td>Mac, Windows, Linux</td><td>Mainly Linux with NVIDIA (AMD also supported)</td><td>Windows and Linux with NVIDIA or AMD GPU, 12 GB+ VRAM and 32 GB+ RAM</td></tr>
+<tr><td>Hardware</td><td>Mac, Windows, Linux; CPU or GPU</td><td>Mac, Windows, Linux</td><td>Mainly Linux with NVIDIA (AMD also supported)</td><td>Windows and Linux with an NVIDIA RTX GPU (12 GB+ VRAM; limited AMD support), and about 64 GB of system RAM recommended</td></tr>
 <tr><td>Engine underneath</td><td>llama.cpp</td><td>llama.cpp and Apple MLX</td><td>Its own (PagedAttention, continuous batching)</td><td>llama.cpp / ggml, with GPU, RAM and SSD offload</td></tr>
 <tr><td>Model formats</td><td>GGUF (quantized)</td><td>GGUF and MLX</td><td>Hugging Face weights (full precision, AWQ, GPTQ, FP8)</td><td>GGUF quants of its supported model</td></tr>
 <tr><td>Setup effort</td><td>Low</td><td>Lowest (click to install)</td><td>Highest</td><td>One-click installer</td></tr>
