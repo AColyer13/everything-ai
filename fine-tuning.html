@@ -7,7 +7,7 @@
 </head><body>
 <header class="top"><div class="bar">
 <a class="logo" href="index.html">Everything <b>AI</b></a>
-<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html" class=active>Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="mcp.html">MCP</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html" class=active>Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
 <div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#summary">Summary</a><a href="#hardware-and-model-choices">Hardware and model choices</a><a href="#the-pipeline">The pipeline</a><a href="#recommended-qlora-configuration-16-gb">Recommended QLoRA configuration (16 GB)</a><a href="#optional-and-experimental-steps">Optional and experimental steps</a><a href="#risks-and-pitfalls">Risks and pitfalls</a><a href="#day-1-checklist">Day-1 checklist</a><a href="#sources">Sources</a></aside><main><h1>Finetuning an LLM</h1>
@@ -28,7 +28,7 @@
 <p>Target machine: RTX 5070 Ti (16 GB VRAM) with 64 GB system RAM. Qwen3.5-9B is the safer default for training on this card. Gemma 4 12B fits for inference but is tight for QLoRA at long context.</p>
 <table>
 <tr><th>Model</th><th>Hugging Face ID</th><th>Released</th><th>Weights at 16-bit</th><th>Notes</th></tr>
-<tr><td>Qwen3.5-9B</td><td><code>Qwen/Qwen3.5-9B</code></td><td>Mar 2, 2026</td><td>~18 GB</td><td>Ships with a vision encoder. Load with Unsloth (the text-only loader is enough for text fine-tuning) and the model's own chat template. No <code>-Instruct</code> suffix exists.</td></tr>
+<tr><td>Qwen3.5-9B</td><td><code>Qwen/Qwen3.5-9B</code></td><td>Early Mar 2026 (sources differ, Feb 23 to Mar 2)</td><td>~18 GB</td><td>Ships with a vision encoder. Load with Unsloth (the text-only loader is enough for text fine-tuning) and the model's own chat template. No <code>-Instruct</code> suffix exists.</td></tr>
 <tr><td>Gemma 4 12B</td><td><code>google/gemma-4-12B-it</code></td><td>Jun 3, 2026</td><td>~24 GB raw (Google quotes 26.7 GB with overhead)</td><td>Dense, 11.95B params, encoder-free multimodal. Google also publishes official QAT checkpoints.</td></tr>
 </table>
 <h3 id="what-fits-on-16-gb">What fits on 16 GB</h3>

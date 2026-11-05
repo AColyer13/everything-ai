@@ -1,5 +1,5 @@
 <h1>Tools</h1>
-<p class="lede">Seven AI tools you will run into: Claude, Grok, Cursor, Antigravity, ChatGPT, OpenClaw and OpenCode. What each one is, where you can use it, and when to pick it.</p>
+<p class="lede">Seven AI tools you will run into (Claude, Grok, Cursor, Antigravity, ChatGPT, OpenClaw and OpenCode), plus two open-model resources: Hugging Face and Unsloth. What each one is, where you can use it, and when to pick it.</p>
 <div class="callout note"><strong class="t">Not from the class</strong><p>This page is a reference added on top of the course content. These products change every few months (names, plans, models, even who owns them), so treat the details as a snapshot from November 2026 and check each maker's own site before relying on them. Prices are deliberately left out.</p></div>
 
 <h2>At a glance</h2>
@@ -13,6 +13,8 @@
 <tr><td><a href="#chatgpt">ChatGPT</a></td><td>OpenAI</td><td>Yes</td><td>Separate tool (Codex)</td><td>The general-purpose chat assistant</td></tr>
 <tr><td><a href="#openclaw">OpenClaw</a></td><td>Open source community</td><td>No (chat apps)</td><td>Runs locally</td><td>A self-hosted personal agent you message</td></tr>
 <tr><td><a href="#opencode">OpenCode</a></td><td>Anomaly (open source)</td><td>No</td><td>Yes (terminal app)</td><td>An open, model-agnostic coding agent</td></tr>
+<tr><td><a href="#hugging-face">Hugging Face</a></td><td>Hugging Face</td><td>Yes (huggingface.co)</td><td>Yes (command-line tool)</td><td>The hub where open models and datasets are shared</td></tr>
+<tr><td><a href="#unsloth">Unsloth</a></td><td>Unsloth AI (open source)</td><td>Local web app (Unsloth Studio)</td><td>Python library</td><td>Faster, lighter fine-tuning and ready-made quantized models</td></tr>
 </table>
 
 <h2 id="tool-claude">Claude</h2>
@@ -83,6 +85,26 @@
 <li><strong>Watch out:</strong> star and user counts differ across sources, and at least one directory mislabels it as an Anthropic product. Use the official opencode.ai site.</li>
 </ul>
 
+<h2 id="tool-hugging-face">Hugging Face</h2>
+<p id="hugging-face"><strong>Made by:</strong> Hugging Face. <strong>Type:</strong> platform and libraries for open models, datasets and demos. It is not an assistant itself.</p>
+<ul>
+<li><strong>The Hub:</strong> huggingface.co hosts millions of public model repositories plus datasets and "Spaces" (small hosted demo apps). Most open models on the <a href="models.html">Models</a> page, such as Qwen and Gemma, are published there, and a model ID like <code>Qwen/Qwen3.5-9B</code> is simply the account and repository name.</li>
+<li><strong>Libraries:</strong> <code>transformers</code> loads and runs models in Python, <code>datasets</code> loads data, and <code>huggingface_hub</code> (with its command-line tool) downloads and uploads files. The <a href="fine-tuning.html">fine-tuning</a> pipeline relies on them.</li>
+<li><strong>Model cards and licences:</strong> every repository has a card describing the model, its licence and its limits. Some models are "gated", which means you accept the terms and sign in with an access token before downloading.</li>
+<li><strong>Good for:</strong> finding open models and datasets, downloading weights for Ollama, LM Studio or vLLM, and sharing your own.</li>
+<li><strong>Watch out:</strong> anyone can upload, so check who published a model, prefer well-known publishers, and read the licence. Avoid running unknown scripts from a repository, and keep your access token private.</li>
+</ul>
+<h2 id="tool-unsloth">Unsloth</h2>
+<p id="unsloth"><strong>Made by:</strong> Unsloth AI. <strong>Type:</strong> open-source toolkit for fine-tuning and running open models, with a Python library and a local web app.</p>
+<ul>
+<li><strong>Library:</strong> makes fine-tuning faster and lighter on memory, which is what lets a single 16 GB GPU train models like those in the <a href="fine-tuning.html">fine-tuning</a> pipeline. The project claims about 2 times faster training and around 70% less VRAM with no loss in accuracy; those are its own figures.</li>
+<li><strong>Unsloth Studio:</strong> a local, no-code web interface to run, train and export models. Coverage says it launched in March 2026. Reports describe the library as Apache 2.0 and Studio as AGPL-3.0, so check the licence before building a product on it.</li>
+<li><strong>Quantized releases:</strong> Unsloth publishes ready-made GGUF versions of popular models on Hugging Face (its "dynamic" quantizations keep important layers at higher precision). Strata's README lists several of them. See the quantization section on the <a href="models.html">Models</a> page.</li>
+<li><strong>Guides:</strong> its documentation has model-specific advice, for example its caution against 4-bit QLoRA on Qwen3.5.</li>
+<li><strong>Good for:</strong> fine-tuning on a single consumer GPU, and downloading small, well-prepared GGUF files.</li>
+<li><strong>Watch out:</strong> speed and memory claims come from the project, and model-specific advice changes with each release.</li>
+</ul>
+
 <h2 id="running-models-locally">Running models locally: Ollama, LM Studio, vLLM and Strata</h2>
 <p>The tools above are assistants. These four are the <strong>engines and apps that run open models on your own hardware</strong>. Hardware and model choices are on the <a href="models.html">Models</a> page.</p>
 <table>
@@ -115,6 +137,8 @@
 <tr><td>Work inside an editor with visual diffs</td><td>Cursor (or Antigravity's IDE)</td></tr>
 <tr><td>Run several coding agents at once</td><td>Antigravity or Cursor</td></tr>
 <tr><td>Avoid vendor lock-in</td><td>OpenCode</td></tr>
+<tr><td>Find or download an open model or dataset</td><td>Hugging Face</td></tr>
+<tr><td>Fine-tune a model on one consumer GPU</td><td>Unsloth</td></tr>
 <tr><td>Message an assistant from your phone that acts on your own machine</td><td>OpenClaw (with care)</td></tr>
 </table>
 <div class="callout tip"><strong class="t">The tool matters less than the loop</strong><p>Whichever tool you pick, results come from the same habits: a clear goal, a way to check the output (tests, a rubric), small steps, and a human review. The <a href="loops.html">Loops</a> page lists the patterns, and <a href="fine-tuning.html">Finetuning an LLM</a> and <a href="llm.html">Creating an LLM</a> cover the models underneath.</p></div>
@@ -127,5 +151,6 @@
 <li><a href="https://thenextweb.com/news/google-antigravity-2-desktop-cli-sdk-io-2026" target="_blank" rel="noopener">Antigravity: desktop app, CLI and SDK (The Next Web)</a></li>
 <li><a href="https://www.digitalocean.com/resources/article/what-is-openclaw" target="_blank" rel="noopener">What is OpenClaw? (DigitalOcean)</a></li>
 <li><a href="https://www.tecmint.com/opencode-ai-coding-agent-linux/" target="_blank" rel="noopener">OpenCode overview (Tecmint)</a></li>
+<li><a href="https://huggingface.co" target="_blank" rel="noopener">Hugging Face</a> · <a href="https://unsloth.ai/docs" target="_blank" rel="noopener">Unsloth documentation</a> · <a href="https://themenonlab.blog/blog/unsloth-studio-fine-tune-llms-no-code" target="_blank" rel="noopener">Unsloth Studio overview (The Menon Lab)</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Cursor_(code_editor)" target="_blank" rel="noopener">Cursor (code editor) (Wikipedia)</a></li>
 </ul>

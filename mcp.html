@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MCP · Everything AI</title>
+<meta name="description" content="How Anthropic&#x27;s Model Context Protocol works, where it came from, and example connectors">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="top"><div class="bar">
+<a class="logo" href="index.html">Everything <b>AI</b></a>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="mcp.html" class=active>MCP</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html">Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
+<div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
+</div></header>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#where-mcp-came-from">Where MCP came from</a><a href="#how-it-works">How it works</a><a href="#example-connectors">Example connectors</a><a href="#using-connectors-safely">Using connectors safely</a><a href="#when-to-use-mcp">When to use MCP</a><a href="#sources">Sources</a></aside><main><h1>MCP</h1>
+<p class="lede">The Model Context Protocol (MCP) is the standard way an AI app connects to outside tools and data: your files, Google services, a brokerage account, a database. This page covers where it came from, how it works, example connectors, and how to use them safely.</p>
+<div class="callout note"><strong class="t">Not from the class</strong><p>This page is a reference added on top of the course content. Connectors and their rules change often, so treat the details as a snapshot from November 2026 and check each provider's own documentation before connecting anything.</p></div>
+
+<h2 id="where-mcp-came-from">Where MCP came from</h2>
+<p>Anthropic introduced MCP on <strong>25 November 2024</strong> as an open standard. The problem it solved: every AI app needed its own custom integration for every data source, so connecting N apps to M tools meant N times M separate pieces of glue. With MCP, a tool is wrapped once as an <strong>MCP server</strong>, and any app that speaks the protocol can use it. People often compare it to a USB-C port for AI.</p>
+<table>
+<tr><th>When</th><th>What happened</th></tr>
+<tr><td>25 Nov 2024</td><td>Anthropic open-sources the specification and SDKs, adds MCP support to the Claude desktop app and publishes reference servers for tools such as Google Drive, Slack and GitHub. Early adopters named in coverage include Block and Apollo, and the developer tools Zed, Replit, Sourcegraph and Codeium.</td></tr>
+<tr><td>2025</td><td>Other major AI vendors, including OpenAI, Google and Microsoft, add MCP support to their products, and thousands of community servers appear.</td></tr>
+<tr><td>9 Dec 2025</td><td>Anthropic donates MCP to the <strong>Agentic AI Foundation</strong>, a fund under the Linux Foundation co-founded by Anthropic, Block and OpenAI. Anthropic says the governance model stays the same, with maintainers continuing to lead decisions.</td></tr>
+</table>
+
+<h2 id="how-it-works">How it works</h2>
+<table>
+<tr><th>Part</th><th>Role</th><th>Example</th></tr>
+<tr><td><strong>Host / client</strong></td><td>The AI app that wants to use outside tools</td><td>Claude, Claude Code, ChatGPT, Cursor, an app you build</td></tr>
+<tr><td><strong>Server</strong></td><td>A small program or web service that exposes a tool or data source in the MCP format</td><td>A GitHub server, a BigQuery server, a Robinhood server</td></tr>
+<tr><td><strong>Tools</strong></td><td>Actions the model can ask for, such as "run this query" or "create this issue"</td><td><code>list_accounts</code>, <code>run_query</code></td></tr>
+<tr><td><strong>Resources</strong></td><td>Read-only data the app can pull in as context</td><td>A file, a database table, a document</td></tr>
+<tr><td><strong>Prompts</strong></td><td>Reusable prompt templates a server offers</td><td>"Summarize this repo's open pull requests"</td></tr>
+</table>
+<ul>
+<li><strong>Local servers</strong> run on your own computer and talk to the app directly. They are common for files and developer tools.</li>
+<li><strong>Remote servers</strong> are web services at a URL. You add the URL in the app's settings (often called a "custom connector"), and a sign-in page opens in your browser. You log in there, never in the chat.</li>
+<li>The model never gets direct access. It asks, the app calls the server, and the app can ask you to approve each action first.</li>
+</ul>
+
+<h2 id="example-connectors">Example connectors</h2>
+<p>These are examples, not a recommendation list. Each provider decides what its server can do and who can use it.</p>
+<table>
+<tr><th>Provider</th><th>What the connector does</th><th>Notes</th></tr>
+<tr><td><strong>Google</strong></td><td>Google publishes managed remote MCP servers for its Cloud services. The list includes BigQuery, Google Maps (Grounding Lite), Compute Engine, Kubernetes Engine (GKE), Cloud SQL, AlloyDB, Bigtable, Firestore and Google Security Operations. Google's repo also lists Gemini CLI extensions such as Firebase, Cloud Run and Google Analytics.</td><td>Access is controlled with Google Cloud IAM. They launched in public preview, so check the current status.</td></tr>
+<tr><td><strong>Robinhood</strong></td><td>The Robinhood Trading MCP lets an AI agent you choose read account information and place trades, at <code>agent.robinhood.com/mcp/trading</code>. It sits beside Robinhood's "Agentic Trading" feature.</td><td>Robinhood requires a separate account for the external agent. The agent has read access to all your Robinhood accounts. Robinhood says it does not supervise or audit the agents and that you carry the risk of orders they place. Start with read-only requests.</td></tr>
+<tr><td><strong>GitHub</strong></td><td>Read repositories, issues and pull requests, and open or comment on them.</td><td>One of the original reference servers.</td></tr>
+<tr><td><strong>Slack</strong></td><td>Search and post to channels.</td><td>One of the original reference servers.</td></tr>
+<tr><td><strong>Google Drive</strong></td><td>Search and read files in your Drive.</td><td>One of the original reference servers.</td></tr>
+</table>
+<p>Directories such as the Claude connector settings, Google's <code>google/mcp</code> repo and community registries list many more: databases, browsers, payment services, calendars and note apps.</p>
+
+<h2 id="using-connectors-safely">Using connectors safely</h2>
+<div class="callout tip"><strong class="t">Rules of thumb</strong><p>Use the provider's own official server, grant the least access you can, begin read-only, and keep approval on for anything that spends money, sends messages or deletes things.</p></div>
+<ul>
+<li><strong>Official over third-party.</strong> Search results for popular services include unofficial servers, some of which ask for your email and password. Never hand a login to a server the provider does not run. Real remote servers sign you in on the provider's own page.</li>
+<li><strong>Prompt injection.</strong> Anything a tool returns (an email, a web page, a document) is data, but a model may treat text hidden in it as an instruction. The more tools connected at once, the larger the risk, so connect only what the task needs.</li>
+<li><strong>Money and markets.</strong> A connector that can trade moves real money. Use a dedicated account with a small balance, turn on trade approvals and review the activity feed. This page is not financial advice.</li>
+<li><strong>Review before approving.</strong> Read what an action will do before you click allow, especially writes, sends and deletes.</li>
+<li><strong>Audit.</strong> Remove connectors you no longer use and check which apps still hold access.</li>
+</ul>
+
+<h2 id="when-to-use-mcp">When to use MCP</h2>
+<table>
+<tr><th>Use it when...</th><th>Skip it when...</th></tr>
+<tr><td>The model needs live data it cannot know, such as your database, calendar or repo</td><td>Pasting the text into the chat is enough</td></tr>
+<tr><td>You want one integration reused across several AI apps</td><td>You only need one simple script that calls one API</td></tr>
+<tr><td>You want the model to take actions, with approval, in other systems</td><td>The action is high-risk and no approval step exists</td></tr>
+</table>
+<p>MCP pairs naturally with the agent patterns on the <a href="loops.html">Loops</a> page and the coding agents on the <a href="tools.html">Tools</a> page.</p>
+
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation" target="_blank" rel="noopener">Anthropic: donating MCP and establishing the Agentic AI Foundation</a></li>
+<li><a href="https://nerdschalk.com/anthropic-launches-model-context-protocol-mcp-to-simplify-ai-data-integration" target="_blank" rel="noopener">Coverage of the November 2024 launch (Nerdschalk)</a></li>
+<li><a href="https://github.com/google/mcp" target="_blank" rel="noopener">Google's official MCP servers (GitHub)</a></li>
+<li><a href="https://thenewstack.io/google-launches-managed-remote-mcp-servers-for-its-cloud-services/" target="_blank" rel="noopener">Google launches managed remote MCP servers (The New Stack)</a></li>
+<li><a href="https://robinhood.com/newsroom/robinhood-is-now-open-to-agents/" target="_blank" rel="noopener">Robinhood is now open to agents (Robinhood newsroom)</a></li>
+<li><a href="https://robinhood.com/us/en/support/articles/agentic-trading-overview/" target="_blank" rel="noopener">Onboarding an external agent (Robinhood support)</a></li>
+</ul>
+<div class="pager"><a href="tools.html">← Tools</a><a href="models.html">Models →</a></div></main></div>
+<footer>Everything AI · a study guide built from the Microsoft AI Engineer program (self-learning lessons and live classes).</footer>
+<script src="assets/search-index.js"></script><script src="assets/app.js"></script>
+</body></html>
