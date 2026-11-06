@@ -38,7 +38,7 @@
 </ul>
 
 <h2 id="tool-cursor">Cursor</h2>
-<p id="cursor"><strong>Made by:</strong> Anysphere, which SpaceX agreed to buy in June 2026 for about $60 billion in stock. Reports say the deal closed in mid-August 2026. <strong>Type:</strong> an AI-first <strong>code editor</strong> (a fork of VS Code).</p>
+<p id="cursor"><strong>Made by:</strong> Anysphere, which SpaceX agreed to buy in June 2026 for about $60 billion in stock. Coverage based on an SEC filing says the deal closed on 14 August 2026 (one outlet says 15 August). <strong>Type:</strong> an AI-first <strong>code editor</strong> (a fork of VS Code).</p>
 <ul>
 <li><strong>What it is:</strong> an editor that looks and feels like VS Code, so your extensions and keybindings carry over, with AI built into every part: autocomplete, chat about your code, and an agent that edits many files at once.</li>
 <li><strong>Agents:</strong> it can run several agents in parallel, and cloud agents can keep working in the background. It also offers its own models and a code-review bot (Bugbot).</li>
@@ -98,7 +98,7 @@
 <p id="unsloth"><strong>Made by:</strong> Unsloth AI. <strong>Type:</strong> open-source toolkit for fine-tuning and running open models, with a Python library and a local web app.</p>
 <ul>
 <li><strong>Library:</strong> makes fine-tuning faster and lighter on memory, which is what lets a single 16 GB GPU train models like those in the <a href="fine-tuning.html">fine-tuning</a> pipeline. The project claims about 2 times faster training and around 70% less VRAM with no loss in accuracy; those are its own figures.</li>
-<li><strong>Unsloth Studio:</strong> a local, no-code web interface to run, train and export models. Coverage says it launched in March 2026. Reports describe the library as Apache 2.0 and Studio as AGPL-3.0, so check the licence before building a product on it.</li>
+<li><strong>Unsloth Studio:</strong> a local, no-code web interface to run, train and export models. Coverage says it launched in March 2026. The GitHub repo is Apache-2.0 with an AGPL-3.0 licence file for the Studio parts, so check the licence before building a product on it.</li>
 <li><strong>Quantized releases:</strong> Unsloth publishes ready-made GGUF versions of popular models on Hugging Face (its "dynamic" quantizations keep important layers at higher precision). Strata's README lists several of them. See the quantization section on the <a href="models.html">Models</a> page.</li>
 <li><strong>Guides:</strong> its documentation has model-specific advice, for example its caution against 4-bit QLoRA on Qwen3.5.</li>
 <li><strong>Good for:</strong> fine-tuning on a single consumer GPU, and downloading small, well-prepared GGUF files.</li>
@@ -112,7 +112,7 @@
 <tr><td>What it is</td><td>Command-line tool and local server</td><td>Desktop app with a visual interface</td><td>High-throughput serving engine</td><td>Engine for large MoE models that spill into RAM and SSD</td></tr>
 <tr><td>Best for</td><td>Developers who want a simple <code>ollama run</code></td><td>Beginners who want to browse, download and chat</td><td>Production servers handling many users</td><td>Running Qwen3.8-Flash-Next (125B) or DeepSeek V4.1-Flash on a consumer PC</td></tr>
 <tr><td>Hardware</td><td>Mac, Windows, Linux; CPU or GPU</td><td>Mac, Windows, Linux</td><td>Mainly Linux with NVIDIA (AMD also supported)</td><td>Windows, Linux and Apple Silicon Macs. NVIDIA RTX 20/30/40/50 is the main path; some AMD Radeon, Strix Halo and Intel Arc setups are supported. About 64 GB of system RAM recommended</td></tr>
-<tr><td>Engine underneath</td><td>llama.cpp</td><td>llama.cpp and Apple MLX</td><td>Its own (PagedAttention, continuous batching)</td><td>llama.cpp / ggml, with GPU, RAM and SSD offload</td></tr>
+<tr><td>Engine underneath</td><td>llama.cpp and Ollama's own engine</td><td>llama.cpp and Apple MLX</td><td>Its own (PagedAttention, continuous batching)</td><td>llama.cpp / ggml, with GPU, RAM and SSD offload</td></tr>
 <tr><td>Model formats</td><td>GGUF (quantized)</td><td>GGUF and MLX</td><td>Hugging Face weights (full precision, AWQ, GPTQ, FP8)</td><td>GGUF quants of its supported models</td></tr>
 <tr><td>Setup effort</td><td>Low</td><td>Lowest (click to install)</td><td>Highest</td><td>One-click installer</td></tr>
 <tr><td>Serves an API</td><td>Yes, with an OpenAI-compatible endpoint</td><td>Yes, local server mode</td><td>Yes, OpenAI-compatible</td><td>Yes, OpenAI- and Anthropic-compatible</td></tr>

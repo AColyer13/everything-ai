@@ -170,13 +170,13 @@ vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
 <li><strong><code>predict</code> vs <code>predict_proba</code>:</strong> the default cut-off is 0.5. Keep the probabilities and choose your own threshold, or bucket them into risk zones (for example safe under 20%, low risk 20 to 60%).</li>
 <li><strong>Imbalance:</strong> never judge by accuracy alone; watch class-1 recall, precision and F1. Build the model without SMOTE first. SMOTE picks a minority point, finds its k (default 5) nearest minority neighbours and places a synthetic point on the line between them; apply it to the training set only and clean the data first. If synthetic data is not allowed, undersample the majority class. Use <code>stratify=y</code> in <code>train_test_split</code> so train and test keep the same class ratio.</li>
 <li><strong>Cross-validation and search:</strong> k is usually 3 to 10 folds. <code>GridSearchCV</code> tries every combination; <code>RandomizedSearchCV</code> samples combinations (faster, but can land on overfit settings).</li>
-<li><strong>Reproducibility:</strong> a fixed <code>random_state</code> gives you and the client identical splits and comparable scores.</li>
+<li><strong>Reproducibility:</strong> a fixed <code>random_state</code> gives everyone identical splits and comparable scores.</li>
 </ul>
 <h3 id="regression-in-depth">Regression in depth</h3>
 <ul>
 <li><strong>Reading coefficients:</strong> the slope (coefficient, beta, weight) is the change in y for a one-unit change in x; the intercept is the constant or base value. Coefficients are not comparable across features on different scales.</li>
 <li><strong>Assumptions and how to check them:</strong> linear and additive relationship; residuals plotted against predictions should show no funnel shape (a funnel means heteroscedasticity); residuals roughly normal; no autocorrelation (mainly a time-series issue). Linear regression is sensitive to outliers.</li>
-<li><strong>Multicollinearity:</strong> detect with a correlation heatmap or the variance inflation factor (VIF). A common rule of thumb treats correlation above about 70% as risky and 40 to 50% as fine; ask the client which of two collinear features to keep. Ridge handles multicollinearity.</li>
+<li><strong>Multicollinearity:</strong> detect with a correlation heatmap or the variance inflation factor (VIF). A common rule of thumb treats correlation above about 70% as risky and 40 to 50% as fine; ask the data owner which of two collinear features to keep. Ridge handles multicollinearity.</li>
 <li><strong>Regularization:</strong> loss = residual sum of squares + &lambda; &times; penalty. Ridge penalises squared weights (shrinks toward 0); LASSO penalises absolute weights (can reach exactly 0). &lambda; = 0 means no penalty. Polynomial regression is still linear in its coefficients. Other regressors: SVR, decision-tree and random-forest regression.</li>
 <li><strong>Gradient descent:</strong> step = gradient &times; learning rate; new parameter = old - step; repeat until the gradient is near 0. Too large a learning rate overshoots. SGD uses one random point per update: faster but noisier.</li>
 </ul>
@@ -202,11 +202,11 @@ vote = VotingClassifier([("lr", LogisticRegression(max_iter=1000)),
 <h3 id="delivering-a-model">Delivering a model</h3>
 <ul>
 <li><strong>Save the scaler and the model together</strong> (pickle or joblib). New data goes through the same fitted scaler (<code>transform</code>, never <code>fit</code>) with the <strong>same column order</strong> as training, and predictions may need an inverse transform back to real units.</li>
-<li><strong>Test-time rules (Mercedes project):</strong> decide zero-variance columns from the training set only. Fit label encoders on train and test combined so unseen categories do not break prediction (a pragmatic class choice; a stricter option is an encoder fitted on train only that handles unknown categories). Fit PCA on train and only transform test. Wrap the steps in a reusable, documented function: no process should be manual.</li>
+<li><strong>Test-time rules (example: the Mercedes dataset):</strong> decide zero-variance columns from the training set only. Fit label encoders on train and test combined so unseen categories do not break prediction (a common shortcut; a stricter option is an encoder fitted on train only that handles unknown categories). Fit PCA on train and only transform test. Wrap the steps in a reusable, documented function: no process should be manual.</li>
 <li><strong>MLOps:</strong> three phases (design, model development, operations) with CI/CD; tools include MLflow, DVC and H2O.</li>
 <li><strong>Library breakage:</strong> newer pandas errors on <code>df.corr()</code> with text columns (use <code>numeric_only=True</code>) and newer scikit-learn makes many optional parameters keyword-only. Read the error and the docs.</li>
-<li><strong>Project timeline (as described in class):</strong> data collection 1 to 2 weeks, pre-processing 2.5 to 3 months, then feasibility; 1 to 2 months of paid support after delivery; retrain after 7 to 8 months or a data shift.</li>
-<li><strong>Interview advice:</strong> write code yourself rather than leaning on autocomplete (live-coding interviews exist), and practise on sites like HackerRank. Kaggle is a good source of datasets and example notebooks.</li>
+<li><strong>Typical project timeline (varies widely):</strong> data collection 1 to 2 weeks, pre-processing 2.5 to 3 months, then feasibility; 1 to 2 months of support after delivery; retrain after 7 to 8 months or a data shift.</li>
+<li><strong>Interview advice:</strong> write code yourself rather than leaning on autocomplete (live-coding interviews exist). Kaggle is a good source of datasets and example notebooks.</li>
 </ul>
 <div class="pager"><a href="data-science.html">← Data Science</a><a href="deep-learning.html">Deep Learning →</a></div></main></div>
 <footer>Everything AI · a study guide to Python, data science, machine learning, deep learning and generative AI.</footer>

@@ -17,7 +17,7 @@
 <table>
 <tr><th>Model</th><th>Hugging Face ID</th><th>Released</th><th>Weights at 16-bit</th><th>Notes</th></tr>
 <tr><td>Qwen3.5-9B</td><td><code>Qwen/Qwen3.5-9B</code></td><td>Early Mar 2026 (sources differ, Feb 23 to Mar 2)</td><td>~18 GB</td><td>Ships with a vision encoder. Load with Unsloth (the text-only loader is enough for text fine-tuning) and the model's own chat template. No <code>-Instruct</code> suffix exists.</td></tr>
-<tr><td>Gemma 4 12B</td><td><code>google/gemma-4-12B-it</code></td><td>Jun 3, 2026</td><td>~24 GB raw (Google quotes 26.7 GB with overhead)</td><td>Dense, 11.95B params, encoder-free multimodal. Google also publishes official QAT checkpoints.</td></tr>
+<tr><td>Gemma 4 12B</td><td><code>google/gemma-4-12B-it</code></td><td>Jun 3, 2026</td><td>~24 GB raw (Google's docs quote 26.7 GB at BF16, including 20% overhead)</td><td>Dense, 11.95B params, encoder-free multimodal. Google also publishes official QAT checkpoints.</td></tr>
 </table>
 <h3>What fits on 16 GB</h3>
 <ul>

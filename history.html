@@ -99,7 +99,7 @@
 </ul>
 
 <h2 id="dgx-1-and-musk">The first DGX-1 and Elon Musk's AI compute</h2>
-<p>A well-known moment in the compute story: in <strong>August 2016</strong>, NVIDIA CEO Jensen Huang personally delivered the world's first <strong>DGX-1</strong> to the San Francisco office of <strong>OpenAI</strong>, the lab Elon Musk had co-founded in December 2015. Huang wrote "To Elon and the OpenAI Team!" on the box, and Musk was there and thanked NVIDIA publicly. The DGX-1 packed eight Tesla P100 GPUs into one server rated at about 170 teraflops, the "supercomputer in a box" that NVIDIA pitched as the start of the deep-learning era in hardware. See the <a href="hardware.html">Hardware</a> page for what its descendants look like today.</p>
+<p>A well-known moment in the compute story: in <strong>August 2016</strong>, NVIDIA CEO Jensen Huang personally delivered the world's first <strong>DGX-1</strong> to the San Francisco office of <strong>OpenAI</strong>, the lab Elon Musk had co-founded in December 2015. Huang wrote "To Elon and the OpenAI Team!" on the box, and Musk was there and thanked NVIDIA publicly. The DGX-1 packed eight Tesla P100 GPUs into one server rated at about 170 teraflops (half precision), the "supercomputer in a box" that NVIDIA pitched as the start of the deep-learning era in hardware. See the <a href="hardware.html">Hardware</a> page for what its descendants look like today.</p>
 <div class="callout note"><strong class="t">What this was, and was not</strong><p>The machine was a gift to OpenAI. It was not bought by Musk, and it went to OpenAI, not to Tesla or SpaceX. Musk left the OpenAI board in 2018. We found no source showing that this particular machine caused advances at his other companies, so the story below is what those companies built themselves, not a chain of cause and effect from the DGX-1.</p></div>
 <table>
 <tr><th>When</th><th>Company</th><th>What happened</th></tr>
@@ -108,10 +108,10 @@
 <tr><td>2023</td><td>xAI</td><td>Musk founds xAI to build his own large language models (the Grok family)</td></tr>
 <tr><td>2024</td><td>Tesla</td><td>Builds Cortex, a large GPU training cluster at its Austin headquarters, for Autopilot and Optimus work</td></tr>
 <tr><td>2024</td><td>xAI</td><td>Builds the Colossus cluster in Memphis, Tennessee, starting with 100,000 NVIDIA GPUs and later expanding. Power supply became a major constraint.</td></tr>
-<tr><td>2025</td><td>Tesla</td><td>Musk calls Dojo "an evolutionary dead end" and the team is disbanded; Tesla leans on NVIDIA and AMD chips plus its own AI6 chip design</td></tr>
-<tr><td>Later</td><td>SpaceX</td><td>SpaceX acquires xAI in an all-stock deal (the date was not confirmed in our sources), so the Grok models and Colossus now sit inside SpaceX</td></tr>
+<tr><td>2025</td><td>Tesla</td><td>Musk calls Dojo "an evolutionary dead end" and the team is disbanded; Tesla leans on NVIDIA and AMD chips plus its own AI6 chip design. In January 2026 Musk said Tesla would restart the effort as Dojo3, aimed at space-based AI compute (reported by TechCrunch and Tom's Hardware).</td></tr>
+<tr><td>Feb 2026</td><td>SpaceX</td><td>SpaceX announces it has acquired xAI in an all-stock deal reported at about $1.25 trillion combined (pricing was not disclosed), so the Grok models and Colossus now sit inside SpaceX</td></tr>
 </table>
-<p><strong>The lesson:</strong> the same pattern repeats across his companies and the rest of the industry. Progress in AI followed access to compute, and the largest labs ended up building clusters of tens or hundreds of thousands of GPUs. Even a company that tried to design its own training chips (Dojo) returned to buying GPUs.</p>
+<p><strong>The lesson:</strong> the same pattern repeats across his companies and the rest of the industry. Progress in AI followed access to compute, and the largest labs ended up building clusters of tens or hundreds of thousands of GPUs. Even a company that tried to design its own training chips (Dojo) kept buying GPUs, while still pursuing its own designs.</p>
 
 <h2 id="patterns-worth-remembering">Patterns worth remembering</h2>
 <ul>
@@ -124,6 +124,7 @@
 <h2 id="sources">Sources</h2>
 <ul>
 <li><a href="https://www.entrepreneur.com/business-news/elon-musks-artificial-intelligence-project-just-got-a-free-supercomputer/280944" target="_blank" rel="noopener">Elon Musk's AI project just got a free supercomputer (Entrepreneur)</a> · <a href="https://www.fortune.com/2024/02/22/jensen-huang-elon-musk-openai-first-ai-supercomputer-sam-altman" target="_blank" rel="noopener">Huang on delivering the first AI supercomputer (Fortune)</a></li>
+<li><a href="https://techcrunch.com/2026/01/20/elon-musk-says-teslas-restarted-dojo3-will-be-for-space-based-ai-compute" target="_blank" rel="noopener">Musk says Tesla's restarted Dojo3 will be for space-based AI compute (TechCrunch)</a> · <a href="https://www.neowin.net/amp/spacex-has-acquired-xai-to-create-the-most-valuable-private-company-in-the-world/" target="_blank" rel="noopener">SpaceX has acquired xAI (Neowin)</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Colossus_(supercomputer)" target="_blank" rel="noopener">Colossus (Wikipedia)</a> · <a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/tesla-scraps-custom-dojo-wafer-level-processor-initiative-dismantles-team-musk-to-lean-on-nvidia-and-amd-more" target="_blank" rel="noopener">Tesla scraps Dojo (Tom's Hardware)</a></li>
 <li>Standard accounts: Turing (1950), the Dartmouth proposal (1955), Minsky and Papert, <em>Perceptrons</em> (1969), Rumelhart, Hinton and Williams (1986), Krizhevsky et al. (2012), Vaswani et al., <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener">Attention Is All You Need (2017)</a>, and <a href="https://arxiv.org/abs/2203.15556" target="_blank" rel="noopener">Chinchilla (2022)</a>.</li>
 </ul>

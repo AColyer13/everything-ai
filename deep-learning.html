@@ -178,7 +178,7 @@ for epoch in range(20):
 <h3 id="transfer-learning-detection-and-edge">Transfer learning, detection and edge</h3>
 <ul>
 <li>Transfer can be <strong>positive</strong> (helps) or <strong>negative</strong> (hurts, when the tasks differ too much). Choose a pretrained model by size, file format (<code>.keras</code>, or the older <code>.h5</code>, for Keras and TensorFlow; <code>.pt</code> for PyTorch), input and output format, and reported accuracy (for example AP).</li>
-<li><strong>YOLO</strong> is regression-based (one pass), unlike the region-based R-CNN family. YOLOv3 uses a Darknet-53 backbone and detects at three scales. A box is (bx, by, bw, bh) plus a class. Remove the classifier head when training on a custom dataset; accuracy is reported as mAP. YOLOv5 is a popular recent version.</li>
+<li><strong>YOLO</strong> is regression-based (one pass), unlike the region-based R-CNN family. YOLOv3 uses a Darknet-53 backbone and detects at three scales. A box is (bx, by, bw, bh) plus a class. Remove the classifier head when training on a custom dataset; accuracy is reported as mAP. YOLOv5 was widely used; newer Ultralytics releases (YOLO11 and later) have since replaced it.</li>
 <li><strong>TensorFlow Lite</strong> (now called LiteRT) targets edge devices with limited memory, storage and latency, and keeps data on the device (privacy). Convert a Keras model with <code>TFLiteConverter</code> to a <code>.tflite</code> file.</li>
 </ul>
 <h3 id="sequences-transformers-autoencoders">Sequences, Transformers, autoencoders</h3>

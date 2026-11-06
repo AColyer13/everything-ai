@@ -62,9 +62,9 @@
 <p>Rent an 8×H100 node once you want a model that can hold a basic conversation. A few hundred dollars there buys more than a month of local training. Karpathy's <a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener">nanochat</a> runs the full pipeline on such a node with a single script (see the <a href="llm-pioneers.html#nanochat">LLM Pioneers</a> page).</p>
 <table>
 <tr><th>nanochat run</th><th>Parameters</th><th>Time on 8×H100</th><th>Approx. cost</th><th>Result</th></tr>
-<tr><td>d20 speedrun</td><td>~561M</td><td>~4 hours</td><td>~$100</td><td>Basic chatbot, "like talking to a kindergartener"</td></tr>
+<tr><td>d20 (original Oct 2025 speedrun; the repo's current speedrun is faster and cheaper)</td><td>~561M</td><td>~4 hours</td><td>~$100</td><td>Basic chatbot, "like talking to a kindergartener"</td></tr>
 <tr><td>GPT-2 reference</td><td>d24–d26</td><td>~1.65–3 hours</td><td>~$40–75</td><td>Matches or beats 2019 GPT-2 on the CORE benchmark</td></tr>
-<tr><td>d32</td><td>1.9B, trained on 38B tokens</td><td>~33 hours</td><td>~$800</td><td>A larger, slower run</td></tr>
+<tr><td>d32 (per a fork's README)</td><td>1.9B, trained on 38B tokens</td><td>~33 hours</td><td>~$800</td><td>A larger, slower run</td></tr>
 </table>
 <p>Costs assume about $24/hour for the node; spot pricing can be much lower. The same code also runs on one GPU with gradient accumulation, just about 8× slower than a full node. The 5070 Ti has roughly a tenth of an H100's training throughput, so a d20 run at home would take on the order of weeks (approximate).</p>
 
