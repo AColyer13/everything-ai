@@ -18,6 +18,7 @@ PAGES = [
     ("case-studies", "Case Studies", "🗂️", "All 14 projects and how AI solves each one"),
     ("tools", "Tools", "🛠️", "Claude, Grok, Cursor, Antigravity, ChatGPT, OpenClaw, OpenCode, Hugging Face and Unsloth"),
     ("mcp", "MCP", "🔌", "How Anthropic's Model Context Protocol works, where it came from, and example connectors"),
+    ("slms", "SLMs", "🔬", "Small language models: what they are, why they matter, and the future, including a model etched into a chip"),
     ("models", "Models", "🖥️", "Enterprise NVIDIA, big local machines, a 16 GB GPU, model types and BenchLM"),
     ("hardware", "Hardware", "⚙️", "Memory bandwidth and the best use of B200, RTX 5080, DGX, Apple M5 and M6"),
     ("llm", "Creating an LLM", "🏗️", "Build a language model from scratch on one GPU"),

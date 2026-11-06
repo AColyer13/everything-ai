@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SLMs · Everything AI</title>
+<meta name="description" content="Small language models: what they are, why they matter, and the future, including a model etched into a chip">
+<link rel="stylesheet" href="assets/style.css">
+</head><body>
+<header class="top"><div class="bar">
+<a class="logo" href="index.html">Everything <b>AI</b></a>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="mcp.html">MCP</a><a href="slms.html" class=active>SLMs</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html">Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html">AI Pioneers</a><a href="llm-pioneers.html">LLM Pioneers</a><a href="glossary.html">Glossary</a></nav>
+<div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
+</div></header>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#what-counts-as-small">What counts as small?</a><a href="#why-slms-matter">Why SLMs matter</a><a href="#how-small-models-got-good">How small models got good</a><a href="#will-it-fit-the-memory-rule-of-thumb">Will it fit? The memory rule of thumb</a><a href="#what-slms-are-good-at-and-where-they-fall-short">What SLMs are good at, and where they fall short</a><a href="#the-future-where-slms-are-heading">The future: where SLMs are heading</a><a href="#the-future-a-model-etched-into-a-chip">The future: a model etched into a chip</a><a href="#using-slms-yourself">Using SLMs yourself</a><a href="#sources">Sources</a></aside><main><h1>SLMs</h1>
+<p class="lede">A <strong>small language model (SLM)</strong> is a language model small enough to run on a laptop, a single GPU or even a phone, instead of a data-centre cluster. This page explains what counts as small, why SLMs matter, what they are good and bad at, and where the technology is heading, including chips that have a model built directly into the silicon.</p>
+<div class="callout note"><strong class="t">About this page</strong><p>"Small" is a moving target and the field changes monthly, so treat model names and numbers as a snapshot from November 2026. Where a number comes from a vendor's own testing, the page says so.</p></div>
+
+<div class="callout tip"><strong class="t">Talk to a model on a hardwired chip</strong><p>Try <a href="https://chatjimmy.ai" target="_blank" rel="noopener">ChatJimmy (chatjimmy.ai)</a>, a public chat demo from the chip company Taalas. It is a small model (Llama 3.1 8B) running on a chip built for that one model, and you can see how fast replies appear. The demo is covered in "The future: a model etched into a chip" below. (The address people often type, jimmychat.ai, does not exist; the working one is chatjimmy.ai.)</p></div>
+
+<h2 id="what-counts-as-small">What counts as small?</h2>
+<p>There is no official cut-off. In practice the term covers models from a few hundred million up to roughly 10 to 15 billion parameters, small enough to fit in the memory of ordinary hardware. A frontier model is the opposite: hundreds of billions of parameters or more, run only in a data centre.</p>
+<table>
+<tr><th>Size class</th><th>Parameters</th><th>Typical home</th><th>Examples</th></tr>
+<tr><td>Tiny</td><td>Under 2B</td><td>Phones, small boards, browsers</td><td>Qwen3.5-0.8B and 2B</td></tr>
+<tr><td>Small</td><td>2B to 10B</td><td>Laptops and one consumer GPU</td><td>Qwen3.5-4B and 9B</td></tr>
+<tr><td>Upper small</td><td>10B to about 20B</td><td>A 16 GB GPU or a Mac with enough memory</td><td>Gemma 4 12B, gpt-oss-20b</td></tr>
+<tr><td>Not small</td><td>Above that</td><td>Big workstations and servers</td><td>Qwen3.8-Flash-Next (125B total, about 6B active)</td></tr>
+</table>
+<div class="callout note"><strong class="t">Total versus active parameters</strong><p>Mixture-of-experts models blur the line. gpt-oss-20b has about 21B parameters in total but only about 3.6B active for each token, so it runs like a small model on a 16 GB card even though the file is bigger. Qwen3.8-Flash-Next has 6B active but 125B in total, so you still need room to store all of it. See the <a href="models.html">Models</a> page.</p></div>
+
+<h2 id="why-slms-matter">Why SLMs matter</h2>
+<table>
+<tr><th>Benefit</th><th>What it means</th></tr>
+<tr><td><strong>Privacy</strong></td><td>The model and your data stay on your own machine, so nothing is sent to a provider.</td></tr>
+<tr><td><strong>Cost</strong></td><td>No per-token bill. After you own the hardware, running the model costs only electricity.</td></tr>
+<tr><td><strong>Speed and latency</strong></td><td>No network round trip, and a small model produces tokens quickly on modest hardware.</td></tr>
+<tr><td><strong>Offline use</strong></td><td>Works on a plane, in a factory or anywhere without a connection.</td></tr>
+<tr><td><strong>Control</strong></td><td>You choose the version, set the <a href="models.html#sampling-settings-what-each-knob-does">sampling settings</a> and can <a href="fine-tuning.html">fine-tune</a> it on your own data.</td></tr>
+</table>
+
+<h2 id="how-small-models-got-good">How small models got good</h2>
+<ul>
+<li><strong>Better training data.</strong> Careful data selection and synthetic data let a small model learn more per token than older, larger ones.</li>
+<li><strong>Distillation.</strong> A big "teacher" model's answers are used to train a small "student", which copies much of its behaviour. See <a href="fine-tuning.html">Finetuning an LLM</a>.</li>
+<li><strong>More training per parameter.</strong> The Chinchilla result showed models should see far more tokens for their size, so small models are now trained on much more text than their size once suggested. See <a href="llm.html">Creating an LLM</a>.</li>
+<li><strong>Quantization.</strong> Storing weights in 8 or 4 bits instead of 16 cuts memory by half or three quarters with modest quality loss. Google also ships official quantization-aware-trained Gemma 4 checkpoints.</li>
+<li><strong>Reasoning modes.</strong> Many small models can "think" before answering, trading time for accuracy.</li>
+</ul>
+
+<h2 id="will-it-fit-the-memory-rule-of-thumb">Will it fit? The memory rule of thumb</h2>
+<p>Memory for the weights is roughly <strong>parameters × bytes per weight</strong>, plus extra for the context and software. Google's own table for Gemma 4 12B shows the pattern, and it includes about 20% overhead:</p>
+<table>
+<tr><th>Precision</th><th>Bytes per weight</th><th>Gemma 4 12B memory (Google)</th></tr>
+<tr><td>BF16 (16-bit)</td><td>2</td><td>26.7 GB</td></tr>
+<tr><td>8-bit</td><td>1</td><td>13.4 GB</td></tr>
+<tr><td>4-bit</td><td>0.5</td><td>6.7 GB</td></tr>
+</table>
+<p>Google notes these figures cover the weights only, not the context window or supporting software. That is why a 4-bit 12B model fits comfortably on a 16 GB GPU while the 16-bit version does not.</p>
+
+<h2 id="what-slms-are-good-at-and-where-they-fall-short">What SLMs are good at, and where they fall short</h2>
+<table>
+<tr><th>Good fit</th><th>Poor fit</th></tr>
+<tr><td>Summarizing, rewriting, classifying and extracting from text</td><td>Open-ended expert reasoning across many fields</td></tr>
+<tr><td>Private assistants over your own notes and documents</td><td>Long, multi-step coding or research jobs without help</td></tr>
+<tr><td>Autocomplete, smart replies, on-device features</td><td>Obscure facts, which a small model is more likely to get wrong or invent</td></tr>
+<tr><td>One narrow task, especially after fine-tuning</td><td>Anything where a frontier model's extra judgment is worth paying for</td></tr>
+<tr><td>Fast, cheap, high-volume jobs</td><td>Very long documents unless the model has a large context window and enough memory for it</td></tr>
+</table>
+<div class="callout warn"><strong class="t">Check vendor benchmarks</strong><p>When Alibaba launched its Qwen3.5 small series (0.8B, 2B, 4B and 9B, with a 262K-token context and an Apache 2.0 licence), its own results said the 9B matched or beat much larger models on several tests. Independent scorers such as Artificial Analysis rated it well for its size, but also placed it below frontier models. Vendor claims are a starting point; test on your own task.</p></div>
+
+<h2 id="the-future-where-slms-are-heading">The future: where SLMs are heading</h2>
+<p>Several trends point the same direction. These are our reading of the coverage, not guarantees.</p>
+<ul>
+<li><strong>Many small models instead of one giant one.</strong> Analysts expect systems built from several small models, each doing one job well, with a larger model called in only for hard questions.</li>
+<li><strong>AI built into devices.</strong> Phones and laptops increasingly ship with a small model on board, so features work privately and offline.</li>
+<li><strong>Agents that run locally.</strong> Coding and assistant tools can already use a local model through <a href="tools.html#ollama">Ollama</a> and similar tools. As small models improve at calling tools, more agent work moves onto your own machine. See <a href="tools.html">Tools</a> and <a href="mcp.html">MCP</a>.</li>
+<li><strong>Specialized hardware.</strong> Instead of general GPUs, some companies are designing chips around a single model, which is the next section.</li>
+</ul>
+
+<h2 id="the-future-a-model-etched-into-a-chip">The future: a model etched into a chip</h2>
+<p>A normal chip loads a model's weights from memory every time it generates a token, and moving that data is the main bottleneck. <strong>Taalas</strong>, a chip company, takes a different approach: it turns a specific model into custom silicon, so the weights live in the hardware itself.</p>
+<table>
+<tr><th>Item</th><th>What Taalas says or coverage reports</th></tr>
+<tr><td>Chip</td><td>HC1, a "technology demonstrator" on TSMC 6nm with 53 billion transistors, sold as part of a 2.5 kW server</td></tr>
+<tr><td>Model</td><td>Meta's Llama 3.1 8B, built into the chip</td></tr>
+<tr><td>Speed claim</td><td>About 17,000 tokens per second per user (Taalas's own test). One analyst reportedly measured about 14,357 tokens per second.</td></tr>
+<tr><td>Comparison</td><td>The same model on an NVIDIA H200 is reported at roughly 230 tokens per second in one source</td></tr>
+<tr><td>Trade-offs</td><td>The chip runs one model only. It uses aggressive low-bit quantization (about 3 to 6 bits), which one reviewer says clearly hurts quality in this first version. It does support LoRA fine-tuning and a configurable context window.</td></tr>
+</table>
+<p>The company's pitch is that a "hardcore model" can be far cheaper and more efficient than the same model in software. That is a vendor claim and the technology is early. Two cautions: this is a data-centre server reached over the internet, not something in your pocket, and a chip locked to one model is out of date when a better model arrives. But if the approach scales, near-instant local-quality AI could become cheap enough to put almost anywhere.</p>
+<p><strong>Try it:</strong> open <a href="https://chatjimmy.ai" target="_blank" rel="noopener">chatjimmy.ai</a> and ask for a long answer. Replies appear almost all at once, far faster than a typical chatbot. Because it is only an 8B model, expect shallower answers than a frontier model gives.</p>
+
+<h2 id="using-slms-yourself">Using SLMs yourself</h2>
+<table>
+<tr><th>Goal</th><th>Start here</th></tr>
+<tr><td>Run a model on your computer</td><td><a href="tools.html#ollama">Ollama</a> or LM Studio, with a 4-bit model that fits your memory. See <a href="models.html">Models</a>.</td></tr>
+<tr><td>Tune how it answers</td><td><a href="models.html#sampling-settings-what-each-knob-does">Sampling settings</a></td></tr>
+<tr><td>Teach it your own data or style</td><td><a href="fine-tuning.html">Finetuning an LLM</a> and Unsloth on the <a href="tools.html">Tools</a> page</td></tr>
+<tr><td>Know what hardware you need</td><td><a href="hardware.html">Hardware</a></td></tr>
+<tr><td>Build a tiny model to learn how it works</td><td><a href="llm.html">Creating an LLM</a></td></tr>
+</table>
+
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://ai.google.dev/gemma/docs/core" target="_blank" rel="noopener">Gemma 4 memory requirements (Google AI for Developers)</a> · <a href="https://huggingface.co/google/gemma-4-12b-it" target="_blank" rel="noopener">Gemma 4 12B model card</a></li>
+<li><a href="https://artificialanalysis.ai/articles/qwen3-5-small-models" target="_blank" rel="noopener">Qwen3.5 small models (Artificial Analysis)</a> · <a href="https://huggingface.co/Qwen/Qwen3.5-9B" target="_blank" rel="noopener">Qwen3.5-9B model card</a></li>
+<li><a href="https://taalas.com/products/" target="_blank" rel="noopener">Taalas HC1 product page</a> · <a href="https://chatjimmy.ai" target="_blank" rel="noopener">ChatJimmy demo</a></li>
+<li><a href="https://kaitchup.substack.com/p/taalas-hc1-absurdly-fast-per-user" target="_blank" rel="noopener">Taalas HC1 review (The Kaitchup)</a> · <a href="https://officechai.com/ai/taalas-chat-jimmy" target="_blank" rel="noopener">Taalas releases ChatJimmy (OfficeChai)</a></li>
+<li><a href="https://derekmolloy.ie/from-tinyml-to-tiny-language-models-the-state-of-edge-ai-in-2026/" target="_blank" rel="noopener">From TinyML to tiny language models (Derek Molloy)</a></li>
+</ul>
+<div class="pager"><a href="mcp.html">← MCP</a><a href="models.html">Models →</a></div></main></div>
+<footer>Everything AI · a study guide to Python, data science, machine learning, deep learning and generative AI.</footer>
+<script src="assets/search-index.js"></script><script src="assets/app.js"></script>
+</body></html>
