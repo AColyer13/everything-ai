@@ -24,7 +24,8 @@ PAGES = [
     ("fine-tuning", "Finetuning an LLM", "🎛️", "A QLoRA pipeline for improving a local LLM on one 16 GB GPU"),
     ("loops", "Loops", "🔁", "Repeatable loops for agents, engineering, research and writing"),
     ("history", "History of AI", "📜", "Eight eras from 1943 to today: symbolists vs connectionists, winters, deep learning, transformers"),
-    ("pioneers", "AI Pioneers", "🧬", "Goodfellow, Karpathy and Radford, plus a tour of Karpathy's GitHub"),
+    ("pioneers", "AI Pioneers", "🧬", "The fathers of AI: Turing, McCarthy, Minsky, Hinton, Bengio and LeCun"),
+    ("llm-pioneers", "LLM Pioneers", "🧠", "The fathers of LLMs: Goodfellow, Karpathy, Radford and more, plus a tour of Karpathy's GitHub"),
     ("glossary", "Glossary", "📖", "Searchable definitions"),
 ]
 

@@ -2,213 +2,106 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AI Pioneers · Everything AI</title>
-<meta name="description" content="Goodfellow, Karpathy and Radford, plus a tour of Karpathy&#x27;s GitHub">
+<meta name="description" content="The fathers of AI: Turing, McCarthy, Minsky, Hinton, Bengio and LeCun">
 <link rel="stylesheet" href="assets/style.css">
 </head><body>
 <header class="top"><div class="bar">
 <a class="logo" href="index.html">Everything <b>AI</b></a>
-<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="mcp.html">MCP</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html">Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html" class=active>AI Pioneers</a><a href="glossary.html">Glossary</a></nav>
+<nav class="main"><a href="python.html">Python</a><a href="data-science.html">Data Science</a><a href="machine-learning.html">Machine Learning</a><a href="deep-learning.html">Deep Learning</a><a href="generative-ai.html">Generative AI</a><a href="playbook.html">Project Playbook</a><a href="case-studies.html">Case Studies</a><a href="tools.html">Tools</a><a href="mcp.html">MCP</a><a href="models.html">Models</a><a href="hardware.html">Hardware</a><a href="llm.html">Creating an LLM</a><a href="fine-tuning.html">Finetuning an LLM</a><a href="loops.html">Loops</a><a href="history.html">History of AI</a><a href="pioneers.html" class=active>AI Pioneers</a><a href="llm-pioneers.html">LLM Pioneers</a><a href="glossary.html">Glossary</a></nav>
 <div class="search"><input id="q" type="search" placeholder="Search  ( / )" autocomplete="off"><div id="results"></div></div>
 </div></header>
-<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#ian-goodfellow">Ian Goodfellow</a><a href="#andrej-karpathy">Andrej Karpathy</a><a href="#karpathy-s-github-projects-explained">Karpathy's GitHub projects, explained</a><a href="#alec-radford">Alec Radford</a><a href="#the-common-thread">The common thread</a></aside><main><h1>AI Pioneers</h1>
-<p class="lede">Three researchers whose work shaped modern generative AI: Ian Goodfellow, Andrej Karpathy and Alec Radford. Each section covers what they researched and built, with a timeline. Karpathy also gets a full tour of his GitHub projects.</p>
-<div class="callout note"><strong class="t">About this page</strong><p>"Fathers of AI" is usually a title for the field's earliest founders (Turing, McCarthy, Minsky, Hinton, Bengio, LeCun and others). These three are better described as influential figures of the deep-learning and LLM era, and that is how they are presented here. Timelines come from public sources (Wikipedia, GitHub and the authors' own pages) and may lag behind recent career moves.</p></div>
+<div class="wrap"><aside class="toc"><h4>On this page</h4><a href="#at-a-glance">At a glance</a><a href="#others-often-named">Others often named</a><a href="#the-common-thread">The common thread</a><a href="#sources">Sources</a></aside><main><h1>AI Pioneers</h1>
+<p class="lede">The people most often called the founders, or "fathers", of artificial intelligence: Alan Turing, John McCarthy, Marvin Minsky and the three deep-learning researchers Geoffrey Hinton, Yoshua Bengio and Yann LeCun. What each one did, and when.</p>
+<div class="callout note"><strong class="t">About this page</strong><p>"Father of AI" is an informal title and there is no official list. Turing, McCarthy and Minsky are the usual names for the field's founding era. Hinton, Bengio and LeCun are often called the "godfathers of deep learning". The people behind today's language models are on the <a href="llm-pioneers.html">LLM Pioneers</a> page, and the full story is on <a href="history.html">History of AI</a>. Dates come from public sources (Wikipedia and the people's own pages) and career details may lag behind recent moves.</p></div>
 
-<h2 id="ian-goodfellow">Ian Goodfellow</h2>
-<p>Goodfellow is best known for inventing <strong>generative adversarial networks (GANs)</strong>. The idea: two networks compete. A <em>generator</em> makes fake samples, a <em>discriminator</em> tries to tell fake from real, and each pushes the other to improve until the fakes look real. It is the "GAN" row in the <a href="generative-ai.html">Generative AI</a> table, and it launched a decade of image-synthesis research.</p>
-<h3 id="what-they-researched-and-created">What they researched and created</h3>
-<ul>
-<li><strong>GANs (2014).</strong> Introduced in a paper with colleagues at the Université de Montréal, including their PhD advisors Yoshua Bengio and Aaron Courville.</li>
-<li><strong>Adversarial examples.</strong> Co-authored early work showing that tiny, deliberate changes to an input can fool a neural network, and proposed training on such examples as a defence. This founded much of modern AI-security research.</li>
-<li><strong><em>Deep Learning</em> (2016).</strong> First author of the standard textbook, written with Bengio and Courville and free to read online.</li>
-</ul>
-<h3 id="timeline">Timeline</h3>
+<h2 id="at-a-glance">At a glance</h2>
 <table>
-<tr><th>When</th><th>Event</th></tr>
-<tr><td>Early</td><td>Studied at Stanford (BS and MS, with Andrew Ng)</td></tr>
-<tr><td>2014</td><td>Publishes the GAN paper and the adversarial-examples work</td></tr>
-<tr><td>Feb 2015</td><td>PhD in machine learning, Université de Montréal</td></tr>
-<tr><td>2015</td><td>Joins Google Brain</td></tr>
-<tr><td>Mar 2016</td><td>Moves to the newly founded OpenAI; the <em>Deep Learning</em> textbook appears the same year</td></tr>
-<tr><td>Mar 2017</td><td>Returns to Google Research</td></tr>
-<tr><td>2019</td><td>Joins Apple as director of machine learning in the Special Projects Group</td></tr>
-<tr><td>2022</td><td>Leaves Apple, then joins Google DeepMind as a research scientist</td></tr>
-<tr><td>2025</td><td>Wikipedia notes a departure from Google, flagged there as needing a citation, so treat it as unconfirmed (we found no news report of where he went)</td></tr>
+<tr><th>Person</th><th>Era</th><th>Best known for</th></tr>
+<tr><td><a href="#turing">Alan Turing</a></td><td>1930s to 1954</td><td>Theory of computation and the Turing test</td></tr>
+<tr><td><a href="#mccarthy">John McCarthy</a></td><td>1950s to 2000s</td><td>Naming "artificial intelligence" and creating Lisp</td></tr>
+<tr><td><a href="#minsky">Marvin Minsky</a></td><td>1950s to 2010s</td><td>Co-founding the MIT AI lab and the book <em>Perceptrons</em></td></tr>
+<tr><td><a href="#hinton">Geoffrey Hinton</a></td><td>1980s to today</td><td>Backpropagation, AlexNet, deep learning</td></tr>
+<tr><td><a href="#bengio">Yoshua Bengio</a></td><td>1990s to today</td><td>Neural language models, attention, AI safety</td></tr>
+<tr><td><a href="#lecun">Yann LeCun</a></td><td>1980s to today</td><td>Convolutional neural networks</td></tr>
 </table>
 
-<h2 id="andrej-karpathy">Andrej Karpathy</h2>
-<p>Karpathy is a researcher, engineer and teacher known for making deep learning understandable. He helped found OpenAI, ran computer vision for Tesla Autopilot, and then built a large following by teaching how language models work from scratch.</p>
-<h3 id="what-they-researched-and-created-2">What they researched and created</h3>
+<h2 id="turing">Alan Turing</h2>
+<p>A British mathematician who asked, before computers existed in any practical form, what it means for a machine to compute and whether a machine could think.</p>
+<h3 id="what-he-did">What he did</h3>
 <ul>
-<li><strong>Image captioning (PhD, Stanford, advisor Fei-Fei Li).</strong> Work combining CNNs and RNNs so a model could describe images and regions in sentences. That is the "hybrid model" idea on the <a href="deep-learning.html">Deep Learning</a> page.</li>
-<li><strong>The Unreasonable Effectiveness of Recurrent Neural Networks (2015).</strong> A blog post and the <code>char-rnn</code> code that showed character-level RNNs writing plausible text, code and Shakespeare.</li>
-<li><strong>CS231n.</strong> Co-created and taught Stanford's convolutional-networks course, which grew from about 150 students in 2015 to about 750 in 2017.</li>
-<li><strong>Tesla Autopilot Vision.</strong> Led the vision team that moved driving perception onto large neural networks trained on fleet data.</li>
-<li><strong>Zero to Hero (2022 onward).</strong> A YouTube series that builds a GPT step by step, from a single neuron up through tokenizers.</li>
-<li><strong>Eureka Labs (2024).</strong> An AI-native education company; its first course is LLM101n.</li>
-<li><strong>"Vibe coding" (Feb 2025).</strong> Coined the term for building software by prompting an AI and accepting its output.</li>
+<li><strong>The Turing machine (1936).</strong> A simple model of computation that defines what any computer can and cannot calculate.</li>
+<li><strong>"Computing Machinery and Intelligence" (1950).</strong> Opened with the question "Can machines think?" and proposed the <strong>imitation game</strong>, now called the <strong>Turing test</strong>: if a person cannot tell a machine's written answers from a human's, the machine can fairly be called intelligent.</li>
+<li><strong>Codebreaking.</strong> Led work at Bletchley Park during the Second World War, which also shaped early computing.</li>
 </ul>
-<h3 id="timeline-2">Timeline</h3>
-<table>
-<tr><th>When</th><th>Event</th></tr>
-<tr><td>1986</td><td>Born in Bratislava; moves to Toronto at 15</td></tr>
-<tr><td>2009 / 2011</td><td>Bachelor's at the University of Toronto; master's at the University of British Columbia</td></tr>
-<tr><td>2015</td><td>PhD at Stanford; starts teaching CS231n; <code>char-rnn</code> and the RNN blog post; helps start OpenAI</td></tr>
-<tr><td>Jun 2017</td><td>Becomes Tesla's director of AI</td></tr>
-<tr><td>Jul 2022</td><td>Leaves Tesla</td></tr>
-<tr><td>Feb 2023</td><td>Returns to OpenAI</td></tr>
-<tr><td>Feb 2024</td><td>Leaves OpenAI; <code>minbpe</code> appears</td></tr>
-<tr><td>Apr 2024</td><td><code>llm.c</code> appears</td></tr>
-<tr><td>Jul 2024</td><td>Founds Eureka Labs</td></tr>
-<tr><td>Feb 2025</td><td>Coins "vibe coding"</td></tr>
-<tr><td>Feb 2026</td><td>Publishes <code>microgpt</code></td></tr>
-<tr><td>May 2026</td><td>Announces (May 19) that he is joining Anthropic's pretraining research effort</td></tr>
-</table>
+<p>He died in 1954, two years before the field was named, which is why he is called a founder rather than a participant.</p>
 
-<h2 id="karpathy-s-github-projects-explained">Karpathy's GitHub projects, explained</h2>
-<p>Profile: <a href="https://github.com/karpathy" target="_blank" rel="noopener">github.com/karpathy</a>. This section assumes you have never opened GitHub. If you have, skip to the <a href="#project-map">project map</a>.</p>
-
-<div class="callout tip"><strong class="t">Five words you need first</strong>
-<p><strong>GitHub</strong> is a website where programmers publish their code. A <strong>repo</strong> (repository) is one project's folder on it. A <strong>gist</strong> is a single shared file or note. <strong>Stars</strong> are like bookmarks, so a high number means many people found the project useful. An <strong>LLM</strong> (large language model) is the kind of AI behind ChatGPT: it reads text and predicts what comes next.</p>
-<p>Two more that appear a lot: <strong>training</strong> is teaching a model by showing it lots of examples, and <strong>inference</strong> is using a finished model to answer something.</p></div>
-
-<h3 id="the-common-idea">The common idea</h3>
-<p>Most AI code is huge and hard to read. Karpathy's habit is the opposite: <strong>shrink a big idea until it fits on one screen</strong>, so a person can read every line and understand what the technology really does. Think of it as taking a car engine apart on a table and labelling each part, instead of describing the car from the outside.</p>
-
-<h3 id="project-map">Project map</h3>
-<p>The 15 projects fall into three groups. Within each group they are listed in a sensible order to learn them. Star counts are rounded and from GitHub when this page was written, so they will drift. Difficulty is a suggestion based on reading the descriptions, not an official rating.</p>
-
-<table>
-<tr><th>Group</th><th>Project</th><th>In one line</th><th>Popularity</th><th>Suggested level</th></tr>
-<tr><td rowspan="6"><strong>A. Learn how AI works</strong><br>small, readable teaching code</td><td><a href="#micrograd">micrograd</a></td><td>How a network learns from its mistakes</td><td>19k stars</td><td>Beginner</td></tr>
-<tr><td><a href="#char-rnn">char-rnn</a></td><td>An early AI that writes text one letter at a time</td><td>12k stars</td><td>Historic</td></tr>
-<tr><td><a href="#makemore">makemore</a></td><td>Invents new names, in steadily smarter ways</td><td>4.5k stars</td><td>Beginner</td></tr>
-<tr><td><a href="#minbpe">minbpe</a></td><td>How text is cut into pieces an AI can read</td><td>11k stars</td><td>Beginner</td></tr>
-<tr><td><a href="#microgpt">microgpt</a></td><td>A whole ChatGPT-style model in about 200 lines</td><td>gist</td><td>Intermediate</td></tr>
-<tr><td><a href="#nanogpt">nanoGPT</a></td><td>A compact, real GPT you can train yourself</td><td>64k stars</td><td>Intermediate</td></tr>
-<tr><td rowspan="3"><strong>B. Build and run a real model</strong><br>closer to how production systems work</td><td><a href="#llama2-c">llama2.c</a></td><td>Run a modern AI model with one small C file</td><td>20k stars</td><td>Advanced</td></tr>
-<tr><td><a href="#llm-c">llm.c</a></td><td>Train a GPT with no AI libraries at all</td><td>31k stars</td><td>Advanced</td></tr>
-<tr><td><a href="#nanochat">nanochat</a></td><td>Build your own small ChatGPT from scratch</td><td>60k stars</td><td>Intermediate</td></tr>
-<tr><td rowspan="6"><strong>C. Use AI as a tool</strong><br>practical helpers and experiments</td><td><a href="#autoresearch">autoresearch</a></td><td>An AI agent that runs experiments while you sleep</td><td>99k stars</td><td>Intermediate</td></tr>
-<tr><td><a href="#llm-council">llm-council</a></td><td>Ask several AIs, have them grade each other</td><td>26k stars</td><td>Beginner</td></tr>
-<tr><td><a href="#llm-wiki">llm-wiki.md</a></td><td>A method for an AI to keep your notes organised</td><td>gist</td><td>Beginner</td></tr>
-<tr><td><a href="#reader3">reader3</a></td><td>Read a book with an AI next to you</td><td>3.9k stars</td><td>Beginner</td></tr>
-<tr><td><a href="#rendergit">rendergit</a></td><td>Turn a whole code project into one web page</td><td>2.5k stars</td><td>Beginner</td></tr>
-<tr><td><a href="#arxiv-sanity-lite">arxiv-sanity-lite</a></td><td>A recommender for research papers</td><td>1.7k stars</td><td>Beginner</td></tr>
-</table>
-
-<h3 id="group-a-learn-how-ai-works">Group A: learn how AI works</h3>
-
-<h4 id="micrograd">micrograd</h4>
-<p><strong>In plain English:</strong> a tiny program that shows how a neural network learns. The network makes a guess, measures how wrong it was, and works out which of its internal dials to nudge to be less wrong next time. That "work out which dial to nudge" step is called backpropagation, and micrograd does it in roughly 150 lines on single numbers, so you can follow every step with a pencil.</p>
-<p><strong>Why it matters:</strong> every modern AI model, including ChatGPT, learns this way. Seeing it at toy size removes the mystery.</p>
-<p><strong>Who it is for:</strong> anyone who has seen a neural-network diagram and wondered what really happens. Pairs with the <a href="deep-learning.html">Deep Learning</a> page. <a href="https://github.com/karpathy/micrograd" target="_blank" rel="noopener">Open on GitHub</a></p>
-
-<h4 id="char-rnn">char-rnn</h4>
-<p><strong>In plain English:</strong> one of the first widely shared AI text generators. You give it any text file (Shakespeare, a code base, song lyrics). It learns to guess the next letter, over and over, and then writes new text in the same style, one character at a time. It used an older design called a recurrent neural network, which reads text in order and carries a short-term memory along.</p>
-<p><strong>Why it matters:</strong> it showed that a simple letter-guessing machine can pick up spelling, grammar and structure by itself, which was a big surprise in 2015 and a stepping stone to today's chatbots.</p>
-<p><strong>Who it is for:</strong> history and curiosity. It is written in Lua for a framework (Torch) that is no longer used, so read it rather than run it. <a href="https://github.com/karpathy/char-rnn" target="_blank" rel="noopener">Open on GitHub</a></p>
-
-<h4 id="makemore">makemore</h4>
-<p><strong>In plain English:</strong> it learns from a list of names and then "makes more" names that sound real. The clever part is that the same task is solved in stages, each smarter than the last, so you can see exactly what each improvement buys you. The last stage uses a Transformer, the design behind ChatGPT.</p>
-<p><strong>Why it matters:</strong> it is a guided tour from "count which letters follow which" to a modern AI design, using a problem small enough to run on a laptop.</p>
-<p><strong>Who it is for:</strong> beginners who want to follow along with Karpathy's video lessons. <a href="https://github.com/karpathy/makemore" target="_blank" rel="noopener">Open on GitHub</a></p>
-
-<h4 id="minbpe">minbpe</h4>
-<p><strong>In plain English:</strong> AI models cannot read raw text. First the text is chopped into pieces called <strong>tokens</strong> (whole words, parts of words, or single characters). minbpe shows the standard way to decide those pieces, called Byte Pair Encoding: start with single characters and keep gluing together the pair that appears most often, until you have a vocabulary of the size you want.</p>
-<p><strong>Why it matters:</strong> tokens explain odd AI behaviour, such as why a model can struggle to count the letters in a word, and why you are billed "per token". See <em>Token</em> in the <a href="glossary.html">glossary</a>.</p>
-<p><strong>Who it is for:</strong> anyone curious how an AI turns words into numbers. <a href="https://github.com/karpathy/minbpe" target="_blank" rel="noopener">Open on GitHub</a></p>
-
-<h4 id="microgpt">microgpt</h4>
-<p><strong>In plain English:</strong> an entire ChatGPT-style system in a single file of about 200 lines of plain Python, with nothing to install. It contains every ingredient: the data, the token handling, the learning engine, the model, the training loop and the text generator. It learns from a list of names and invents new ones. The model is deliberately tiny, so it is a demonstration of the recipe and not a useful chatbot.</p>
-<p><strong>Why it matters:</strong> it makes the point that the core of a GPT is small. Everything bigger is the same recipe with more data, more computing power and engineering.</p>
-<p><strong>Who it is for:</strong> anyone with basic Python who wants to see the whole thing at once. This one is a gist (a single shared file), not a full repo. <a href="https://gist.github.com/karpathy/8627fe009c40f57531cb18360106ce95" target="_blank" rel="noopener">Open the gist</a></p>
-
-<h4 id="nanogpt">nanoGPT</h4>
-<p><strong>In plain English:</strong> a compact but real GPT. It is small enough to read in an afternoon, and close enough to GPT-2 (an earlier OpenAI model) that it can reproduce a small version of it when given enough data and a powerful graphics card. You can also take an existing model and teach it your own text, which is called fine-tuning.</p>
-<p><strong>Why it matters:</strong> for years this was the go-to example of how GPT training works. Its popularity (over 60k stars) reflects that. The author has since moved on to nanochat, so treat nanoGPT as the classic version.</p>
-<p><strong>Who it is for:</strong> people comfortable with Python who want to train a language model for real. <a href="https://github.com/karpathy/nanoGPT" target="_blank" rel="noopener">Open on GitHub</a></p>
-
-<h3 id="group-b-build-and-run-a-real-model">Group B: build and run a real model</h3>
-
-<h4 id="llama2-c">llama2.c</h4>
-<p><strong>In plain English:</strong> Llama 2 is an AI model released by Meta. llama2.c is a program, in one file of the C language, that can run it. You do not need the usual heavy AI toolkits. You can train a small model of the same design, save it, and then run it with this short program.</p>
-<p><strong>Why it matters:</strong> it showed that running a modern language model does not need a giant software stack. Many people later copied the idea to make AI run on small or unusual devices.</p>
-<p><strong>Who it is for:</strong> programmers curious how fast, lean AI software is built. <a href="https://github.com/karpathy/llama2.c" target="_blank" rel="noopener">Open on GitHub</a></p>
-
-<h4 id="llm-c">llm.c</h4>
-<p><strong>In plain English:</strong> normally you train an AI model using a popular toolkit (PyTorch) that hides the details. llm.c trains a GPT-2 model with <strong>no toolkit at all</strong>, in C and CUDA (the language used to program NVIDIA graphics cards), writing out every calculation by hand. It starts with a simple version and grows into an optimised one.</p>
-<p><strong>Why it matters:</strong> it reveals what the toolkits do for you, and where the speed comes from. It is the "engine rebuilt from raw metal" version of nanoGPT.</p>
-<p><strong>Who it is for:</strong> experienced programmers interested in performance. <a href="https://github.com/karpathy/llm.c" target="_blank" rel="noopener">Open on GitHub</a></p>
-
-<h4 id="nanochat">nanochat</h4>
-<p><strong>In plain English:</strong> its tagline is "the best ChatGPT that $100 can buy". It covers the whole journey in one small codebase: prepare the text, teach the model language, teach it to hold a conversation, test it, and talk to it in a web page. The $100 refers to renting powerful computers for a short time.</p>
-<p><strong>Why it matters:</strong> nanoGPT stopped at a model that continues text. nanochat goes on to a model you can chat with, which is the part people actually use.</p>
-<p><strong>Who it is for:</strong> people who want to see an end-to-end chatbot built without a big company's resources. <a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener">Open on GitHub</a></p>
-
-<h3 id="group-c-use-ai-as-a-tool">Group C: use AI as a tool</h3>
-
-<h4 id="autoresearch">autoresearch</h4>
-<p><strong>In plain English:</strong> an AI assistant runs experiments on its own. It changes the code that trains a small chatbot, trains it for exactly five minutes, checks whether the result got better, keeps the change if so and throws it away if not, then repeats. That is about 12 experiments an hour, or roughly 100 overnight. The human writes the instructions in a plain-text file (<code>program.md</code>) instead of editing the code.</p>
-<p><strong>Why it matters:</strong> it is a small, concrete example of an "AI agent": software that plans and acts toward a goal with little supervision. The fixed five-minute budget and single score keep the experiments fair.</p>
-<p><strong>Who it is for:</strong> anyone curious about AI doing research work. Running it needs an NVIDIA graphics card. It is the most-starred repo of the 15. <a href="https://github.com/karpathy/autoresearch" target="_blank" rel="noopener">Open on GitHub</a></p>
-
-<h4 id="llm-council">llm-council</h4>
-<p><strong>In plain English:</strong> instead of asking one AI a hard question, ask several and let them check each other. Step 1: each model answers separately. Step 2: each model reads the others' answers, with names hidden so none can play favourites, and ranks them. Step 3: one "chairman" model writes the final answer from everything. It runs on your own computer as a web page and reaches many AI providers through a single service called OpenRouter, which needs an account and key.</p>
-<p><strong>Why it matters:</strong> it applies the "ask a panel, not one expert" idea to AI. It is also a good example of the ensemble idea in <a href="machine-learning.html">Machine Learning</a>.</p>
-<p><strong>Who it is for:</strong> anyone who wants better answers to hard questions and does not mind some setup. <a href="https://github.com/karpathy/llm-council" target="_blank" rel="noopener">Open on GitHub</a></p>
-
-<h4 id="llm-wiki">llm-wiki.md</h4>
-<p><strong>In plain English:</strong> this one is an idea, not a program. Most AI note tools search your documents from scratch every time you ask a question. This proposes something different: an AI keeps a personal wiki (a set of linked notes) for you. When you add a new article, the AI reads it, writes a summary, and updates the related pages. Over time the wiki gets richer, like a well-kept notebook that someone else tidies for you. Your original sources are never changed, and a rules file tells the AI how to organise things. In technical terms it is an alternative to classic RAG (see <a href="generative-ai.html">Generative AI</a>).</p>
-<p><strong>Why it matters:</strong> it is a way to build knowledge that accumulates, instead of a chat that forgets. You hand the file to your own AI assistant and it builds the details.</p>
-<p><strong>Who it is for:</strong> anyone who collects articles and notes. A gist, not a repo. <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f" target="_blank" rel="noopener">Open the gist</a></p>
-
-<h4 id="reader3">reader3</h4>
-<p><strong>In plain English:</strong> a small demo of reading a book with an AI beside you, so you can ask questions as you go. Karpathy describes it as a quick illustration and says he highly recommends the habit. The README has the exact steps.</p>
-<p><strong>Why it matters:</strong> it shows an everyday use of AI that needs no technical skill: a patient reading partner.</p>
-<p><strong>Who it is for:</strong> readers and students. <a href="https://github.com/karpathy/reader3" target="_blank" rel="noopener">Open on GitHub</a></p>
-
-<h4 id="rendergit">rendergit</h4>
-<p><strong>In plain English:</strong> a code project is normally spread across many files and folders. rendergit turns a whole project into <strong>one web page</strong> that you can scroll through, or paste into an AI so it can read the entire project at once.</p>
-<p><strong>Why it matters:</strong> it makes it easy to ask an AI "explain this project" or "find the bug", without feeding it files one by one.</p>
-<p><strong>Who it is for:</strong> anyone who reviews code, human or AI. <a href="https://github.com/karpathy/rendergit" target="_blank" rel="noopener">Open on GitHub</a></p>
-
-<h4 id="arxiv-sanity-lite">arxiv-sanity-lite</h4>
-<p><strong>In plain English:</strong> arXiv is a free website where researchers post new papers, hundreds a day. This tool lets you tag the ones you like and then suggests similar new ones. It works by measuring how similar the words in two papers' abstracts are, and uses a classic machine-learning method (a support vector machine) to learn your taste. The same idea powers "you might also like" suggestions on shopping and video sites.</p>
-<p><strong>Why it matters:</strong> a useful product built from older, simple techniques, covered on the <a href="machine-learning.html">Machine Learning</a> page, with no giant model needed.</p>
-<p><strong>Who it is for:</strong> researchers and students trying to keep up with new papers. <a href="https://github.com/karpathy/arxiv-sanity-lite" target="_blank" rel="noopener">Open on GitHub</a></p>
-
-<div class="callout note"><strong class="t">Where to start</strong><p>If you are new, read in this order: micrograd, then makemore, then minbpe, then microgpt. That sequence takes you from "how does a network learn?" to "how is a whole GPT put together?". Then try nanochat to see it become a chatbot. Karpathy also has free video lessons (Zero to Hero) that go with the first few.</p></div>
-
-<h2 id="alec-radford">Alec Radford</h2>
-<p>Radford is a researcher who works quietly and publishes few papers, but he was first author on several that defined modern generative AI. Much of the field's move from "train a model for one task" to "pretrain a big model, then adapt it" runs through his work.</p>
-<h3 id="what-they-researched-and-created-3">What they researched and created</h3>
+<h2 id="mccarthy">John McCarthy</h2>
+<p>An American computer scientist who gave the field its name and a programming language to work in.</p>
 <ul>
-<li><strong>DCGAN (2015).</strong> With Luke Metz and Soumith Chintala, a set of design rules that made convolutional GANs stable to train. It became the template for image GANs, and it also showed that the latent space holds meaningful directions (vector arithmetic on faces).</li>
-<li><strong>The sentiment neuron (2017).</strong> A character-level LSTM trained only to predict the next character on Amazon reviews. One unit ended up tracking sentiment, an early sign that next-token prediction learns useful structure.</li>
-<li><strong>GPT-1 (2018).</strong> <em>Improving Language Understanding by Generative Pre-Training</em>: pretrain a Transformer decoder on unlabelled text, then fine-tune it on a task. This is the origin of the GPT line.</li>
-<li><strong>GPT-2 (2019).</strong> <em>Language Models are Unsupervised Multitask Learners</em>: a much larger model that could perform tasks it was never explicitly trained for. OpenAI at first held back the largest version over misuse concerns.</li>
-<li><strong>GPT-3 (2020).</strong> Co-author of the few-shot learning paper (see few-shot prompting on the <a href="generative-ai.html">Generative AI</a> page).</li>
-<li><strong>CLIP and DALL-E (2021).</strong> CLIP learns images and text in one shared embedding space from captioned pictures and enables zero-shot image classification. DALL-E generated images from text prompts. CLIP is also used inside many diffusion image generators.</li>
-<li><strong>Whisper (2022).</strong> A robust speech-recognition and translation model trained on a large amount of weakly supervised audio.</li>
+<li><strong>The name (1955 to 1956).</strong> Coined "artificial intelligence" in the proposal for the 1956 <strong>Dartmouth workshop</strong>, which is usually treated as the birth of AI as a field.</li>
+<li><strong>Lisp (1958).</strong> Created the language that dominated AI research for decades.</li>
+<li><strong>Labs and time-sharing.</strong> Co-founded the MIT AI project and later started the Stanford AI Laboratory (1963). Pushed early time-sharing computers.</li>
+<li><strong>Recognition.</strong> Won the Turing Award in 1971. Died in 2011.</li>
 </ul>
-<h3 id="timeline-3">Timeline</h3>
+
+<h2 id="minsky">Marvin Minsky</h2>
+<p>An American researcher who helped found the symbolic side of AI, and who is also remembered for a famous critique of neural networks.</p>
+<ul>
+<li><strong>SNARC (1951).</strong> Built an early machine that simulated a small neural network, as a graduate student.</li>
+<li><strong>MIT AI Lab (1959).</strong> Co-founded with John McCarthy.</li>
+<li><strong><em>Perceptrons</em> (1969).</strong> Written with Seymour Papert. It showed what single-layer perceptrons cannot do, such as XOR, and is widely credited with cooling interest in neural networks. See the "XOR crisis" on <a href="history.html">History of AI</a>.</li>
+<li><strong>Recognition.</strong> Won the Turing Award in 1969. Died in 2016.</li>
+</ul>
+
+<h2 id="hinton">Geoffrey Hinton</h2>
+<p>A British-Canadian researcher who kept working on neural networks through the years when they were out of fashion.</p>
+<ul>
+<li><strong>Backpropagation (1986).</strong> With David Rumelhart and Ronald Williams, published the paper that showed multi-layer networks can learn useful internal representations by passing errors backward.</li>
+<li><strong>Boltzmann machines (1985).</strong> Early generative neural models, developed with Terry Sejnowski and David Ackley.</li>
+<li><strong>AlexNet (2012).</strong> With students Alex Krizhevsky and Ilya Sutskever, won the ImageNet competition by a wide margin using a deep network on GPUs, which started the deep-learning boom.</li>
+<li><strong>Google (2013 to 2023).</strong> Joined after Google acquired his company. In May 2023 he left so he could speak freely about AI risks.</li>
+<li><strong>Recognition.</strong> Shared the 2018 Turing Award with Bengio and LeCun, and the 2024 Nobel Prize in Physics with John Hopfield.</li>
+</ul>
+
+<h2 id="bengio">Yoshua Bengio</h2>
+<p>A French-Canadian researcher at the Université de Montréal and the founder of the Mila research institute.</p>
+<ul>
+<li><strong>Neural language models (2003).</strong> Early work showing a network could learn to predict the next word, an ancestor of today's LLMs.</li>
+<li><strong>Attention (2014).</strong> Co-authored the paper that introduced attention for translation, the idea the Transformer later built on.</li>
+<li><strong>Textbook and students.</strong> Co-wrote <em>Deep Learning</em> (2016) and advised Ian Goodfellow, who invented GANs.</li>
+<li><strong>AI safety.</strong> Launched the nonprofit LawZero in June 2025 to work on AI that is safe by design.</li>
+<li><strong>Recognition.</strong> Shared the 2018 Turing Award with Hinton and LeCun.</li>
+</ul>
+
+<h2 id="lecun">Yann LeCun</h2>
+<p>A French-American researcher known for the networks that made computers good at images.</p>
+<ul>
+<li><strong>Convolutional neural networks (late 1980s to 1990s).</strong> Developed CNNs and the LeNet family, which read handwritten digits for check processing. They are the ancestors of modern image models. See the CNN section on <a href="deep-learning.html">Deep Learning</a>.</li>
+<li><strong>Meta.</strong> Founded Facebook AI Research (2013) and served as its chief AI scientist.</li>
+<li><strong>AMI Labs.</strong> Left Meta in 2025 and started AMI Labs (Advanced Machine Intelligence), a Paris-based startup working on "world models". He argues that language models alone are not the path to human-level AI. The company reported a seed round of about $1.03 billion in March 2026.</li>
+<li><strong>Recognition.</strong> Shared the 2018 Turing Award with Hinton and Bengio.</li>
+</ul>
+
+<h2 id="others-often-named">Others often named</h2>
 <table>
-<tr><th>When</th><th>Event</th></tr>
-<tr><td>2015</td><td>DCGAN paper</td></tr>
-<tr><td>2017</td><td>Unsupervised sentiment neuron</td></tr>
-<tr><td>2018</td><td>GPT-1</td></tr>
-<tr><td>2019</td><td>GPT-2</td></tr>
-<tr><td>2020</td><td>GPT-3 (co-author)</td></tr>
-<tr><td>2021</td><td>CLIP and DALL-E</td></tr>
-<tr><td>2022</td><td>Whisper</td></tr>
-<tr><td>Dec 2024</td><td>Reported to leave OpenAI for independent research</td></tr>
-<tr><td>2025</td><td>Reported to advise Thinking Machines Lab</td></tr>
+<tr><th>Person</th><th>Contribution</th></tr>
+<tr><td>Frank Rosenblatt</td><td>Built the Perceptron, the first trainable neural network, in 1958</td></tr>
+<tr><td>Allen Newell and Herbert Simon</td><td>Created the Logic Theorist (1956), often called the first AI program</td></tr>
+<tr><td>Sepp Hochreiter and Jürgen Schmidhuber</td><td>Invented the LSTM network (1997)</td></tr>
+<tr><td>Fei-Fei Li</td><td>Led the creation of ImageNet, the dataset behind the 2012 breakthrough</td></tr>
 </table>
 
 <h2 id="the-common-thread">The common thread</h2>
-<p>All three worked on the same arc. Goodfellow's GANs showed that networks could <em>generate</em> convincing data. Radford's DCGAN, GPT, CLIP and Whisper work showed that large generatively pretrained models transfer to many tasks. Karpathy then taught the field how those systems are built, with code short enough to read. If you want to follow the arc yourself, read <a href="deep-learning.html">Deep Learning</a>, then <a href="generative-ai.html">Generative AI</a>, then work through micrograd, makemore and nanoGPT in that order.</p>
-<div class="pager"><a href="history.html">← History of AI</a><a href="glossary.html">Glossary →</a></div></main></div>
+<p>The founders asked whether machines can think and what to build first. Turing posed the question, McCarthy and Minsky built the symbolic approach, and Hinton, Bengio and LeCun made the rival approach, learning from data with neural networks, work at scale. The history of AI is the story of those two ideas competing. The next generation, the people behind GANs and language models, is on <a href="llm-pioneers.html">LLM Pioneers</a>.</p>
+
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Alan_Turing" target="_blank" rel="noopener">Alan Turing (Wikipedia)</a> · <a href="https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)" target="_blank" rel="noopener">John McCarthy (Wikipedia)</a> · <a href="https://en.wikipedia.org/wiki/Marvin_Minsky" target="_blank" rel="noopener">Marvin Minsky (Wikipedia)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Geoffrey_Hinton" target="_blank" rel="noopener">Geoffrey Hinton (Wikipedia)</a> · <a href="https://en.wikipedia.org/wiki/Yoshua_Bengio" target="_blank" rel="noopener">Yoshua Bengio (Wikipedia)</a> · <a href="https://en.wikipedia.org/wiki/Yann_LeCun" target="_blank" rel="noopener">Yann LeCun (Wikipedia)</a></li>
+<li><a href="https://lawzero.org/en/news/yoshua-bengio-launches-lawzero-new-nonprofit-advancing-safe-design-ai" target="_blank" rel="noopener">LawZero launch announcement</a></li>
+<li><a href="https://builtin.com/articles/ami-labs-yann-lecun" target="_blank" rel="noopener">Yann LeCun and AMI Labs (Built In)</a></li>
+</ul>
+<div class="pager"><a href="history.html">← History of AI</a><a href="llm-pioneers.html">LLM Pioneers →</a></div></main></div>
 <footer>Everything AI · a study guide to Python, data science, machine learning, deep learning and generative AI.</footer>
 <script src="assets/search-index.js"></script><script src="assets/app.js"></script>
 </body></html>

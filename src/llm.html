@@ -33,7 +33,7 @@
 <h2>Step-by-step</h2>
 <p>Seven stages. Get each one working on a tiny model before scaling up.</p>
 <ol class="steps">
-<li><strong>Tokenizer.</strong> Train a byte-level BPE tokenizer (32k–50k vocabulary) on a sample of your training text with Hugging Face <code>tokenizers</code>, or start by reusing the GPT-2 tokenizer through <code>tiktoken</code>. Reserve special tokens now for chat later (<code>&lt;|user|&gt;</code>, <code>&lt;|assistant|&gt;</code>, <code>&lt;|end|&gt;</code>). See minbpe on the <a href="pioneers.html#minbpe">AI Pioneers</a> page.</li>
+<li><strong>Tokenizer.</strong> Train a byte-level BPE tokenizer (32k–50k vocabulary) on a sample of your training text with Hugging Face <code>tokenizers</code>, or start by reusing the GPT-2 tokenizer through <code>tiktoken</code>. Reserve special tokens now for chat later (<code>&lt;|user|&gt;</code>, <code>&lt;|assistant|&gt;</code>, <code>&lt;|end|&gt;</code>). See minbpe on the <a href="llm-pioneers.html#minbpe">LLM Pioneers</a> page.</li>
 <li><strong>Training data.</strong> For a first run, use TinyStories. For the 125M run, use FineWeb-Edu, web text filtered for educational quality. Tokenize everything once into flat binary shards of token IDs (<code>uint16</code>) so training reads them straight from disk. Hold out about 0.5% as validation.</li>
 <li><strong>Model architecture.</strong> A decoder-only transformer: token embeddings, N blocks of (RMSNorm → causal self-attention with RoPE → RMSNorm → SwiGLU MLP), a final norm, and an output layer tied to the embeddings. Use PyTorch's <code>scaled_dot_product_attention</code> (FlashAttention under the hood). Matching the Llama layout makes the export step much easier.</li>
 <li><strong>Pretraining loop.</strong> Next-token prediction with cross-entropy loss. BF16 autocast, <code>torch.compile</code>, AdamW (lr ~6e-4, betas 0.9/0.95, weight decay 0.1), warmup then cosine decay, gradient clipping at 1.0. Use gradient accumulation to reach about 0.5M tokens per step. Log training and validation loss, save a checkpoint every hour, and print a text sample every few thousand steps.</li>
@@ -59,7 +59,7 @@
 <div class="callout tip"><strong class="t">Out of memory?</strong><p>Halve the micro-batch and double the accumulation. The effective batch stays the same.</p></div>
 
 <h2>Scaling up: when to rent GPUs</h2>
-<p>Rent an 8×H100 node once you want a model that can hold a basic conversation. A few hundred dollars there buys more than a month of local training. Karpathy's <a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener">nanochat</a> runs the full pipeline on such a node with a single script (see the <a href="pioneers.html#nanochat">AI Pioneers</a> page).</p>
+<p>Rent an 8×H100 node once you want a model that can hold a basic conversation. A few hundred dollars there buys more than a month of local training. Karpathy's <a href="https://github.com/karpathy/nanochat" target="_blank" rel="noopener">nanochat</a> runs the full pipeline on such a node with a single script (see the <a href="llm-pioneers.html#nanochat">LLM Pioneers</a> page).</p>
 <table>
 <tr><th>nanochat run</th><th>Parameters</th><th>Time on 8×H100</th><th>Approx. cost</th><th>Result</th></tr>
 <tr><td>d20 speedrun</td><td>~561M</td><td>~4 hours</td><td>~$100</td><td>Basic chatbot, "like talking to a kindergartener"</td></tr>
